@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'KCSForm-iOS_Example' do
+  pod 'KCSForm-iOS', :path => '../'
+
+  target 'KCSForm-iOS_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end

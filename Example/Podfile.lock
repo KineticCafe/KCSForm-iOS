@@ -1,0 +1,27 @@
+PODS:
+  - DropDown (2.3.12)
+  - IQKeyboardManager (6.2.0)
+  - KCSForm-iOS (0.1.0):
+    - DropDown
+    - IQKeyboardManager
+
+DEPENDENCIES:
+  - KCSForm-iOS (from `../`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - DropDown
+    - IQKeyboardManager
+
+EXTERNAL SOURCES:
+  KCSForm-iOS:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  DropDown: 0bcc278799ec11a3d34ce1aac9367fbbaf5423d9
+  IQKeyboardManager: 6194101620b73af5e67900b8f89707a99de0b804
+  KCSForm-iOS: fc6f0216cfa5233e666ec307aa9f2ec14773d7ee
+
+PODFILE CHECKSUM: aba6faa0d5cd3e8ed332feef99cf354dc53264b0
+
+COCOAPODS: 1.5.3

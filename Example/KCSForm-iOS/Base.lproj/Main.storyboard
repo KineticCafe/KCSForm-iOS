@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="XyS-Su-cAG">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Groovy View Controller-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController id="vXZ-lx-hvc" customClass="ViewController" customModule="KCSForm-iOS_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="vXZ-lx-hvc" customClass="GroovyViewController" customModule="KCSForm_iOS_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
@@ -25,6 +25,110 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="1433" y="1100"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="R0s-fW-WTb">
+            <objects>
+                <navigationController id="XyS-Su-cAG" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="RRC-Vx-NeI">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="Aoz-0p-Vpl" kind="relationship" relationship="rootViewController" id="bAj-xW-LRK"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ujS-Xk-Q88" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-139" y="401"/>
+        </scene>
+        <!--KCS Forms-->
+        <scene sceneID="14p-Kn-NpR">
+            <objects>
+                <viewController id="Aoz-0p-Vpl" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="W43-8L-WZ8"/>
+                        <viewControllerLayoutGuide type="bottom" id="8Ok-AI-iUv"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="cph-VV-3X1">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="bGf-ZY-nQp">
+                                <rect key="frame" x="119.5" y="273.5" width="136" height="120"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dZ8-eK-qHk">
+                                        <rect key="frame" x="0.0" y="0.0" width="136" height="30"/>
+                                        <state key="normal" title="Default Form"/>
+                                        <connections>
+                                            <segue destination="JXq-Tb-84J" kind="show" id="qIy-9Z-voR"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6VM-04-JPY">
+                                        <rect key="frame" x="0.0" y="45" width="136" height="30"/>
+                                        <state key="normal" title="Basic Styled Form"/>
+                                        <connections>
+                                            <segue destination="3t9-hc-PJK" kind="show" id="Qir-nZ-AVg"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7su-gJ-XIH">
+                                        <rect key="frame" x="0.0" y="90" width="136" height="30"/>
+                                        <state key="normal" title="Groovy Styled Form"/>
+                                        <connections>
+                                            <segue destination="vXZ-lx-hvc" kind="show" id="PiU-0W-atM"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="bGf-ZY-nQp" firstAttribute="centerX" secondItem="cph-VV-3X1" secondAttribute="centerX" id="2az-7s-ps9"/>
+                            <constraint firstItem="bGf-ZY-nQp" firstAttribute="centerY" secondItem="cph-VV-3X1" secondAttribute="centerY" id="j9x-P6-lRW"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="KCS Forms" id="WPh-5F-1UD"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eX0-be-lYc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="647" y="392"/>
+        </scene>
+        <!--Default View Controller-->
+        <scene sceneID="xdP-3S-5lM">
+            <objects>
+                <viewController id="JXq-Tb-84J" customClass="DefaultViewController" customModule="KCSForm_iOS_Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="JI8-9T-z8B"/>
+                        <viewControllerLayoutGuide type="bottom" id="se6-gC-esv"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="eJ3-Ba-tEb">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2l2-ZL-r8g" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1433" y="-318"/>
+        </scene>
+        <!--Basic View Controller-->
+        <scene sceneID="252-vs-pNi">
+            <objects>
+                <viewController id="3t9-hc-PJK" customClass="BasicViewController" customModule="KCSForm_iOS_Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="aC2-ib-868"/>
+                        <viewControllerLayoutGuide type="bottom" id="K6P-gD-yha"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="00k-Rd-Fto">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PIr-wo-w7H" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1433" y="392"/>
         </scene>
     </scenes>
 </document>

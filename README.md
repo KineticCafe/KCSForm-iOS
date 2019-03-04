@@ -2,7 +2,7 @@
 
 KCS Form is a library to help you build iOS UI forms using pre-built input types. The SDK is easy to use and easy to style to make form creation effortless.
 
-![alt text](https://github.com/KineticCafe/KCSForm-iOS/raw/master/src/Component-Images/kcs-forms-preview.png "FormViewController")
+![alt text](https://github.com/KineticCafe/KCSForm-iOS/raw/master/Component-Images/kcs-forms-preview.png "FormViewController")
 
 ## Requirements
 
@@ -119,32 +119,26 @@ func formViewController(_ controller: FormViewController, updatedText: String?, 
 
 ### Section Title
 
-FormSectionTitleCell
-![alt text](https://github.com/KineticCafe/KCSForm-iOS/raw/master/Component-Images/kcs-forms-preview.png "Section Title")
+![alt text](https://github.com/KineticCafe/KCSForm-iOS/raw/master/Component-Images/section-title.png "Section Title")
 
 ### Text Field
 
-FormTextFieldCell
 ![alt text](https://github.com/KineticCafe/KCSForm-iOS/raw/master/Component-Images/text-field.png "Text Field")
 
 ### Password
 
-FormPasswordCell
 ![alt text](https://github.com/KineticCafe/KCSForm-iOS/raw/master/Component-Images/password.png "Password")
 
 ### Button Options
 
-FormButtonOptionsCell
 ![alt text](https://github.com/KineticCafe/KCSForm-iOS/raw/master/Component-Images/button-options.png "Button Options")
 
 ### Checkbox Options
 
-FormCheckboxOptionsCell
 ![alt text](https://github.com/KineticCafe/KCSForm-iOS/raw/master/Component-Images/checkbox-options.png "Checkbox Options")
 
 ### Dropdown
 
-FormDropdownCell
 ![alt text](https://github.com/KineticCafe/KCSForm-iOS/raw/master/Component-Images/dropdown.png "Dropdown")
 
 ### Label
@@ -153,12 +147,10 @@ FormLabelCell
 
 ### Title Subtitle
 
-FormTitleSubtitleCell
 ![alt text](https://github.com/KineticCafe/KCSForm-iOS/raw/master/Component-Images/title-subtitle.png "Title Subtitle")
 
 ### Button
 
-FormButtonCell
 ![alt text](https://github.com/KineticCafe/KCSForm-iOS/raw/master/Component-Images/button.png "Button")
 
 ### NEED SOMETHING CUSTOM?

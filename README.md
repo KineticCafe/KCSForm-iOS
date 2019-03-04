@@ -173,3 +173,17 @@ func formViewController(_ controller: FormViewController, updateCustomCell cell:
     return cell
 }
 ```
+
+## License
+
+This repository is licensed under the MIT License
+
+https://opensource.org/licenses/MIT
+
+
+## Community and Contributing
+
+We welcome your contributions. Like all Kinetic Cafe open source projects, is under the Kinetic Cafe Open Source [Code of Conduct][kccoc].
+
+
+[kccoc]: https://github.com/KineticCafe/code-of-conduct

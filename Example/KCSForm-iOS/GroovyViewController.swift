@@ -130,6 +130,10 @@ extension GroovyViewController: FormViewControllerDelegate {
     
     func formViewController(_ controller: FormViewController, updatedText: String?, forCellId id: Int) {
         
+        guard let updatedText = updatedText else {
+            return
+        }
+        
         switch (id) {
         case CellId.firstName.rawValue:
             print(updatedText)

@@ -93,7 +93,7 @@ public class FormPasswordCell: UICollectionViewCell, FormCell {
     
     public func update(_ data: Data) {
         var title = data.title
-        if title == nil || title.count == 0 {
+        if title.count == 0 {
             title = " "
         }
         self.titleLabel.text = title

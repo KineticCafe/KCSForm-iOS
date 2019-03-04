@@ -77,6 +77,7 @@ FormStyle.shared.subTitleFont = UIFont.systemFont(ofSize: 14, weight: .regular)
 FormStyle.shared.fieldErrorFont = UIFont.systemFont(ofSize: 14, weight: .regular)
 
 FormStyle.shared.textFieldStyle = .box
+FormStyle.shared.bounce = false
 ```
 
 Lastly, create the cells that will be in your form. Each cell will require a unique identifier, it is recommended that you use an enum to identify each cell.

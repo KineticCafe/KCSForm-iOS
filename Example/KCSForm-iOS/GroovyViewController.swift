@@ -89,6 +89,7 @@ class GroovyViewController: UIViewController {
         FormStyle.shared.fieldErrorFont = UIFont.systemFont(ofSize: 14, weight: .regular)
         
         FormStyle.shared.textFieldStyle = .underline
+        FormStyle.shared.bounce = true
     }
     
     private func createTestCells() -> [FormViewController.Cell] {

@@ -89,6 +89,7 @@ class BasicViewController: UIViewController {
         FormStyle.shared.fieldErrorFont = UIFont.systemFont(ofSize: 14, weight: .regular)
         
         FormStyle.shared.textFieldStyle = .box
+        FormStyle.shared.bounce = false
     }
     
     private func createTestCells() -> [FormViewController.Cell] {

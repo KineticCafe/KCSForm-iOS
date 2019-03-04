@@ -89,6 +89,7 @@ public class FormStyle: NSObject {
         case underline
     }
     public var textFieldStyle: TextFieldStyle = .box
+    public var bounce: Bool = false
     
     private override init() {
         

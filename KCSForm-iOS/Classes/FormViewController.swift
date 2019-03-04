@@ -67,7 +67,7 @@ public class FormViewController: UIViewController {
         collectionView.showsVerticalScrollIndicator = false
         collectionView.allowsMultipleSelection = false
         collectionView.alwaysBounceVertical = false
-        collectionView.bounces = true
+        collectionView.bounces = FormStyle.shared.bounce
         collectionView.contentInset = UIEdgeInsetsMake(0,0,0,0)
         collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(0,0,0,0)
         

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-class FormLabelCell: UICollectionViewCell, FormCell {
+public class FormLabelCell: UICollectionViewCell, FormCell {
     
     public class Data: FormCellData {
         let text: NSAttributedString
@@ -22,7 +22,7 @@ class FormLabelCell: UICollectionViewCell, FormCell {
     
     //MARK: - Functions
     
-    override func awakeFromNib() {
+    override public func awakeFromNib() {
         super.awakeFromNib()
         
         text.textColor = FormStyle.shared.fieldTitleColor

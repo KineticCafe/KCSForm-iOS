@@ -43,11 +43,11 @@ public class FormViewController: UIViewController {
     }
     
     public struct Cell {
-        public let id: Int
-        public let type: CellType
-        public let widthPercentage: CGFloat
-        public let data: FormCellData?
-        public let customCell: AnyClass?
+        public var id: Int
+        public var type: CellType
+        public var widthPercentage: CGFloat
+        public var data: FormCellData?
+        public var customCell: AnyClass?
         public init(id: Int, type: CellType, widthPercentage: CGFloat, data: FormCellData?, customCell: AnyClass? = nil) {
             self.id = id
             self.type = type

@@ -58,7 +58,7 @@ public class FormViewController: UIViewController {
     }
     
     fileprivate let collectionViewLayout = AlignCollectionViewFlowLayout()
-    fileprivate lazy var collectionView: UICollectionView = {
+    public lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: self.collectionViewLayout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .clear

@@ -92,7 +92,7 @@ public class FormViewController: UIViewController {
     
     //MARK: - Properties
     
-    fileprivate var cells: [Cell]?
+    private(set) var cells: [Cell]?
     public var delegate: FormViewControllerDelegate?
     
     

@@ -103,6 +103,7 @@ public class FormViewController: UIViewController {
                     }
                 }
             }
+            reloadCollectionView()
         }
     }
     public var delegate: FormViewControllerDelegate?
@@ -159,7 +160,7 @@ public class FormViewController: UIViewController {
         
     }
     
-    fileprivate func getConfiguredCell(cellTemplate: FormViewController.Cell, collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+    public func getConfiguredCell(cellTemplate: FormViewController.Cell, collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         switch cellTemplate.type {
         case .title:
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormSectionTitleCell.reuseIdentifier(), for: indexPath) as? FormSectionTitleCell {

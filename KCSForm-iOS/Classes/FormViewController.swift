@@ -92,7 +92,19 @@ public class FormViewController: UIViewController {
     
     //MARK: - Properties
     
-    fileprivate var cells: [Cell]?
+    public var cells: [Cell]? {
+        didSet {
+            if let cells = cells {
+                for cell in cells {
+                    if cell.type == .custom {
+                        if let customCell = cell.customCell {
+                            self.collectionView.register(UINib(nibName: String(describing: customCell), bundle: Bundle.init(for: customCell)), forCellWithReuseIdentifier:String(describing: customCell))
+                        }
+                    }
+                }
+            }
+        }
+    }
     public var delegate: FormViewControllerDelegate?
     
     
@@ -123,19 +135,6 @@ public class FormViewController: UIViewController {
     
     
     //MARK: - Public Functions
-    
-    public func setCells(_ cells: [Cell]!) {
-        
-        self.cells = cells
-        for cell in cells {
-            if cell.type == .custom {
-                if let customCell = cell.customCell {
-                    self.collectionView.register(UINib(nibName: String(describing: customCell), bundle: Bundle.init(for: customCell)), forCellWithReuseIdentifier:String(describing: customCell))
-                }
-            }
-        }
-        
-    }
     
     public func reloadCollectionView() {
         self.collectionViewLayout.invalidateLayout()

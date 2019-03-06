@@ -1,6 +1,5 @@
 //
 //  FormButtonCell.swift
-//  Kiehls
 //
 //  Created by Matthew Patience on 2018-08-02.
 //  Copyright © 2018 Kinetic Cafe. All rights reserved.
@@ -16,7 +15,7 @@ protocol FormButtonCellDelegate {
 
 public class FormButtonCell: UICollectionViewCell, FormCell {
     
-    @IBOutlet var button: FormButton!
+    @IBOutlet public var button: FormButton!
     
     var delegate: FormButtonCellDelegate?
     
@@ -42,4 +41,18 @@ public class FormButtonCell: UICollectionViewCell, FormCell {
         
     }
 
+}
+
+protocol FormButtonDelegate {
+    func getButton() -> FormButton
+    func setInverse(inverse: Bool)
+}
+
+extension FormButtonCell: FormButtonDelegate {
+    public func getButton() -> FormButton {
+        return button
+    }
+    public func setInverse(inverse: Bool = true) {
+        button.setInverse(inverse)
+    }
 }

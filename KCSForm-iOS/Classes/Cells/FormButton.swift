@@ -1,15 +1,14 @@
 //
 //  FormButton.swift
-//  DropDown
 //
 //  Created by Matthew Patience on 2019-02-28.
 //
 
 import UIKit
 
-class FormButton: UIButton {
+public class FormButton: UIButton {
     
-    private var inverse = false
+    private var inverse = true
     
     override public init(frame: CGRect) {
         super.init(frame: frame)

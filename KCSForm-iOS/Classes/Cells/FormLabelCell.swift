@@ -1,6 +1,5 @@
 //
 //  FormLabelCell.swift
-//  Kiehls
 //
 //  Created by Steven Andrews on 2018-05-29.
 //  Copyright © 2018 Kinetic Cafe. All rights reserved.
@@ -10,7 +9,7 @@ import UIKit
 public class FormLabelCell: UICollectionViewCell, FormCell {
     
     public class Data: FormCellData {
-        let text: NSAttributedString
+        public var text: NSAttributedString
         
         public init(text: NSAttributedString) {
             self.text = text
@@ -18,7 +17,7 @@ public class FormLabelCell: UICollectionViewCell, FormCell {
     }
 
     //MARK: - IBOutlets
-    @IBOutlet var text: UILabel!
+    @IBOutlet public var text: UILabel!
     
     //MARK: - Functions
     
@@ -33,4 +32,14 @@ public class FormLabelCell: UICollectionViewCell, FormCell {
         text.attributedText = data.text
     }
 
+}
+
+public protocol FormLabelDelegate {
+    func text(hide label: Bool)
+}
+
+extension FormLabelCell: FormLabelDelegate {
+    public func text(hide label: Bool) {
+        text.isHidden = label
+    }
 }

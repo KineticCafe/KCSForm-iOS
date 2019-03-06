@@ -58,7 +58,7 @@ public class FormViewController: UIViewController {
     }
     
     fileprivate let collectionViewLayout = AlignCollectionViewFlowLayout()
-    public lazy var collectionView: UICollectionView = {
+    fileprivate lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: self.collectionViewLayout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .clear
@@ -132,9 +132,17 @@ public class FormViewController: UIViewController {
     
     //MARK: - Public Functions
     
-    public func reloadCollectionView() {
-        self.collectionViewLayout.invalidateLayout()
-        self.collectionView.reloadData()
+    public func reloadCollectionView(at indexPaths: [IndexPath]? = nil) {
+        if let indexPaths = indexPaths {
+            self.collectionView.reloadItems(at: indexPaths)
+        } else {
+            self.collectionViewLayout.invalidateLayout()
+            self.collectionView.reloadData()
+        }
+    }
+    
+    public func getCellForItem<T: UICollectionViewCell>(_ cell: T.Type, at indexPath: IndexPath) -> T? {
+        return collectionView.cellForItem(at: indexPath) as? T
     }
     
     //MARK: - Private Functions
@@ -154,7 +162,7 @@ public class FormViewController: UIViewController {
         
     }
     
-    public func getConfiguredCell(cellTemplate: FormViewController.Cell, collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+    fileprivate func getConfiguredCell(cellTemplate: FormViewController.Cell, collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         switch cellTemplate.type {
         case .title:
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormSectionTitleCell.reuseIdentifier(), for: indexPath) as? FormSectionTitleCell {

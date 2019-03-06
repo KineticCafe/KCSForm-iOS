@@ -22,7 +22,7 @@ public class FormLabelCell: UICollectionViewCell, FormCell {
     
     //MARK: - Functions
     
-    override func awakeFromNib() {
+    override public func awakeFromNib() {
         super.awakeFromNib()
         
         text.textColor = FormStyle.shared.fieldTitleColor

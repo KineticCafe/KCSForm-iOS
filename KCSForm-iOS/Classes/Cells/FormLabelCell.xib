@@ -12,7 +12,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="FormLabelCell" id="gTV-IL-0wX" userLabel="FormLabelCell" customClass="FormLabelCell">
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="FormLabelCell" id="gTV-IL-0wX" userLabel="FormLabelCell" customClass="FormLabelCell" customModule="KCSForm_iOS" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="261" height="39"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -36,7 +36,7 @@
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="261" height="39"/>
             <connections>
-                <outlet property="text" destination="Iph-Wq-jnk" id="HW1-Vk-5R8"/>
+                <outlet property="text" destination="Iph-Wq-jnk" id="wJm-iX-0cf"/>
             </connections>
             <point key="canvasLocation" x="-208.80000000000001" y="50.824587706146929"/>
         </collectionViewCell>

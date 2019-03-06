@@ -58,7 +58,7 @@ public class FormViewController: UIViewController {
     }
     
     fileprivate let collectionViewLayout = AlignCollectionViewFlowLayout()
-    fileprivate lazy var collectionView: UICollectionView = {
+    public lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: self.collectionViewLayout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .clear
@@ -92,7 +92,20 @@ public class FormViewController: UIViewController {
     
     //MARK: - Properties
     
-    fileprivate var cells: [Cell]?
+    public var cells: [Cell]? {
+        didSet {
+            if let cells = cells {
+                for cell in cells {
+                    if cell.type == .custom {
+                        if let customCell = cell.customCell {
+                            self.collectionView.register(UINib(nibName: String(describing: customCell), bundle: Bundle.init(for: customCell)), forCellWithReuseIdentifier:String(describing: customCell))
+                        }
+                    }
+                }
+            }
+            reloadCollectionView()
+        }
+    }
     public var delegate: FormViewControllerDelegate?
     
     
@@ -124,19 +137,6 @@ public class FormViewController: UIViewController {
     
     //MARK: - Public Functions
     
-    public func setCells(_ cells: [Cell]!) {
-        
-        self.cells = cells
-        for cell in cells {
-            if cell.type == .custom {
-                if let customCell = cell.customCell {
-                    self.collectionView.register(UINib(nibName: String(describing: customCell), bundle: Bundle.init(for: customCell)), forCellWithReuseIdentifier:String(describing: customCell))
-                }
-            }
-        }
-        
-    }
-    
     public func reloadCollectionView() {
         self.collectionViewLayout.invalidateLayout()
         self.collectionView.reloadData()
@@ -160,7 +160,7 @@ public class FormViewController: UIViewController {
         
     }
     
-    fileprivate func getConfiguredCell(cellTemplate: FormViewController.Cell, collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+    public func getConfiguredCell(cellTemplate: FormViewController.Cell, collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         switch cellTemplate.type {
         case .title:
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormSectionTitleCell.reuseIdentifier(), for: indexPath) as? FormSectionTitleCell {

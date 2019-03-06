@@ -25,6 +25,7 @@ class BasicViewController: UIViewController {
         case contactOptions
         case password
         case optIn
+        case someLabel
         case save
     }
     
@@ -45,7 +46,7 @@ class BasicViewController: UIViewController {
         
         setFormStyle()
         
-        formController.setCells(createTestCells())
+        formController.cells = createTestCells()
         formController.reloadCollectionView()
         
     }
@@ -119,6 +120,8 @@ class BasicViewController: UIViewController {
         cells.append(FormViewController.Cell(id: CellId.password.rawValue, type: .password, widthPercentage: 1.0,
                                              data: FormPasswordCell.Data(title: "Password", password: "", placeholder: "********")))
         cells.append(FormViewController.Cell(id: CellId.optIn.rawValue, type: .custom, widthPercentage: 1.0, data: nil, customCell: ExampleCustomCell.self))
+        cells.append(FormViewController.Cell(id: CellId.someLabel.rawValue, type: .label, widthPercentage: 1.0,
+                                             data: FormLabelCell.Data(text: NSAttributedString(string: "I am a label!"))))
         cells.append(FormViewController.Cell(id: CellId.save.rawValue, type: .button, widthPercentage: 1.0,
                                              data: FormButtonCell.Data(title: "Save")))
         return cells

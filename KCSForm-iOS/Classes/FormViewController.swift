@@ -132,17 +132,9 @@ public class FormViewController: UIViewController {
     
     //MARK: - Public Functions
     
-    public func reloadCollectionView(at indexPaths: [IndexPath]? = nil) {
-        if let indexPaths = indexPaths {
-            self.collectionView.reloadItems(at: indexPaths)
-        } else {
-            self.collectionViewLayout.invalidateLayout()
-            self.collectionView.reloadData()
-        }
-    }
-    
-    public func getCellForItem<T: UICollectionViewCell>(_ cell: T.Type, at indexPath: IndexPath) -> T? {
-        return collectionView.cellForItem(at: indexPath) as? T
+    public func reloadCollectionView() {
+        self.collectionViewLayout.invalidateLayout()
+        self.collectionView.reloadData()
     }
     
     //MARK: - Private Functions

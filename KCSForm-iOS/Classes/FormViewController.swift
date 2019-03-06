@@ -43,11 +43,11 @@ public class FormViewController: UIViewController {
     }
     
     public struct Cell {
-        let id: Int
-        let type: CellType
-        let widthPercentage: CGFloat
-        let data: FormCellData?
-        let customCell: AnyClass?
+        public var id: Int
+        public var type: CellType
+        public var widthPercentage: CGFloat
+        public var data: FormCellData?
+        public var customCell: AnyClass?
         public init(id: Int, type: CellType, widthPercentage: CGFloat, data: FormCellData?, customCell: AnyClass? = nil) {
             self.id = id
             self.type = type
@@ -94,16 +94,11 @@ public class FormViewController: UIViewController {
     
     public var cells: [Cell]? {
         didSet {
-            if let cells = cells {
-                for cell in cells {
-                    if cell.type == .custom {
-                        if let customCell = cell.customCell {
-                            self.collectionView.register(UINib(nibName: String(describing: customCell), bundle: Bundle.init(for: customCell)), forCellWithReuseIdentifier:String(describing: customCell))
-                        }
-                    }
-                }
-            }
-            reloadCollectionView()
+            let custom = cells?.filter({ $0.type == .custom })
+            custom?.forEach( { [weak self] in
+                guard let self = self, let customCell = $0.customCell else { return }
+                self.collectionView.register(UINib(nibName: String(describing: customCell), bundle: Bundle.init(for: customCell)), forCellWithReuseIdentifier:String(describing: customCell))
+            })
         }
     }
     public var delegate: FormViewControllerDelegate?
@@ -137,11 +132,18 @@ public class FormViewController: UIViewController {
     
     //MARK: - Public Functions
     
-    public func reloadCollectionView() {
-        self.collectionViewLayout.invalidateLayout()
-        self.collectionView.reloadData()
+    public func reloadCollectionView(at indexPaths: [IndexPath]? = nil) {
+        if let indexPaths = indexPaths {
+            self.collectionView.reloadItems(at: indexPaths)
+        } else {
+            self.collectionViewLayout.invalidateLayout()
+            self.collectionView.reloadData()
+        }
     }
     
+    public func getCellForItem<T: UICollectionViewCell>(_ cell: T.Type, at indexPath: IndexPath) -> T? {
+        return collectionView.cellForItem(at: indexPath) as? T
+    }
     
     //MARK: - Private Functions
     
@@ -265,6 +267,7 @@ extension FormViewController: UICollectionViewDelegate, UICollectionViewDelegate
         let sizingCell = getConfiguredCell(cellTemplate: cellTemplate, collectionView: collectionView, indexPath: indexPath)
         sizingCell.setNeedsLayout()
         sizingCell.layoutIfNeeded()
+        sizingCell.setNeedsDisplay()
         let size = sizingCell.contentView.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
         return size
     }

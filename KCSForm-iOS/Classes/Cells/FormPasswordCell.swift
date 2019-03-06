@@ -44,14 +44,14 @@ public class FormPasswordCell: UICollectionViewCell, FormCell {
         let bundle = Bundle(for: FormViewController.self)
         let bundleURL = bundle.resourceURL?.appendingPathComponent("Images.bundle")
         let resourceBundle = Bundle(url: bundleURL!)
-        return UIImage(named: "ic_show", in: resourceBundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+        return UIImage(named: "ic_show", in: resourceBundle, compatibleWith: nil)?.withRenderingMode(.alwaysOriginal)
     }()
     
     private lazy var hideImage: UIImage? = {
         let bundle = Bundle(for: FormViewController.self)
         let bundleURL = bundle.resourceURL?.appendingPathComponent("Images.bundle")
         let resourceBundle = Bundle(url: bundleURL!)
-        return UIImage(named: "ic_hide", in: resourceBundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+        return UIImage(named: "ic_hide", in: resourceBundle, compatibleWith: nil)?.withRenderingMode(.alwaysOriginal)
     }()
 
     override public func awakeFromNib() {

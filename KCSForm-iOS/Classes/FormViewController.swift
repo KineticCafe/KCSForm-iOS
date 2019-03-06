@@ -58,7 +58,7 @@ public class FormViewController: UIViewController {
     }
     
     fileprivate let collectionViewLayout = AlignCollectionViewFlowLayout()
-    fileprivate lazy var collectionView: UICollectionView = {
+    public lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: self.collectionViewLayout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .clear
@@ -162,7 +162,7 @@ public class FormViewController: UIViewController {
         
     }
     
-    fileprivate func getConfiguredCell(cellTemplate: FormViewController.Cell, collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+    public func getConfiguredCell(cellTemplate: FormViewController.Cell, collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         switch cellTemplate.type {
         case .title:
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormSectionTitleCell.reuseIdentifier(), for: indexPath) as? FormSectionTitleCell {

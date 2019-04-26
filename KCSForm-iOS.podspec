@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'KCSForm-iOS'
-  s.version          = '1.0.7'
+  s.version          = '1.0.44'
   s.summary          = 'KCS Form is a library to help you build iOS UI forms using pre-built input types.'
 
   s.description      = <<-DESC
@@ -16,7 +16,7 @@ KCS Form is a library to help you build iOS UI forms using pre-built input types
   s.ios.deployment_target = '11.0'
 
   s.source_files = 'KCSForm-iOS/Classes/**/*'
-  
+
   s.resources = ['KCSForm-iOS/Assets/*.bundle']
   s.dependency 'IQKeyboardManager'
   s.dependency 'DropDown'

@@ -19,6 +19,7 @@ public class FormStyle: NSObject {
     public var fieldEntryColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
     public var fieldPlaceholderColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
     public var fieldBorderColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
+    public var fieldBodyColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
     public var fieldErrorColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
     public var fieldDisabledColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
     
@@ -51,6 +52,9 @@ public class FormStyle: NSObject {
     public var fieldButtonFont: UIFont = {
         return .systemFont(ofSize: UIFont.systemFontSize)
     }()
+    public var fieldFormButtonCellFont: UIFont = {
+        return .systemFont(ofSize: UIFont.systemFontSize)
+    }()
     public var titleFont: UIFont = {
         return .systemFont(ofSize: UIFont.systemFontSize)
     }()
@@ -61,7 +65,12 @@ public class FormStyle: NSObject {
         return .systemFont(ofSize: UIFont.systemFontSize)
     }()
     
-    
+    //Labels
+    public var adjustsFontSizeToFitWidth = true
+    public var lineBreakMode: NSLineBreakMode = .byWordWrapping
+    public var numberOfLines = 0
+    public var minimumScaleFactor:CGFloat = 0.5
+
     //Sizes, Margins
     public var leadingMargin: CGFloat = 0
     public var trailingMargin: CGFloat = 0
@@ -79,6 +88,8 @@ public class FormStyle: NSObject {
     public var sectionTitleTopMargin: CGFloat = 0
     public var sectionTitleBottomMargin: CGFloat = 0
     public var checkboxItemSpacing: CGFloat = 0
+    public var checkboxBottomMargin: CGFloat = 0
+    public var switchOptionItemSpacing: CGFloat = 0
     public var titleSubTitleTopMargin: CGFloat = 0
     public var titleSubTitleBottomMargin: CGFloat = 0
     public var titleSubTitleVerticalSpacing: CGFloat = 0

@@ -20,12 +20,21 @@ public class FormDropdownCell: UICollectionViewCell, FormCell {
         let selection: String?
         let placeholder: String?
         let options: [String]
-        
-        public init(title: String? = nil, selection: String? = nil, placeholder: String? = nil, options: [String]) {
+        let animationduration: Double
+        let animationEntranceOptions: UIView.AnimationOptions
+        let animationExitOptions: UIView.AnimationOptions
+
+        public init(title: String? = nil, selection: String? = nil, placeholder: String? = nil,
+                    options: [String], animationduration: Double = 0.0,
+                    animationEntranceOptions: UIView.AnimationOptions = [.allowUserInteraction, .curveEaseOut],
+                    animationExitOptions: UIView.AnimationOptions  = [.allowUserInteraction, .curveEaseIn]) {
             self.title = title
             self.selection = selection
             self.placeholder = placeholder
             self.options = options
+            self.animationduration = animationduration
+            self.animationEntranceOptions = animationEntranceOptions
+            self.animationExitOptions = animationExitOptions
         }
     }
 
@@ -45,7 +54,7 @@ public class FormDropdownCell: UICollectionViewCell, FormCell {
     
     /* The text field horizontal inset */
     public static var textFieldInternalHorizontalInsets: CGFloat              = 10
-    
+
     override public func awakeFromNib() {
         super.awakeFromNib()
         
@@ -111,8 +120,11 @@ public class FormDropdownCell: UICollectionViewCell, FormCell {
             entryLabel.textColor = FormStyle.shared.fieldEntryColor
         }
         options = data.options
-        self.dropDown.dataSource = options ?? []
         
+        self.dropDown.dataSource = options ?? []
+        self.dropDown.animationduration = data.animationduration
+        self.dropDown.animationEntranceOptions = data.animationEntranceOptions
+        self.dropDown.animationExitOptions = data.animationExitOptions
     }
     
     @IBAction private func dropdownSelected(sender: Any) {

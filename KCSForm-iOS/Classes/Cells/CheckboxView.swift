@@ -37,7 +37,6 @@ class CheckboxView: UIView {
         Bundle(for: FormViewController.self).loadNibNamed("CheckboxView", owner: self, options: nil)
         addSubview(contentView)
         contentView.frame = self.bounds
-        contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         
         checkmarkBgView.layer.borderWidth = FormStyle.shared.fieldBorderWidth
         checkmarkBgView.layer.cornerRadius = FormStyle.shared.fieldCornerRadius
@@ -65,7 +64,7 @@ class CheckboxView: UIView {
         
         checkmarkImage.isHidden = !checked
         if checked {
-            checkmarkBgView.backgroundColor = FormStyle.shared.fieldBorderColor
+            checkmarkBgView.backgroundColor = FormStyle.shared.fieldBodyColor
         } else {
             checkmarkBgView.backgroundColor = .white
         }

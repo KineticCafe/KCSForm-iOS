@@ -12,7 +12,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="FormTitleSubtitleCell" customModule="KCSForm_iOS" customModuleProvider="target">
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="FormTitleSubtitleCell" id="gTV-IL-0wX" customClass="FormTitleSubtitleCell" customModule="KCSForm_iOS" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="237" height="44"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -25,7 +25,7 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="seT-lK-XTY">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="seT-lK-XTY">
                         <rect key="frame" x="0.0" y="23.5" width="237" height="20.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
@@ -35,22 +35,22 @@
             </view>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="AFK-gQ-Wbc" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Jw3-h6-TW2"/>
-                <constraint firstAttribute="trailing" secondItem="seT-lK-XTY" secondAttribute="trailing" id="QVi-7t-YX1"/>
-                <constraint firstItem="AFK-gQ-Wbc" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="W72-MW-iP7"/>
-                <constraint firstItem="seT-lK-XTY" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="cFd-hN-jQa"/>
-                <constraint firstAttribute="trailing" secondItem="AFK-gQ-Wbc" secondAttribute="trailing" id="efb-wa-AIw"/>
-                <constraint firstAttribute="bottom" secondItem="seT-lK-XTY" secondAttribute="bottom" id="hZY-oL-hSf"/>
-                <constraint firstItem="seT-lK-XTY" firstAttribute="top" secondItem="AFK-gQ-Wbc" secondAttribute="bottom" id="zhH-Gs-pgl"/>
+                <constraint firstItem="seT-lK-XTY" firstAttribute="leading" secondItem="ZTg-uK-7eu" secondAttribute="leading" id="7Zl-1P-62h"/>
+                <constraint firstItem="ZTg-uK-7eu" firstAttribute="trailing" secondItem="AFK-gQ-Wbc" secondAttribute="trailing" id="ERE-4C-MwZ"/>
+                <constraint firstItem="ZTg-uK-7eu" firstAttribute="bottom" secondItem="seT-lK-XTY" secondAttribute="bottom" priority="949" id="HAe-Eu-ynp"/>
+                <constraint firstItem="seT-lK-XTY" firstAttribute="top" secondItem="AFK-gQ-Wbc" secondAttribute="bottom" priority="950" id="QCZ-S4-TQd"/>
+                <constraint firstItem="AFK-gQ-Wbc" firstAttribute="leading" secondItem="ZTg-uK-7eu" secondAttribute="leading" id="WHP-SC-ZoS"/>
+                <constraint firstItem="ZTg-uK-7eu" firstAttribute="trailing" secondItem="seT-lK-XTY" secondAttribute="trailing" id="bfW-hQ-pj4"/>
+                <constraint firstItem="AFK-gQ-Wbc" firstAttribute="top" secondItem="ZTg-uK-7eu" secondAttribute="top" priority="945" id="fBs-Ge-iA8"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="237" height="44"/>
             <connections>
-                <outlet property="bottomMargin" destination="hZY-oL-hSf" id="d2J-Mb-Xl0"/>
+                <outlet property="bottomMargin" destination="HAe-Eu-ynp" id="Dny-Jz-f16"/>
                 <outlet property="subTitleLabel" destination="seT-lK-XTY" id="oM3-rm-EYO"/>
                 <outlet property="titleLabel" destination="AFK-gQ-Wbc" id="zEq-Cu-rWA"/>
-                <outlet property="topMargin" destination="Jw3-h6-TW2" id="nvy-f8-fx5"/>
-                <outlet property="verticalMargin" destination="zhH-Gs-pgl" id="eqv-Hk-Js0"/>
+                <outlet property="topMargin" destination="fBs-Ge-iA8" id="mhJ-KC-uZD"/>
+                <outlet property="verticalMargin" destination="QCZ-S4-TQd" id="9nt-de-yfG"/>
             </connections>
             <point key="canvasLocation" x="287.19999999999999" y="106.14692653673164"/>
         </collectionViewCell>

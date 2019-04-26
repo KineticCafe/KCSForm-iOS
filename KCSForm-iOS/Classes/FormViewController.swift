@@ -8,7 +8,23 @@
 
 import UIKit
 
-public protocol FormViewControllerDelegate {
+@objc
+public protocol FormViewControllerTextFieldCellValidationDelegate {
+    @objc
+    optional func formViewController(_ controller: FormViewController, cell: FormTextFieldValidationCell, validationSuccess: Bool, externalMessage: Bool, forCellId id: Int)
+}
+
+@objc
+public protocol FormViewControllerEmailValidationDelegate {
+    @objc optional
+    func formViewController(_ controller: FormViewController, cell: FormEmailCell, validationFeedbackHandler: @escaping (Bool, String?)->Void)
+    @objc optional
+    func formViewControllerInvalidEmail(_ controller: FormViewController, cell: FormEmailCell, forCellId id: Int)
+    @objc optional
+    func formViewController(_ controller: FormViewController, cell: FormSwitchOptionsCell, isOn: Bool, forIndex: Int, forCellId id: Int)
+}
+
+public protocol FormViewControllerDelegate: FormViewControllerEmailValidationDelegate, FormViewControllerTextFieldCellValidationDelegate {
     
     /** Called when a text entry input changed. */
     func formViewController(_ controller: FormViewController, updatedText: String?, forCellId id: Int)
@@ -24,7 +40,9 @@ public protocol FormViewControllerDelegate {
     
     /** Called when a custom cell is about to be drawn and needs to be updated */
     func formViewController(_ controller: FormViewController, updateCustomCell cell: UICollectionViewCell, forCellId id: Int) -> UICollectionViewCell
-    
+    /** Called when a additional customization is needed for any given cell */
+    func formViewController(_ controller: FormViewController, updateCell cell: UICollectionViewCell, forCellId id: Int) -> UICollectionViewCell
+
 }
 
 public class FormViewController: UIViewController {
@@ -35,29 +53,34 @@ public class FormViewController: UIViewController {
         case label
         case button
         case text
+        case textvalidation
         case buttonOptions
         case checkboxOptions
+        case switchOptions
         case dropdown
         case password
         case custom
+        case email
     }
     
     public struct Cell {
         public var id: Int
         public var type: CellType
         public var widthPercentage: CGFloat
+        public var heightFactor: CGFloat
         public var data: FormCellData?
         public var customCell: AnyClass?
-        public init(id: Int, type: CellType, widthPercentage: CGFloat, data: FormCellData?, customCell: AnyClass? = nil) {
+        public init(id: Int, type: CellType, widthPercentage: CGFloat, heightFactor: CGFloat = 1.0, data: FormCellData?, customCell: AnyClass? = nil) {
             self.id = id
             self.type = type
             self.widthPercentage = widthPercentage
             self.data = data
             self.customCell = customCell
+            self.heightFactor = heightFactor
         }
     }
     
-    fileprivate let collectionViewLayout = AlignCollectionViewFlowLayout()
+    fileprivate var collectionViewLayout: UICollectionViewFlowLayout = AlignCollectionViewFlowLayout()
     fileprivate lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: self.collectionViewLayout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -73,6 +96,7 @@ public class FormViewController: UIViewController {
         
         
         collectionView.register(UINib(nibName: FormTextFieldCell.reuseIdentifier(), bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormTextFieldCell.reuseIdentifier())
+        collectionView.register(UINib(nibName: FormTextFieldValidationCell.reuseIdentifier(), bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormTextFieldValidationCell.reuseIdentifier())
         collectionView.register(UINib(nibName: FormButtonOptionsCell.reuseIdentifier(), bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormButtonOptionsCell.reuseIdentifier())
         collectionView.register(UINib(nibName: FormCheckboxOptionsCell.reuseIdentifier(), bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormCheckboxOptionsCell.reuseIdentifier())
         collectionView.register(UINib(nibName: FormDropdownCell.reuseIdentifier(), bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormDropdownCell.reuseIdentifier())
@@ -81,7 +105,9 @@ public class FormViewController: UIViewController {
         collectionView.register(UINib(nibName: FormLabelCell.reuseIdentifier(), bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormLabelCell.reuseIdentifier())
         collectionView.register(UINib(nibName: FormButtonCell.reuseIdentifier(), bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormButtonCell.reuseIdentifier())
         collectionView.register(UINib(nibName: FormPasswordCell.reuseIdentifier(), bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormPasswordCell.reuseIdentifier())
-        
+        collectionView.register(UINib(nibName: FormEmailCell.reuseIdentifier(), bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormEmailCell.reuseIdentifier())
+        collectionView.register(UINib(nibName: FormSwitchOptionsCell.reuseIdentifier(), bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormSwitchOptionsCell.reuseIdentifier())
+
         if #available(iOS 11, *) {
             collectionView.contentInsetAdjustmentBehavior = .never
         }
@@ -106,7 +132,11 @@ public class FormViewController: UIViewController {
     
     //MARK: - Lifecycle
     
-    public init() {
+    public init(_ flowLayout: UICollectionViewFlowLayout? = nil) {
+        if let flowLayout = flowLayout {
+            self.collectionViewLayout = flowLayout
+        }
+        
         super.init(nibName: nil, bundle: nil)
         commonInit()
     }
@@ -119,10 +149,10 @@ public class FormViewController: UIViewController {
     private func commonInit() {
         self.view.translatesAutoresizingMaskIntoConstraints = false
     }
-
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         self.view.backgroundColor = .clear
         view.addSubview(collectionView)
         setUpConstraints()
@@ -134,10 +164,15 @@ public class FormViewController: UIViewController {
     
     public func reloadCollectionView(at indexPaths: [IndexPath]? = nil) {
         if let indexPaths = indexPaths {
-            self.collectionView.reloadItems(at: indexPaths)
+            self.collectionView.performBatchUpdates({
+                self.collectionViewLayout.invalidateLayout()
+                self.collectionView.reloadItems(at: indexPaths)
+            })
         } else {
-            self.collectionViewLayout.invalidateLayout()
-            self.collectionView.reloadData()
+            self.collectionView.performBatchUpdates({
+                self.collectionViewLayout.invalidateLayout()
+                self.collectionView.reloadData()
+            })
         }
     }
     
@@ -169,14 +204,22 @@ public class FormViewController: UIViewController {
                 if let data = cellTemplate.data as? FormSectionTitleCell.Data {
                     cell.update(data)
                 }
-                return cell
+                return self.delegate?.formViewController(self, updateCell: cell, forCellId: cellTemplate.id) ?? cell
             }
         case .titleSubtitle:
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormTitleSubtitleCell.reuseIdentifier(), for: indexPath) as? FormTitleSubtitleCell {
                 if let data = cellTemplate.data as? FormTitleSubtitleCell.Data {
                     cell.update(data)
                 }
-                return cell
+                return self.delegate?.formViewController(self, updateCell: cell, forCellId: cellTemplate.id) ?? cell
+            }
+        case .email:
+            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormEmailCell.reuseIdentifier(), for: indexPath as IndexPath) as? FormEmailCell {
+                cell.delegate = self
+                if let data = cellTemplate.data as? FormEmailCell.Data {
+                    cell.update(data)
+                }
+                return self.delegate?.formViewController(self, updateCell: cell, forCellId: cellTemplate.id) ?? cell
             }
         case .text:
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormTextFieldCell.reuseIdentifier(), for: indexPath as IndexPath) as? FormTextFieldCell {
@@ -184,7 +227,15 @@ public class FormViewController: UIViewController {
                 if let data = cellTemplate.data as? FormTextFieldCell.Data {
                     cell.update(data)
                 }
-                return cell
+                return self.delegate?.formViewController(self, updateCell: cell, forCellId: cellTemplate.id) ?? cell
+            }
+        case .textvalidation:
+            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormTextFieldValidationCell.reuseIdentifier(), for: indexPath as IndexPath) as? FormTextFieldValidationCell {
+                cell.delegate = self
+                if let data = cellTemplate.data as? FormTextFieldValidationCell.Data {
+                    cell.update(data)
+                }
+                return self.delegate?.formViewController(self, updateCell: cell, forCellId: cellTemplate.id) ?? cell
             }
         case .buttonOptions:
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormButtonOptionsCell.reuseIdentifier(), for: indexPath as IndexPath) as? FormButtonOptionsCell {
@@ -192,7 +243,7 @@ public class FormViewController: UIViewController {
                 if let data = cellTemplate.data as? FormButtonOptionsCell.Data {
                     cell.update(data)
                 }
-                return cell
+                return self.delegate?.formViewController(self, updateCell: cell, forCellId: cellTemplate.id) ?? cell
             }
         case .dropdown:
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormDropdownCell.reuseIdentifier(), for: indexPath as IndexPath) as? FormDropdownCell {
@@ -201,14 +252,14 @@ public class FormViewController: UIViewController {
                     cell.update(data)
                 }
                 
-                return cell
+                return self.delegate?.formViewController(self, updateCell: cell, forCellId: cellTemplate.id) ?? cell
             }
         case .label:
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormLabelCell.reuseIdentifier(), for: indexPath) as? FormLabelCell {
                 if let data = cellTemplate.data as? FormLabelCell.Data {
                     cell.update(data)
                 }
-                return cell
+                return self.delegate?.formViewController(self, updateCell: cell, forCellId: cellTemplate.id) ?? cell
             }
         case .button:
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormButtonCell.reuseIdentifier(), for: indexPath) as? FormButtonCell {
@@ -216,7 +267,7 @@ public class FormViewController: UIViewController {
                 if let data = cellTemplate.data as? FormButtonCell.Data {
                     cell.update(data)
                 }
-                return cell
+                return self.delegate?.formViewController(self, updateCell: cell, forCellId: cellTemplate.id) ?? cell
             }
         case .checkboxOptions:
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormCheckboxOptionsCell.reuseIdentifier(), for: indexPath) as? FormCheckboxOptionsCell {
@@ -224,7 +275,15 @@ public class FormViewController: UIViewController {
                 if let data = cellTemplate.data as? FormCheckboxOptionsCell.Data {
                     cell.update(data)
                 }
-                return cell
+                return self.delegate?.formViewController(self, updateCell: cell, forCellId: cellTemplate.id) ?? cell
+            }
+        case .switchOptions:
+            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormSwitchOptionsCell.reuseIdentifier(), for: indexPath) as? FormSwitchOptionsCell {
+                cell.delegate = self
+                if let data = cellTemplate.data as? FormSwitchOptionsCell.Data {
+                    cell.update(data)
+                }
+                return self.delegate?.formViewController(self, updateCell: cell, forCellId: cellTemplate.id) ?? cell
             }
         case .password:
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormPasswordCell.reuseIdentifier(), for: indexPath) as? FormPasswordCell {
@@ -232,23 +291,24 @@ public class FormViewController: UIViewController {
                 if let data = cellTemplate.data as? FormPasswordCell.Data {
                     cell.update(data)
                 }
-                return cell
+                return self.delegate?.formViewController(self, updateCell: cell, forCellId: cellTemplate.id) ?? cell
+
             }
         case .custom:
             if let customCell = cellTemplate.customCell {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: customCell), for: indexPath)
-                return self.delegate?.formViewController(self, updateCustomCell: cell, forCellId: cellTemplate.id) ?? UICollectionViewCell()
+                return self.delegate?.formViewController(self, updateCustomCell: cell, forCellId: cellTemplate.id) ?? cell
             }
         }
         return UICollectionViewCell()
     }
-
+    
 }
 
 extension FormViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        guard let cells = cells else {
+        guard let cells = cells, indexPath.row < cells.count else {
             return CGSize(width: 0, height: 0)
         }
         let cell = cells[indexPath.row]
@@ -260,9 +320,9 @@ extension FormViewController: UICollectionViewDelegate, UICollectionViewDelegate
         let width = cell.widthPercentage * availableWidth
         
         let size = calculateDynamicCellHeight(cellTemplate: cell, collectionView: collectionView, indexPath: indexPath)
-        return CGSize(width: floor(width), height: size.height)
+        return CGSize(width: floor(width), height: size.height * cell.heightFactor)
     }
-
+    
     private func calculateDynamicCellHeight(cellTemplate: FormViewController.Cell, collectionView: UICollectionView, indexPath: IndexPath) -> CGSize {
         let sizingCell = getConfiguredCell(cellTemplate: cellTemplate, collectionView: collectionView, indexPath: indexPath)
         sizingCell.setNeedsLayout()
@@ -288,7 +348,7 @@ extension FormViewController: UICollectionViewDelegate, UICollectionViewDelegate
             
             if index == (cells.count-1) && insideTargetRow {
                 return currentRowItemCount
-            } else if (currentRowWidth + cells[index+1].widthPercentage) > 1.0 {
+            } else if index+1 < cells.count && (currentRowWidth + cells[index+1].widthPercentage) > 1.0 {
                 if insideTargetRow {
                     return currentRowItemCount
                 }
@@ -326,7 +386,7 @@ extension FormViewController: UICollectionViewDataSource {
     
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cells = cells else {
+        guard let cells = cells, indexPath.row < cells.count else {
             return UICollectionViewCell()
         }
         let cellTemplate = cells[indexPath.row]
@@ -467,4 +527,101 @@ extension FormViewController: FormPasswordCellDelegate {
         return false
     }
     
+}
+
+extension FormViewController: FormEmailCellDelegate {
+    
+    func formEmailCell(_ cell: FormEmailCell, updatedText: String?) {
+        
+        let indexPath = collectionView.indexPath(for: cell)
+        guard let row = indexPath?.row, let cells = cells else {
+            return
+        }
+        let masterCell = cells[row]
+        delegate?.formViewController(self, updatedText: updatedText, forCellId: masterCell.id)
+    }
+    
+    func formEmailCellShouldReturn(_ cell: FormEmailCell, textField: UITextField) -> Bool {
+        guard let cells = cells, let indexPath = collectionView.indexPath(for: cell) else {
+            textField.resignFirstResponder()
+            return false
+        }
+        
+        for row in (indexPath.row+1)..<cells.count {
+            if let theCell = collectionView.cellForItem(at: IndexPath.init(row: row, section: indexPath.section)) as? FormEmailCell {
+                theCell.getTextField().becomeFirstResponder()
+                return false
+            }
+            
+        }
+        textField.resignFirstResponder()
+        return false
+    }
+    
+    func formEmailCellValidation(sender cell: FormEmailCell, feedBackHandler: @escaping (Bool, String?) -> Void) {
+        delegate?.formViewController?(self, cell: cell, validationFeedbackHandler: { result, error in
+            feedBackHandler(result, error)
+        })
+    }
+    
+}
+
+extension FormViewController: FormSwitchOptionsCellDelegate {
+    func formSwitchOptionsCell(_ cell: FormSwitchOptionsCell, isOn: Bool, forIndex: Int) {
+        let indexPath = collectionView.indexPath(for: cell)
+        guard let row = indexPath?.row, let cells = cells else {
+            return
+        }
+        let masterCell = cells[row]
+        
+        delegate?.formViewController?(self, cell: cell, isOn: isOn, forIndex: forIndex, forCellId: masterCell.id)
+    }
+}
+
+extension FormViewController: FormTextFieldValidationCellDelegate {
+    
+    func formTextFieldCell(_ cell: FormTextFieldValidationCell, updatedText: String?) {
+        let indexPath = collectionView.indexPath(for: cell)
+        guard let row = indexPath?.row, let cells = cells else {
+            return
+        }
+        let masterCell = cells[row]
+        delegate?.formViewController(self, updatedText: updatedText, forCellId: masterCell.id)
+    }
+    
+    func formTextFieldCellShouldReturn(_ cell: FormTextFieldValidationCell, textField: UITextField) -> Bool {
+        guard let cells = cells, let indexPath = collectionView.indexPath(for: cell) else {
+            textField.resignFirstResponder()
+            return false
+        }
+        for row in (indexPath.row+1)..<cells.count {
+            if let theCell = collectionView.cellForItem(at: IndexPath.init(row: row, section: indexPath.section)) as? FormTextFieldValidationCell {
+                theCell.getTextField().becomeFirstResponder()
+                return false
+            }
+            
+        }
+        textField.resignFirstResponder()
+        return false
+    }
+    
+    func formTextFieldCellValidation(_ cell: FormTextFieldValidationCell, validationSuccess: Bool,  externalMessage: Bool) {
+        let indexPath = collectionView.indexPath(for: cell)
+        guard let row = indexPath?.row, let cells = cells else {
+            return
+        }
+        let masterCell = cells[row]
+        
+        delegate?.formViewController?(self, cell: cell, validationSuccess: validationSuccess, externalMessage: externalMessage, forCellId: masterCell.id)
+    }
+ 
+    func formEmailCellFailedValidation(sender cell: FormEmailCell) {
+        let indexPath = collectionView.indexPath(for: cell)
+        guard let row = indexPath?.row, let cells = cells else {
+            return
+        }
+        let masterCell = cells[row]
+        
+        delegate?.formViewControllerInvalidEmail?(self, cell: cell, forCellId: masterCell.id)
+    }
 }

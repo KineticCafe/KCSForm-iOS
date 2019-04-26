@@ -25,7 +25,10 @@ public class FormLabelCell: UICollectionViewCell, FormCell {
         super.awakeFromNib()
         
         text.textColor = FormStyle.shared.fieldTitleColor
-        
+        text.numberOfLines = FormStyle.shared.numberOfLines
+        text.adjustsFontSizeToFitWidth = FormStyle.shared.adjustsFontSizeToFitWidth
+        text.lineBreakMode = FormStyle.shared.lineBreakMode
+
     }
     
     public func update(_ data: Data) {

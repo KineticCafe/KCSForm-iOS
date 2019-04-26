@@ -29,6 +29,7 @@ public class FormCheckboxOptionsCell: UICollectionViewCell, FormCell {
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var titleBottomConstraint: NSLayoutConstraint!
     @IBOutlet var stackView: UIStackView!
+    @IBOutlet weak var stackviewBottomConstraint: NSLayoutConstraint!
     
     fileprivate var checkboxViews = [CheckboxView]()
     var delegate: FormCheckboxOptionsCellDelegate?
@@ -39,6 +40,7 @@ public class FormCheckboxOptionsCell: UICollectionViewCell, FormCell {
         self.titleLabel.textColor = FormStyle.shared.fieldTitleColor
         self.titleLabel.font = FormStyle.shared.fieldTitleFont
         self.titleBottomConstraint.constant = FormStyle.shared.fieldTitleBottomMargin
+        self.stackviewBottomConstraint.constant = FormStyle.shared.checkboxBottomMargin
         self.stackView.spacing = FormStyle.shared.checkboxItemSpacing
         
     }
@@ -51,6 +53,7 @@ public class FormCheckboxOptionsCell: UICollectionViewCell, FormCell {
             let checkboxView = createCheckboxView(index, title: option, selected: data.optionStates[option] ?? false)
             checkboxViews.append(checkboxView)
             stackView.addArrangedSubview(checkboxView)
+            stackView.setCustomSpacing(UIStackView.spacingUseSystem, after: checkboxView)
         }
         
     }

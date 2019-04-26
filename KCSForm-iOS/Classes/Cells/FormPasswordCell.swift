@@ -24,21 +24,27 @@ public class FormPasswordCell: UICollectionViewCell, FormCell {
         let title: String
         let password: String
         let placeholder: String?
-        
-        public init(title: String, password: String, placeholder: String?) {
+        let maxlen: Int
+        let height: CGFloat
+        public init(title: String, password: String, placeholder: String?, maxlen: Int = 64, height: CGFloat = 44.0) {
             self.title = title
             self.password = password
             self.placeholder = placeholder
+            self.maxlen = maxlen
+            self.height = height
         }
     }
     
-    @IBOutlet var titleLabel: UILabel!
-    @IBOutlet var passwordTextField: UITextField!
-    @IBOutlet var showHideImageView: UIImageView!
-    @IBOutlet var titleBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var showHideImageView: UIImageView!
+    @IBOutlet weak var titleBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var containerViewHeightConstraint: NSLayoutConstraint!
     
     var delegate: FormPasswordCellDelegate?
     private var showPassword = false
+    private var maxlen = 0
     
     private lazy var showImage: UIImage? = {
         let bundle = Bundle(for: FormViewController.self)
@@ -73,17 +79,17 @@ public class FormPasswordCell: UICollectionViewCell, FormCell {
         
         switch (FormStyle.shared.textFieldStyle) {
         case .box:
-            passwordTextField.layer.cornerRadius = FormStyle.shared.fieldCornerRadius
-            passwordTextField.layer.borderWidth = FormStyle.shared.fieldBorderWidth
-            passwordTextField.layer.borderColor = FormStyle.shared.fieldBorderColor.cgColor
+            containerView.layer.cornerRadius = FormStyle.shared.fieldCornerRadius
+            containerView.layer.borderWidth = FormStyle.shared.fieldBorderWidth
+            containerView.layer.borderColor = FormStyle.shared.fieldBorderColor.cgColor
             break
         case .underline:
             let border = CALayer()
             border.borderColor = FormStyle.shared.fieldBorderColor.cgColor
-            border.frame = CGRect(x: 0, y: passwordTextField.frame.size.height - FormStyle.shared.fieldBorderWidth, width: passwordTextField.frame.size.width, height: passwordTextField.frame.size.height)
+            border.frame = CGRect(x: 0, y: containerView.frame.size.height - FormStyle.shared.fieldBorderWidth, width: containerView.frame.size.width, height: containerView.frame.size.height)
             border.borderWidth = FormStyle.shared.fieldBorderWidth
-            passwordTextField.layer.addSublayer(border)
-            passwordTextField.layer.masksToBounds = true
+            containerView.layer.addSublayer(border)
+            containerView.layer.masksToBounds = true
             break
         }
         
@@ -102,6 +108,8 @@ public class FormPasswordCell: UICollectionViewCell, FormCell {
             self.passwordTextField.attributedPlaceholder = attributedPlaceholder
         }
         self.passwordTextField.text = data.password
+        self.maxlen = data.maxlen
+        self.containerViewHeightConstraint.constant = data.height
     }
     
     @IBAction private func showPassword(_ sender: UIButton) {
@@ -123,4 +131,7 @@ extension FormPasswordCell: UITextFieldDelegate {
         return delegate?.formPasswordCellShouldReturn(self, textField: passwordTextField) ?? false
     }
     
+    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        return range.location < maxlen
+    }
 }

@@ -57,4 +57,20 @@ public extension String {
         return ceil(boundingBox.width)
     }
 
+    public var isValidCanadianPostalCode: Bool {
+        // Canadian postal codes can't contain the letters D, F, I, O, Q, or U, and cannot start with W or Z:
+        let canadianPostalCode = "[ABCEGHJKLMNPRSTVXY][0-9][ABCEGHJKLMNPRSTVWXYZ] ?[0-9][ABCEGHJKLMNPRSTVWXYZ][0-9]"
+        
+        return NSPredicate(format:"SELF MATCHES %@", canadianPostalCode).evaluate(with: self)
+    }
+    
+    public var isValidEmail: Bool {
+        if let pattern = try? NSRegularExpression(pattern: "\\A[^@]+@[^@]+\\.[^@]+\\z", options: [.caseInsensitive]) {
+            guard let result = pattern.firstMatch(in: self, options: [], range: NSRange(location: 0, length: self.count)) else {
+                return false
+            }
+            return result.range.length > 0
+        }
+        return true
+    }
 }

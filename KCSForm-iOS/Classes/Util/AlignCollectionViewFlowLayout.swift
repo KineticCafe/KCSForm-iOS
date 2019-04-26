@@ -7,14 +7,41 @@
 
 import UIKit
 
-class AlignCollectionViewFlowLayout: UICollectionViewFlowLayout {
+open class AlignCollectionViewFlowLayout: UICollectionViewFlowLayout {
     
     class AlignWithTopFlowLayoutRowInfo: NSObject {
         var centerY: CGFloat = 0
         var top: CGFloat = 0
     }
     
-    override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+    override open func prepare() {
+        
+    }
+    
+    override open var collectionViewContentSize: CGSize {
+        get {
+            var maxheight: CGFloat = 0
+            var totalrows = 0
+            let sections = self.collectionView!.numberOfSections
+            (0..<sections).forEach { section in
+                
+                let rows = self.collectionView!.numberOfItems(inSection: section)
+                (0..<rows).forEach { row in
+                    let indexPath = IndexPath(row: row, section: section)
+                    totalrows+=1
+                    if let attribute = layoutAttributesForItem(at: indexPath) {
+                        
+                        if attribute.frame.height > maxheight {
+                            maxheight = attribute.frame.height
+                        }
+                    }
+                }
+            }
+            return CGSize(width: self.collectionView!.frame.width, height: CGFloat(totalrows) * maxheight)
+        }
+    }
+
+    override open func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         var attributesCopy: [UICollectionViewLayoutAttributes] = []
         if let attributes = super.layoutAttributesForElements(in: rect) {
             attributes.forEach({ attributesCopy.append($0.copy() as! UICollectionViewLayoutAttributes) })
@@ -65,7 +92,7 @@ class AlignCollectionViewFlowLayout: UICollectionViewFlowLayout {
         return attributesCopy;
     }
     
-    override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+    override open func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         
         if let currentItemAttributes = super.layoutAttributesForItem(at: indexPath as IndexPath)?.copy() as? UICollectionViewLayoutAttributes {
             let sectionInset = self.evaluatedSectionInsetForItem(at: indexPath.section)

@@ -8,17 +8,42 @@
 
 import UIKit
 
-protocol FormTextFieldCellDelegate {
+@objc protocol FormTextFieldOptionalValidationDelegate {
+    @objc optional func formTextFieldCellValidation(_ cell: FormTextFieldValidationCell, validationSuccess: Bool, externalMessage: Bool)
+}
+
+protocol FormTextFieldValidationCellDelegate: FormTextFieldOptionalValidationDelegate {
     
     /** Called when the specified textfield text did change. */
-    func formTextFieldCell(_ cell: FormTextFieldCell, updatedText: String?)
+    func formTextFieldCell(_ cell: FormTextFieldValidationCell, updatedText: String?)
     
     /** Determines if the textfield should return. */
-    func formTextFieldCellShouldReturn(_ cell: FormTextFieldCell, textField: UITextField) -> Bool
+    func formTextFieldCellShouldReturn(_ cell: FormTextFieldValidationCell, textField: UITextField) -> Bool
     
 }
 
-public class FormTextFieldCell: UICollectionViewCell, FormCell {
+public class FormTextFieldValidationCell: UICollectionViewCell, FormCell {
+    
+    public enum FormattingType {
+        
+        case `default`
+        case phone
+        case postal
+        case custom(String)
+        
+        var pattern: String? {
+            switch self {
+            case .`default`:
+                return nil
+            case .phone:
+                return "(***) ***-****"
+            case .postal:
+                return "*** ***"
+            case .custom(let format):
+                return format
+            }
+        }
+    }
     
     public class Data: FormCellData {
         let title: String?
@@ -26,13 +51,14 @@ public class FormTextFieldCell: UICollectionViewCell, FormCell {
         let placeholder: String?
         let keyboardType: UIKeyboardType
         let returnKeyType: UIReturnKeyType
-        let formattingPattern: String?
+        let formattingPattern: FormattingType?
         let capitalizationType: UITextAutocapitalizationType
         let isEditable: Bool
-        let errorText: String
+        let errorText: String?
         let validationSuccess: Bool
+        let externalMessage: Bool
         
-        public init(title: String? = nil, text: String? = nil, placeholder: String? = nil, keyboardType: UIKeyboardType = .default, returnKeyType: UIReturnKeyType = .next, formattingPattern: String? = nil, capitalizationType: UITextAutocapitalizationType = .none, isEditable:Bool = true, errorText:String = "", validationSuccess: Bool = true) {
+        public init(title: String? = nil, text: String? = nil, placeholder: String? = nil, keyboardType: UIKeyboardType = .default, returnKeyType: UIReturnKeyType = .next, formattingPattern: FormattingType? = .default, capitalizationType: UITextAutocapitalizationType = .none, isEditable:Bool = true, errorText:String? = nil, validationSuccess: Bool = true, externalMessage: Bool = false) {
             self.title = title
             self.text = text
             self.placeholder = placeholder
@@ -43,6 +69,7 @@ public class FormTextFieldCell: UICollectionViewCell, FormCell {
             self.isEditable = isEditable
             self.errorText = errorText
             self.validationSuccess = validationSuccess
+            self.externalMessage = externalMessage
         }
     }
     
@@ -62,11 +89,14 @@ public class FormTextFieldCell: UICollectionViewCell, FormCell {
     public static var textFieldHeight: CGFloat                                = 44
     
     //Properties
-    var delegate: FormTextFieldCellDelegate?
+    var delegate: FormTextFieldValidationCellDelegate?
     
     /** Optional formatting pattern to be used for the cell. */
-    fileprivate var formattingPattern: String?
-    
+    fileprivate var formattingPattern: FormattingType?
+    fileprivate var validationSuccess: Bool!
+    fileprivate var externalMessage: Bool!
+    public private(set) var externalText: String!
+
     public static func getErrorHeight() -> CGFloat {
         return 31
     }
@@ -121,10 +151,41 @@ public class FormTextFieldCell: UICollectionViewCell, FormCell {
         errorTopMarginConstraint.constant = FormStyle.shared.errorTopMargin
     }
     
-    @objc fileprivate func onTextChange() {
-        if let formattingPattern = formattingPattern, let replacementText = textField.text, !replacementText.isEmpty {
-            textField.text = replacementText.formatWithPattern(formattingPattern, replacementChar: "*".first!)
+    fileprivate func checkSuccess(_ text: String, _ validationSuccess: inout Bool) {
+        if text.count == 0, let placeholder = textField.placeholder {
+            delegate?.formTextFieldCellValidation?(self, validationSuccess: placeholder.isValidCanadianPostalCode, externalMessage: externalMessage)
+            validationSuccess = placeholder.isValidCanadianPostalCode
+        } else {
+            delegate?.formTextFieldCellValidation?(self, validationSuccess: text.isValidCanadianPostalCode, externalMessage: externalMessage)
+            validationSuccess = text.isValidCanadianPostalCode
         }
+    }
+    
+    fileprivate func validatePostalCode(exited: Bool = false) {
+        if let formattingPattern = formattingPattern, case .postal = formattingPattern {
+            guard let text = textField.text, text.count == 7 || text.count == 0 else {
+                if let text = textField.text, exited {
+                    var validationSuccess = true
+                    checkSuccess(text, &validationSuccess)
+                    textField.layer.borderColor =  !validationSuccess ? FormStyle.shared.fieldErrorColor.cgColor :  FormStyle.shared.fieldBorderColor.cgColor
+                }
+                return
+                
+            }
+            var validationSuccess = true
+            checkSuccess(text, &validationSuccess)
+            textField.layer.borderColor =  !validationSuccess ? FormStyle.shared.fieldErrorColor.cgColor :  FormStyle.shared.fieldBorderColor.cgColor
+
+            errorLabel.layoutIfNeeded()
+            titleLabel.layoutIfNeeded()
+        }
+    }
+    
+    @objc fileprivate func onTextChange() {
+        if let formattingPattern = formattingPattern, let pattern = formattingPattern.pattern, let replacementText = textField.text, !replacementText.isEmpty {
+            textField.text = replacementText.formatWithPattern(pattern, replacementChar: "*".first!)
+        }
+        validatePostalCode()
         delegate?.formTextFieldCell(self, updatedText: textField.text)
     }
     
@@ -147,13 +208,38 @@ public class FormTextFieldCell: UICollectionViewCell, FormCell {
         textField.returnKeyType = data.returnKeyType
         
         self.formattingPattern = data.formattingPattern
-
+        validationSuccess = data.validationSuccess
+        externalMessage = data.externalMessage
+        
         textField.isUserInteractionEnabled = data.isEditable
         
-        textField.layer.borderColor =  data.isEditable ? ((!data.errorText.isEmpty) ? FormStyle.shared.fieldErrorColor.cgColor :  FormStyle.shared.fieldBorderColor.cgColor ):  UIColor.white.cgColor
+        if let pattern = data.formattingPattern, case .postal = pattern {
+            
+            if data.text == nil  && data.placeholder != nil {
+                // fall back to the place holder text for postal code until user input is supplied
+                validationSuccess = data.placeholder?.isValidCanadianPostalCode
+            }
+            
+            textField.layer.borderColor =  data.isEditable ? ((data.errorText != nil && !validationSuccess) ? FormStyle.shared.fieldErrorColor.cgColor :  FormStyle.shared.fieldBorderColor.cgColor ):  UIColor.white.cgColor
+        } else {
+            textField.layer.borderColor =  data.isEditable ? ((data.errorText != nil && !validationSuccess) ? FormStyle.shared.fieldErrorColor.cgColor :  FormStyle.shared.fieldBorderColor.cgColor ):  UIColor.white.cgColor
+        }
+        
         textField.leftViewMode = data.isEditable ? .always : .never
-        errorLabel.text = data.errorText
 
+        errorLabel.isHidden = validationSuccess
+        errorLabel.heightAnchor.constraint(equalToConstant: 16.5).isActive = !validationSuccess
+        errorLabel.text = nil
+        externalText = data.errorText
+
+        if let pattern = data.formattingPattern, case .postal = pattern {
+            if let text = textField.text, !text.isEmpty && !validationSuccess{
+                errorLabel.text = externalMessage ? nil : data.errorText
+                textField.becomeFirstResponder()
+            }
+        }
+        textField.layoutIfNeeded()
+        errorLabel.layoutIfNeeded()
     }
     
     public override func prepareForReuse() {
@@ -162,6 +248,7 @@ public class FormTextFieldCell: UICollectionViewCell, FormCell {
         textField.autocapitalizationType = .none
         textField.placeholder = nil
         textField.text = nil
+        errorLabel.text = nil
     }
     
     public func getTextField() -> UITextField {
@@ -169,11 +256,20 @@ public class FormTextFieldCell: UICollectionViewCell, FormCell {
     }
 }
 
-extension FormTextFieldCell: UITextFieldDelegate {
+extension FormTextFieldValidationCell: UITextFieldDelegate {
     
     /** Determines if the textfield should return. */
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        validatePostalCode(exited: true)
         return delegate?.formTextFieldCellShouldReturn(self, textField: textField) ?? false
     }
+ 
+    public func textFieldDidEndEditing(_ textField: UITextField) {
+        validatePostalCode(exited: true)
+    }
     
+    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        validatePostalCode()
+        return true
+    }
 }

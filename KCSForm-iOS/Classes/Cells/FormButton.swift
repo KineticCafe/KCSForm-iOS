@@ -9,6 +9,7 @@ import UIKit
 public class FormButton: UIButton {
     
     private var inverse = true
+    private var ignoreInverse = false
     
     override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -39,6 +40,7 @@ public class FormButton: UIButton {
     
     override open var isHighlighted: Bool {
         didSet {
+            if ignoreInverse { return }
             if inverse {
                 self.backgroundColor = isHighlighted ? UIColor.white : FormStyle.shared.fieldBorderColor
             } else {
@@ -51,5 +53,8 @@ public class FormButton: UIButton {
         self.inverse = inverse
         commonInit()
     }
-
+    
+    public func setIgnoreInverse(_ ignore: Bool) {
+        self.ignoreInverse = ignore
+    }
 }

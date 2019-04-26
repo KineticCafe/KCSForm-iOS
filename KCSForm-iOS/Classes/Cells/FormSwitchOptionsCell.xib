@@ -1,60 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="FormCheckboxOptionsCell" id="gTV-IL-0wX" userLabel="FormCheckboxOptionsCell" customClass="FormCheckboxOptionsCell" customModule="KCSForm_iOS" customModuleProvider="target">
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="FormSwitchOptionsCell" id="gTV-IL-0wX" userLabel="FormCheckboxOptionsCell" customClass="FormSwitchOptionsCell" customModule="KCSForm_iOS" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="409" height="91"/>
-            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                 <rect key="frame" x="0.0" y="0.0" width="409" height="91"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fe3-EZ-5Pl">
                         <rect key="frame" x="0.0" y="0.0" width="409" height="16.5"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="16.5" id="Cqd-pj-MW4"/>
-                        </constraints>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="D5e-pQ-NLL">
-                        <rect key="frame" x="0.0" y="17" width="409" height="74"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="74" id="NVk-CU-nok"/>
-                        </constraints>
+                        <rect key="frame" x="0.0" y="16.5" width="409" height="69.5"/>
                     </stackView>
                 </subviews>
             </view>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="D5e-pQ-NLL" firstAttribute="leading" secondItem="ZTg-uK-7eu" secondAttribute="leading" id="5dx-Pt-jDJ"/>
-                <constraint firstItem="fe3-EZ-5Pl" firstAttribute="top" secondItem="ZTg-uK-7eu" secondAttribute="top" id="GP1-8K-7pJ"/>
-                <constraint firstItem="fe3-EZ-5Pl" firstAttribute="leading" secondItem="ZTg-uK-7eu" secondAttribute="leading" id="JxI-2v-usf"/>
-                <constraint firstItem="D5e-pQ-NLL" firstAttribute="top" secondItem="fe3-EZ-5Pl" secondAttribute="bottom" priority="980" constant="0.5" id="OqZ-yA-8ff"/>
-                <constraint firstItem="ZTg-uK-7eu" firstAttribute="trailing" secondItem="D5e-pQ-NLL" secondAttribute="trailing" id="ehr-cG-O0f"/>
-                <constraint firstItem="D5e-pQ-NLL" firstAttribute="bottom" secondItem="ZTg-uK-7eu" secondAttribute="bottom" priority="950" id="mZ1-Z1-JCe"/>
-                <constraint firstItem="ZTg-uK-7eu" firstAttribute="trailing" secondItem="fe3-EZ-5Pl" secondAttribute="trailing" id="vZS-0O-hTA"/>
+                <constraint firstItem="fe3-EZ-5Pl" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Luv-ws-s0y"/>
+                <constraint firstItem="D5e-pQ-NLL" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="NH5-aF-KtO"/>
+                <constraint firstAttribute="trailing" secondItem="D5e-pQ-NLL" secondAttribute="trailing" id="PUt-Ba-LWd"/>
+                <constraint firstItem="fe3-EZ-5Pl" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Yu2-xd-mMZ"/>
+                <constraint firstAttribute="trailing" secondItem="fe3-EZ-5Pl" secondAttribute="trailing" id="awu-zR-sUV"/>
+                <constraint firstAttribute="bottom" secondItem="D5e-pQ-NLL" secondAttribute="bottom" constant="5" id="f6j-H7-myH"/>
+                <constraint firstItem="D5e-pQ-NLL" firstAttribute="top" secondItem="fe3-EZ-5Pl" secondAttribute="bottom" id="slW-1E-KYJ"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="409" height="91"/>
             <connections>
                 <outlet property="stackView" destination="D5e-pQ-NLL" id="QPM-Y3-YdK"/>
-                <outlet property="stackviewBottomConstraint" destination="mZ1-Z1-JCe" id="Sfe-ek-Qb3"/>
-                <outlet property="titleBottomConstraint" destination="OqZ-yA-8ff" id="Fqv-IZ-OF0"/>
+                <outlet property="titleBottomConstraint" destination="slW-1E-KYJ" id="UXh-cg-hGH"/>
                 <outlet property="titleLabel" destination="fe3-EZ-5Pl" id="Ok4-Pq-bmq"/>
             </connections>
-            <point key="canvasLocation" x="204" y="72.413793103448285"/>
+            <point key="canvasLocation" x="205.5" y="72.5"/>
         </collectionViewCell>
     </objects>
 </document>

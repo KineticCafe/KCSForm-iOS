@@ -23,10 +23,13 @@ public class FormStyle: NSObject {
     public var fieldDisabledColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
     
     public var buttonLabelColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
+    public var buttonBorderColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
     
     public var sectionTitleColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
     public var titleColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
     public var subTitleColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
+    
+    public var formTint = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
     
     
     //Fonts

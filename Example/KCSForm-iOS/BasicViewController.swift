@@ -116,7 +116,7 @@ class BasicViewController: UIViewController {
         cells.append(FormViewController.Cell(id: CellId.section2.rawValue, type: .title, widthPercentage: 1.0,
                                              data: FormSectionTitleCell.Data(title: "Section Two")))
         cells.append(FormViewController.Cell(id: CellId.contactOptions.rawValue, type: .checkboxOptions, widthPercentage: 1.0,
-                                             data: FormCheckboxOptionsCell.Data(title: "Contact Options", options: ["Phone", "Email", "Snail Mail", "Carrier Pidgeon"], optionStates: ["Phone": false, "Email": false])))
+                                             data: FormCheckboxOptionsCell.Data(options: ["Phone", "Email", "Snail Mail", "Carrier Pidgeon"], optionStates: ["Phone": false, "Email": false])))
         cells.append(FormViewController.Cell(id: CellId.password.rawValue, type: .password, widthPercentage: 1.0,
                                              data: FormPasswordCell.Data(title: "Password", password: "", placeholder: "********")))
         cells.append(FormViewController.Cell(id: CellId.optIn.rawValue, type: .custom, widthPercentage: 1.0, data: nil, customCell: ExampleCustomCell.self))

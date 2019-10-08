@@ -26,11 +26,11 @@ class FormButton: UIButton {
         self.layer.cornerRadius = FormStyle.shared.fieldCornerRadius
         self.layer.borderWidth = FormStyle.shared.fieldBorderWidth
         self.titleLabel?.font = FormStyle.shared.fieldButtonFont
-        self.layer.borderColor = FormStyle.shared.fieldBorderColor.cgColor
+        self.layer.borderColor = FormStyle.shared.buttonBorderColor.cgColor
         if inverse {
             self.setTitleColor(.white, for: .normal)
             self.setTitleColor(FormStyle.shared.buttonLabelColor, for: .highlighted)
-            self.backgroundColor = FormStyle.shared.fieldBorderColor
+            self.backgroundColor = FormStyle.shared.buttonBorderColor
         } else {
             self.setTitleColor(FormStyle.shared.buttonLabelColor, for: .normal)
             self.setTitleColor(.white, for: .highlighted)
@@ -41,9 +41,9 @@ class FormButton: UIButton {
     override open var isHighlighted: Bool {
         didSet {
             if inverse {
-                self.backgroundColor = isHighlighted ? UIColor.white : FormStyle.shared.fieldBorderColor
+                self.backgroundColor = isHighlighted ? UIColor.white : FormStyle.shared.buttonBorderColor
             } else {
-                self.backgroundColor = isHighlighted ? FormStyle.shared.fieldBorderColor : UIColor.white
+                self.backgroundColor = isHighlighted ? FormStyle.shared.buttonBorderColor : UIColor.white
             }
         }
     }

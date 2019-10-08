@@ -15,19 +15,15 @@ protocol FormCheckboxOptionsCellDelegate {
 public class FormCheckboxOptionsCell: UICollectionViewCell, FormCell {
     
     public class Data: FormCellData {
-        let title: String?
         let options: [String]
         let optionStates: [String: Bool]
         
-        public init(title: String? = nil, options: [String], optionStates: [String: Bool]) {
-            self.title = title
+        public init(options: [String], optionStates: [String: Bool]) {
             self.options = options
             self.optionStates = optionStates
         }
     }
     
-    @IBOutlet var titleLabel: UILabel!
-    @IBOutlet var titleBottomConstraint: NSLayoutConstraint!
     @IBOutlet var stackView: UIStackView!
     
     fileprivate var checkboxViews = [CheckboxView]()
@@ -36,16 +32,12 @@ public class FormCheckboxOptionsCell: UICollectionViewCell, FormCell {
     public override func awakeFromNib() {
         super.awakeFromNib()
         
-        self.titleLabel.textColor = FormStyle.shared.fieldTitleColor
-        self.titleLabel.font = FormStyle.shared.fieldTitleFont
-        self.titleBottomConstraint.constant = FormStyle.shared.fieldTitleBottomMargin
         self.stackView.spacing = FormStyle.shared.checkboxItemSpacing
         
     }
     
     public func update(_ data: Data) {
      
-        titleLabel.text = data.title
         clearStackView()
         for (index, option) in data.options.enumerated() {
             let checkboxView = createCheckboxView(index, title: option, selected: data.optionStates[option] ?? false)

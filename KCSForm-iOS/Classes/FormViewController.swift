@@ -39,6 +39,7 @@ public class FormViewController: UIViewController {
         case checkboxOptions
         case dropdown
         case password
+        case spacer
         case custom
     }
     
@@ -81,6 +82,7 @@ public class FormViewController: UIViewController {
         collectionView.register(UINib(nibName: FormLabelCell.reuseIdentifier(), bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormLabelCell.reuseIdentifier())
         collectionView.register(UINib(nibName: FormButtonCell.reuseIdentifier(), bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormButtonCell.reuseIdentifier())
         collectionView.register(UINib(nibName: FormPasswordCell.reuseIdentifier(), bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormPasswordCell.reuseIdentifier())
+        collectionView.register(UINib(nibName: FormSpacerCell.reuseIdentifier(), bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormSpacerCell.reuseIdentifier())
         
         if #available(iOS 11, *) {
             collectionView.contentInsetAdjustmentBehavior = .never
@@ -228,6 +230,13 @@ public class FormViewController: UIViewController {
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormPasswordCell.reuseIdentifier(), for: indexPath) as? FormPasswordCell {
                 cell.delegate = self
                 if let data = cellTemplate.data as? FormPasswordCell.Data {
+                    cell.update(data)
+                }
+                return cell
+            }
+        case .spacer:
+            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormSpacerCell.reuseIdentifier(), for: indexPath) as? FormSpacerCell {
+                if let data = cellTemplate.data as? FormSpacerCell.Data {
                     cell.update(data)
                 }
                 return cell

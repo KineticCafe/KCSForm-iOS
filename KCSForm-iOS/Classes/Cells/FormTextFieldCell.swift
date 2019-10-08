@@ -86,7 +86,7 @@ public class FormTextFieldCell: UICollectionViewCell, FormCell {
         textField.delegate = self
         textField.backgroundColor = .white
         textField.textColor = FormStyle.shared.fieldEntryColor
-        textField.tintColor = FormStyle.shared.fieldEntryColor
+        textField.tintColor = FormStyle.shared.formTint
         textField.leftViewMode = .always
         textField.rightViewMode = .always
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: FormTextFieldCell.textFieldInternalHorizontalInsets, height: 0))

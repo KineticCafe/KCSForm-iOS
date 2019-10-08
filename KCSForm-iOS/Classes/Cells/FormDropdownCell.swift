@@ -19,12 +19,14 @@ public class FormDropdownCell: UICollectionViewCell, FormCell {
         public var title: String?
         public var selection: String?
         public var placeholder: String?
+        public var isEditable: Bool
         public var options: [String]
         
-        public init(title: String? = nil, selection: String? = nil, placeholder: String? = nil, options: [String]) {
+        public init(title: String? = nil, selection: String? = nil, placeholder: String? = nil, isEditable: Bool, options: [String]) {
             self.title = title
             self.selection = selection
             self.placeholder = placeholder
+            self.isEditable = isEditable
             self.options = options
         }
     }
@@ -40,11 +42,20 @@ public class FormDropdownCell: UICollectionViewCell, FormCell {
     var delegate: FormDropdownCellDelegate?
     public var options: [String]?
     fileprivate let dropDown = DropDown()
+    fileprivate var isEditable = true
     
     //MARK: - Constants
     
     /* The text field horizontal inset */
     public static var textFieldInternalHorizontalInsets: CGFloat              = 10
+    
+    private lazy var underlineLayer: CALayer = {
+        let underline = CALayer()
+        underline.borderColor = FormStyle.shared.fieldBorderColor.cgColor
+        underline.frame = CGRect(x: 0, y: entryView.frame.size.height - FormStyle.shared.fieldBorderWidth, width: entryView.frame.size.width, height: entryView.frame.size.height)
+        underline.borderWidth = FormStyle.shared.fieldBorderWidth
+        return underline
+    }()
     
     override public func awakeFromNib() {
         super.awakeFromNib()
@@ -66,29 +77,24 @@ public class FormDropdownCell: UICollectionViewCell, FormCell {
         self.indicatorImageView.image = dropdownImage?.withRenderingMode(.alwaysTemplate)
         self.indicatorImageView.tintColor = FormStyle.shared.fieldBorderColor
         
+        entryView.layer.masksToBounds = true
         entryView.backgroundColor = .white
         entryLabel.textColor = FormStyle.shared.fieldPlaceholderColor
         entryLabel.font = FormStyle.shared.fieldPlaceholderFont
         entryLabel.tintColor = FormStyle.shared.fieldEntryColor
         
-        switch (FormStyle.shared.textFieldStyle) {
-        case .box:
-            entryView.layer.cornerRadius = FormStyle.shared.fieldCornerRadius
-            entryView.layer.borderWidth = FormStyle.shared.fieldBorderWidth
-            entryView.layer.borderColor = FormStyle.shared.fieldBorderColor.cgColor
-            break
-        case .underline:
-            let border = CALayer()
-            border.borderColor = FormStyle.shared.fieldBorderColor.cgColor
-            border.frame = CGRect(x: 0, y: entryView.frame.size.height - FormStyle.shared.fieldBorderWidth, width: entryView.frame.size.width, height: entryView.frame.size.height)
-            border.borderWidth = FormStyle.shared.fieldBorderWidth
-            entryView.layer.addSublayer(border)
-            entryView.layer.masksToBounds = true
-            break
-        }
+        updateStyle()
         
         DropDown.startListeningToKeyboard()
-        self.dropDown.anchorView = self.entryView
+        dropDown.anchorView = self.entryView
+        dropDown.textFont = FormStyle.shared.dropdownFont
+        dropDown.textColor = FormStyle.shared.dropdownTextColor
+        dropDown.selectedTextColor = FormStyle.shared.dropdownTextColor
+        dropDown.cellNib = UINib(nibName: "CustomDropDownCell", bundle: Bundle(for: FormViewController.self))
+        dropDown.customCellConfiguration = { (index: Index, item: String, cell: DropDownCell) -> Void in
+            guard let cell = cell as? CustomDropDownCell else { return }
+            cell.optionLabel.text = item
+        }
         self.dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
             self.entryLabel.text = item
             self.entryLabel.textColor = FormStyle.shared.fieldEntryColor
@@ -96,14 +102,42 @@ public class FormDropdownCell: UICollectionViewCell, FormCell {
         }
     }
     
+    private func updateStyle() {
+        if isEditable {
+            switch (FormStyle.shared.textFieldStyle) {
+            case .box:
+                entryView.layer.cornerRadius = FormStyle.shared.fieldCornerRadius
+                entryView.layer.borderWidth = FormStyle.shared.fieldBorderWidth
+                entryView.layer.borderColor = FormStyle.shared.fieldBorderColor.cgColor
+                break
+            case .underline:
+                entryView.layer.addSublayer(underlineLayer)
+                break
+            case .none:
+                removeBorders()
+                break
+            }
+        } else {
+            removeBorders()
+        }
+    }
+    
+    private func removeBorders() {
+        underlineLayer.removeFromSuperlayer()
+        entryView.layer.cornerRadius = 0
+        entryView.layer.borderWidth = 0
+        entryView.layer.borderColor = UIColor.clear.cgColor
+    }
+    
     public func update(_ data: Data) {
         
+        isEditable = data.isEditable
         var title = data.title
         if title == nil || title?.count == 0 {
             title = " "
         }
         titleLabel.text = title
-        if data.selection == nil || data.selection?.count == 0 {
+        if (data.selection == nil || data.selection?.count == 0) && isEditable {
             entryLabel.text = data.placeholder
             entryLabel.textColor = FormStyle.shared.fieldPlaceholderColor
         } else {
@@ -113,10 +147,15 @@ public class FormDropdownCell: UICollectionViewCell, FormCell {
         options = data.options
         self.dropDown.dataSource = options ?? []
         
+        self.indicatorImageView.isHidden = !isEditable
+        updateStyle()
+        
     }
     
     @IBAction private func dropdownSelected(sender: Any) {
-        self.dropDown.show()
+        if isEditable {
+            self.dropDown.show()
+        }
     }
 
 }

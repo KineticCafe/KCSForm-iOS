@@ -64,9 +64,12 @@ class DefaultViewController: UIViewController {
         FormStyle.shared.fieldErrorColor = .black
         FormStyle.shared.fieldDisabledColor = .black
         FormStyle.shared.buttonLabelColor = .black
+        FormStyle.shared.buttonBorderColor = .black
         FormStyle.shared.sectionTitleColor = .black
         FormStyle.shared.titleColor = .black
         FormStyle.shared.subTitleColor = .black
+        FormStyle.shared.dropdownBackgroundColor = UIColor.white
+        FormStyle.shared.dropdownTextColor = UIColor.black
         
         FormStyle.shared.setFormMargins(leading: 0, trailing: 0, top: 0, bottom: 0)
         FormStyle.shared.interItemFieldSpacing = 0
@@ -81,6 +84,9 @@ class DefaultViewController: UIViewController {
         FormStyle.shared.titleSubTitleBottomMargin = 0
         FormStyle.shared.titleSubTitleVerticalSpacing = 0
         FormStyle.shared.errorTopMargin = 0
+        FormStyle.shared.dropdownVerticalMargins = 0
+        FormStyle.shared.dropdownHorizontalMargins = 0
+        FormStyle.shared.dropdownTextAlignment = .natural
         
         FormStyle.shared.fieldTitleFont = .systemFont(ofSize: UIFont.systemFontSize)
         FormStyle.shared.sectionTitleFont = .systemFont(ofSize: UIFont.systemFontSize)
@@ -88,6 +94,7 @@ class DefaultViewController: UIViewController {
         FormStyle.shared.titleFont = .systemFont(ofSize: UIFont.systemFontSize)
         FormStyle.shared.subTitleFont = .systemFont(ofSize: UIFont.systemFontSize)
         FormStyle.shared.fieldErrorFont = .systemFont(ofSize: UIFont.systemFontSize)
+        FormStyle.shared.dropdownFont = .systemFont(ofSize: UIFont.systemFontSize)
         
         FormStyle.shared.textFieldStyle = .box
         FormStyle.shared.bounce = false
@@ -108,7 +115,7 @@ class DefaultViewController: UIViewController {
         cells.append(FormViewController.Cell(id: CellId.phone.rawValue, type: .text, widthPercentage: 1.0,
                                              data: FormTextFieldCell.Data(title: "Phone", text: "", placeholder: "(416) 123-1234", keyboardType: .phonePad, returnKeyType: .next, formattingPattern: "(***) ***-****", capitalizationType: .none, isEditable: true, errorText: nil)))
         cells.append(FormViewController.Cell(id: CellId.country.rawValue, type: .dropdown, widthPercentage: 1.0,
-                                             data: FormDropdownCell.Data(title: "Country", selection: "", placeholder: "Select a country", options: ["Canada", "USA", "Mexico", "Westeros"])))
+                                             data: FormDropdownCell.Data(title: "Country", selection: "", placeholder: "Select a country", isEditable: true, options: ["Canada", "USA", "Mexico", "Westeros"])))
         cells.append(FormViewController.Cell(id: CellId.postalCode.rawValue, type: .text, widthPercentage: 0.5,
                                              data: FormTextFieldCell.Data(title: "Postal Code", text: "", placeholder: "A1A 1A1", keyboardType: .default, returnKeyType: .next, formattingPattern:"*** ***", capitalizationType: .allCharacters, isEditable: true, errorText: nil)))
         cells.append(FormViewController.Cell(id: CellId.gender.rawValue, type: .buttonOptions, widthPercentage: 1.0,

@@ -30,7 +30,6 @@ public class FormTextFieldCell: UICollectionViewCell, FormCell {
         public var capitalizationType: UITextAutocapitalizationType
         public var isEditable: Bool
         public var errorText: String?
-
         
         public init(title: String? = nil, text: String? = nil, placeholder: String? = nil, keyboardType: UIKeyboardType = .default, returnKeyType: UIReturnKeyType = .next, formattingPattern: String? = nil, capitalizationType: UITextAutocapitalizationType = .none, isEditable:Bool = true, errorText:String? = nil) {
             self.title = title
@@ -57,8 +56,15 @@ public class FormTextFieldCell: UICollectionViewCell, FormCell {
     
     /* The text field horizontal inset */
     public static var textFieldInternalHorizontalInsets: CGFloat              = 10
-    
     public static var textFieldHeight: CGFloat                                = 44
+    
+    private lazy var underlineLayer: CALayer = {
+        let underline = CALayer()
+        underline.borderColor = FormStyle.shared.fieldBorderColor.cgColor
+        underline.frame = CGRect(x: 0, y: textField.frame.size.height - FormStyle.shared.fieldBorderWidth, width: textField.frame.size.width, height: textField.frame.size.height)
+        underline.borderWidth = FormStyle.shared.fieldBorderWidth
+        return underline
+    }()
     
     //Properties
     var delegate: FormTextFieldCellDelegate?
@@ -101,12 +107,14 @@ public class FormTextFieldCell: UICollectionViewCell, FormCell {
             textField.layer.borderColor = FormStyle.shared.fieldBorderColor.cgColor
             break
         case .underline:
-            let border = CALayer()
-            border.borderColor = FormStyle.shared.fieldBorderColor.cgColor
-            border.frame = CGRect(x: 0, y: textField.frame.size.height - FormStyle.shared.fieldBorderWidth, width: textField.frame.size.width, height: textField.frame.size.height)
-            border.borderWidth = FormStyle.shared.fieldBorderWidth
-            textField.layer.addSublayer(border)
+            textField.layer.addSublayer(underlineLayer)
             textField.layer.masksToBounds = true
+            break
+        case .none:
+            underlineLayer.removeFromSuperlayer()
+            textField.layer.cornerRadius = 0
+            textField.layer.borderWidth = 0
+            textField.layer.borderColor = UIColor.clear.cgColor
             break
         }
         
@@ -133,9 +141,11 @@ public class FormTextFieldCell: UICollectionViewCell, FormCell {
         titleLabel.text = title
         textField.text = data.text
         
-        if let placeholder = data.placeholder {
+        if data.isEditable, let placeholder = data.placeholder {
             let attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedStringKey.foregroundColor : FormStyle.shared.fieldPlaceholderColor])
             textField.attributedPlaceholder = attributedPlaceholder
+        } else {
+            textField.placeholder = ""
         }
         textField.keyboardType = data.keyboardType
         textField.autocapitalizationType = data.capitalizationType

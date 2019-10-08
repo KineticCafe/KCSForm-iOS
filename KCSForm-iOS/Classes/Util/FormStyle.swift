@@ -15,21 +15,24 @@ public class FormStyle: NSObject {
     // -- FIELDS --
     
     //Colors
-    public var fieldTitleColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
-    public var fieldEntryColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
-    public var fieldPlaceholderColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
-    public var fieldBorderColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
-    public var fieldErrorColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
-    public var fieldDisabledColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
+    public var fieldTitleColor = UIColor.black
+    public var fieldEntryColor = UIColor.black
+    public var fieldPlaceholderColor = UIColor.black
+    public var fieldBorderColor = UIColor.black
+    public var fieldErrorColor = UIColor.black
+    public var fieldDisabledColor = UIColor.black
     
-    public var buttonLabelColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
-    public var buttonBorderColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
+    public var buttonLabelColor = UIColor.black
+    public var buttonBorderColor = UIColor.black
     
-    public var sectionTitleColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
-    public var titleColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
-    public var subTitleColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
+    public var dropdownBackgroundColor = UIColor.white
+    public var dropdownTextColor = UIColor.black
     
-    public var formTint = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
+    public var sectionTitleColor = UIColor.black
+    public var titleColor = UIColor.black
+    public var subTitleColor = UIColor.black
+    
+    public var formTint = UIColor.black
     
     
     //Fonts
@@ -63,6 +66,9 @@ public class FormStyle: NSObject {
     public var checkboxFont: UIFont = {
         return .systemFont(ofSize: UIFont.systemFontSize)
     }()
+    public var dropdownFont: UIFont = {
+        return .systemFont(ofSize: UIFont.systemFontSize)
+    }()
     
     
     //Sizes, Margins
@@ -86,10 +92,14 @@ public class FormStyle: NSObject {
     public var titleSubTitleBottomMargin: CGFloat = 0
     public var titleSubTitleVerticalSpacing: CGFloat = 0
     public var errorTopMargin: CGFloat = 0
+    public var dropdownVerticalMargins: CGFloat = 0
+    public var dropdownHorizontalMargins: CGFloat = 0
+    public var dropdownTextAlignment: NSTextAlignment = .natural
     
     public enum TextFieldStyle {
         case box
         case underline
+        case none
     }
     public var textFieldStyle: TextFieldStyle = .box
     public var bounce: Bool = false

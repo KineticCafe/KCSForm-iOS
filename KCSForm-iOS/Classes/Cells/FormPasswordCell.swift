@@ -53,6 +53,14 @@ public class FormPasswordCell: UICollectionViewCell, FormCell {
         let resourceBundle = Bundle(url: bundleURL!)
         return UIImage(named: "ic_hide", in: resourceBundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
     }()
+    
+    private lazy var underlineLayer: CALayer = {
+        let underline = CALayer()
+        underline.borderColor = FormStyle.shared.fieldBorderColor.cgColor
+        underline.frame = CGRect(x: 0, y: passwordTextField.frame.size.height - FormStyle.shared.fieldBorderWidth, width: passwordTextField.frame.size.width, height: passwordTextField.frame.size.height)
+        underline.borderWidth = FormStyle.shared.fieldBorderWidth
+        return underline
+    }()
 
     override public func awakeFromNib() {
         super.awakeFromNib()
@@ -78,12 +86,14 @@ public class FormPasswordCell: UICollectionViewCell, FormCell {
             passwordTextField.layer.borderColor = FormStyle.shared.fieldBorderColor.cgColor
             break
         case .underline:
-            let border = CALayer()
-            border.borderColor = FormStyle.shared.fieldBorderColor.cgColor
-            border.frame = CGRect(x: 0, y: passwordTextField.frame.size.height - FormStyle.shared.fieldBorderWidth, width: passwordTextField.frame.size.width, height: passwordTextField.frame.size.height)
-            border.borderWidth = FormStyle.shared.fieldBorderWidth
-            passwordTextField.layer.addSublayer(border)
+            passwordTextField.layer.addSublayer(underlineLayer)
             passwordTextField.layer.masksToBounds = true
+            break
+        case .none:
+            underlineLayer.removeFromSuperlayer()
+            passwordTextField.layer.cornerRadius = 0
+            passwordTextField.layer.borderWidth = 0
+            passwordTextField.layer.borderColor = UIColor.clear.cgColor
             break
         }
         

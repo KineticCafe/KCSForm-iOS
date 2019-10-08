@@ -10,7 +10,7 @@ import UIKit
 public class FormSpacerCell: UICollectionViewCell, FormCell {
     
     public class Data: FormCellData {
-        var height: CGFloat = 1
+        public var height: CGFloat = 1
         public init(height: CGFloat) {
             self.height = height
         }

@@ -15,8 +15,8 @@ protocol FormCheckboxOptionsCellDelegate {
 public class FormCheckboxOptionsCell: UICollectionViewCell, FormCell {
     
     public class Data: FormCellData {
-        let options: [String]
-        let optionStates: [String: Bool]
+        public var options: [String]
+        public var optionStates: [String: Bool]
         
         public init(options: [String], optionStates: [String: Bool]) {
             self.options = options

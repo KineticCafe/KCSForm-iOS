@@ -21,15 +21,15 @@ protocol FormTextFieldCellDelegate {
 public class FormTextFieldCell: UICollectionViewCell, FormCell {
     
     public class Data: FormCellData {
-        let title: String?
-        let text: String?
-        let placeholder: String?
-        let keyboardType: UIKeyboardType
-        let returnKeyType: UIReturnKeyType
-        let formattingPattern: String?
-        let capitalizationType: UITextAutocapitalizationType
-        let isEditable: Bool
-        let errorText: String?
+        public var title: String?
+        public var text: String?
+        public var placeholder: String?
+        public var keyboardType: UIKeyboardType
+        public var returnKeyType: UIReturnKeyType
+        public var formattingPattern: String?
+        public var capitalizationType: UITextAutocapitalizationType
+        public var isEditable: Bool
+        public var errorText: String?
 
         
         public init(title: String? = nil, text: String? = nil, placeholder: String? = nil, keyboardType: UIKeyboardType = .default, returnKeyType: UIReturnKeyType = .next, formattingPattern: String? = nil, capitalizationType: UITextAutocapitalizationType = .none, isEditable:Bool = true, errorText:String? = nil) {

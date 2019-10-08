@@ -16,10 +16,10 @@ protocol FormButtonOptionsCellDelegate {
 public class FormButtonOptionsCell: UICollectionViewCell, FormCell {
     
     public class Data: FormCellData {
-        let title: String?
-        let selectedOptions: [Int]?
-        let multiSelect: Bool
-        let options: [String]
+        public var title: String?
+        public var selectedOptions: [Int]?
+        public var multiSelect: Bool
+        public var options: [String]
         
         public init(title: String? = nil, multiSelect: Bool, selectedOptionIndex: [Int]? = nil, options: [String]) {
             self.title = title

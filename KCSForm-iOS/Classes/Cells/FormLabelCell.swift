@@ -10,7 +10,7 @@ import UIKit
 public class FormLabelCell: UICollectionViewCell, FormCell {
     
     public class Data: FormCellData {
-        let text: NSAttributedString
+        public var text: NSAttributedString
         
         public init(text: NSAttributedString) {
             self.text = text

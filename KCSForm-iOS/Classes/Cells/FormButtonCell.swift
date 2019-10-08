@@ -21,7 +21,7 @@ public class FormButtonCell: UICollectionViewCell, FormCell {
     var delegate: FormButtonCellDelegate?
     
     public class Data: FormCellData {
-        let title: String
+        public var title: String
         public init(title: String) {
             self.title = title
         }

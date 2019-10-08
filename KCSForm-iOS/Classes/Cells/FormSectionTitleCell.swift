@@ -11,7 +11,7 @@ import UIKit
 public class FormSectionTitleCell: UICollectionViewCell, FormCell {
     
     public class Data: FormCellData {
-        let title: String
+        public var title: String
         public init(title: String) {
             self.title = title
         }

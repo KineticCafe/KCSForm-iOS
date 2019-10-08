@@ -10,8 +10,8 @@ import UIKit
 public class FormTitleSubtitleCell: UICollectionViewCell, FormCell {
     
     public class Data: FormCellData {
-        let title: String
-        let subTitle: String
+        public var title: String
+        public var subTitle: String
         
         public init(title: String, subTitle: String) {
             self.title = title

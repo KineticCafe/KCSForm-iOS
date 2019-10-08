@@ -16,10 +16,10 @@ protocol FormDropdownCellDelegate {
 public class FormDropdownCell: UICollectionViewCell, FormCell {
     
     public class Data: FormCellData {
-        let title: String?
-        let selection: String?
-        let placeholder: String?
-        let options: [String]
+        public var title: String?
+        public var selection: String?
+        public var placeholder: String?
+        public var options: [String]
         
         public init(title: String? = nil, selection: String? = nil, placeholder: String? = nil, options: [String]) {
             self.title = title

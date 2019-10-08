@@ -26,6 +26,7 @@ public class FormSpacerCell: UICollectionViewCell, FormCell {
     public func update(_ data: Data) {
         heightConstraint?.isActive = false
         heightConstraint = self.contentView.heightAnchor.constraint(equalToConstant: data.height)
+        heightConstraint?.isActive = true
     }
 
 }

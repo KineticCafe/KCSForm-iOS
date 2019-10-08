@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'KCSForm-iOS'
-  s.version          = '1.1.0'
+  s.version          = '1.1.1'
   s.summary          = 'KCS Form is a library to help you build iOS UI forms using pre-built input types.'
 
   s.description      = <<-DESC

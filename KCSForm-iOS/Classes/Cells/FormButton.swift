@@ -41,9 +41,21 @@ class FormButton: UIButton {
     override open var isHighlighted: Bool {
         didSet {
             if inverse {
-                self.backgroundColor = isHighlighted ? UIColor.white : FormStyle.shared.buttonBorderColor
+                if isHighlighted {
+                    self.backgroundColor = UIColor.white
+                } else {
+                    UIView.animate(withDuration: 0.3, animations: {
+                        self.backgroundColor = FormStyle.shared.buttonBorderColor
+                    })
+                }
             } else {
-                self.backgroundColor = isHighlighted ? FormStyle.shared.buttonBorderColor : UIColor.white
+                if isHighlighted {
+                    self.backgroundColor = FormStyle.shared.buttonBorderColor
+                } else {
+                    UIView.animate(withDuration: 0.3, animations: {
+                        self.backgroundColor = UIColor.white
+                    })
+                }
             }
         }
     }

@@ -22,10 +22,10 @@ public class FormPasswordCell: UICollectionViewCell, FormCell {
     
     public class Data: FormCellData {
         public var title: String
-        public var password: String
+        public var password: String?
         public var placeholder: String?
         
-        public init(title: String, password: String, placeholder: String?) {
+        public init(title: String, password: String?, placeholder: String?) {
             self.title = title
             self.password = password
             self.placeholder = placeholder

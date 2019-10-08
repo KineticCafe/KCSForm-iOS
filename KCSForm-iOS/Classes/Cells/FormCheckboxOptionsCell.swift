@@ -28,6 +28,8 @@ public class FormCheckboxOptionsCell: UICollectionViewCell, FormCell {
     
     fileprivate var checkboxViews = [CheckboxView]()
     var delegate: FormCheckboxOptionsCellDelegate?
+    
+    public var options: [String]?
 
     public override func awakeFromNib() {
         super.awakeFromNib()
@@ -38,11 +40,13 @@ public class FormCheckboxOptionsCell: UICollectionViewCell, FormCell {
     
     public func update(_ data: Data) {
      
+        self.options = data.options
         clearStackView()
         for (index, option) in data.options.enumerated() {
             let checkboxView = createCheckboxView(index, title: option, selected: data.optionStates[option] ?? false)
             checkboxViews.append(checkboxView)
             stackView.addArrangedSubview(checkboxView)
+            //checkboxView.heightAnchor.constraint(equalToConstant: 65).isActive = true
         }
         
     }

@@ -38,7 +38,7 @@ public class FormDropdownCell: UICollectionViewCell, FormCell {
     
     //MARK: - Properties
     var delegate: FormDropdownCellDelegate?
-    fileprivate var options: [String]?
+    public var options: [String]?
     fileprivate let dropDown = DropDown()
     
     //MARK: - Constants

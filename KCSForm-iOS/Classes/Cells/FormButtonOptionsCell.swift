@@ -48,7 +48,7 @@ public class FormButtonOptionsCell: UICollectionViewCell, FormCell {
     var delegate: FormButtonOptionsCellDelegate?
     private var buttons = [UIButton]()
     private var options: [String]?
-    private var selectedOptions = [Int]()
+    public var selectedOptions = [Int]()
     private var multiSelect = false
     
     public override func awakeFromNib() {

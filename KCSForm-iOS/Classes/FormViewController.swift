@@ -354,6 +354,9 @@ extension FormViewController: FormTextFieldCellDelegate {
             return
         }
         let masterCell = cells[row]
+        if let data = masterCell.data as? FormTextFieldCell.Data {
+            data.text = updatedText
+        }
         delegate?.formViewController(self, updatedText: updatedText, forCellId: masterCell.id)
         
     }
@@ -387,6 +390,9 @@ extension FormViewController: FormButtonOptionsCellDelegate {
             return
         }
         let masterCell = cells[row]
+        if let data = masterCell.data as? FormButtonOptionsCell.Data {
+            data.selectedOptions = cell.selectedOptions
+        }
         delegate?.formViewController(self, selectedIndex: selectedOptionIndex, forCellId: masterCell.id)
         
     }
@@ -405,6 +411,9 @@ extension FormViewController: FormDropdownCellDelegate {
             return
         }
         let masterCell = cells[row]
+        if let data = masterCell.data as? FormDropdownCell.Data {
+            data.selection = cell.options?[index]
+        }
         delegate?.formViewController(self, selectedIndex: index, forCellId: masterCell.id)
         
     }
@@ -438,6 +447,9 @@ extension FormViewController: FormCheckboxOptionsCellDelegate {
             return
         }
         let masterCell = cells[row]
+        if let data = masterCell.data as? FormCheckboxOptionsCell.Data, let value = cell.options?[forIndex] {
+            data.optionStates[value] = checked
+        }
         delegate?.formViewController(self, checked: checked, option: forIndex, forCellId: masterCell.id)
     }
     
@@ -454,6 +466,9 @@ extension FormViewController: FormPasswordCellDelegate {
             return
         }
         let masterCell = cells[row]
+        if let data = masterCell.data as? FormPasswordCell.Data {
+            data.password = updatedText
+        }
         delegate?.formViewController(self, updatedText: updatedText, forCellId: masterCell.id)
     }
     

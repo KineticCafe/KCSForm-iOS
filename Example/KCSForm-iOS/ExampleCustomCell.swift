@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import KCSForm_iOS
 
-class ExampleCustomCell: UICollectionViewCell {
+class ExampleCustomCell: FormCell {
     
     @IBOutlet var titleLabel: UILabel!
 

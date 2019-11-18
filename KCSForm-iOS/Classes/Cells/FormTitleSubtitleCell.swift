@@ -7,7 +7,7 @@
 
 import UIKit
 
-public class FormTitleSubtitleCell: UICollectionViewCell, FormCell {
+public class FormTitleSubtitleCell: FormCell {
     
     public class Data: FormCellData {
         public var title: String

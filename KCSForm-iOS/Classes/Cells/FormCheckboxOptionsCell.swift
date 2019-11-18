@@ -12,7 +12,7 @@ protocol FormCheckboxOptionsCellDelegate {
     func formCheckboxOptionsCell(_ cell: FormCheckboxOptionsCell, checked: Bool, forIndex: Int)
 }
 
-public class FormCheckboxOptionsCell: UICollectionViewCell, FormCell {
+public class FormCheckboxOptionsCell: FormCell {
     
     public class Data: FormCellData {
         public var options: [String]

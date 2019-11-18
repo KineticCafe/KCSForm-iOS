@@ -48,8 +48,8 @@ public class FormViewController: UIViewController {
         public var type: CellType
         public var widthPercentage: CGFloat
         public var data: FormCellData?
-        public var customCell: AnyClass?
-        public init(id: Int, type: CellType, widthPercentage: CGFloat, data: FormCellData?, customCell: AnyClass? = nil) {
+        public var customCell: FormCell.Type?
+        public init(id: Int, type: CellType, widthPercentage: CGFloat, data: FormCellData?, customCell: FormCell.Type? = nil) {
             self.id = id
             self.type = type
             self.widthPercentage = widthPercentage
@@ -72,17 +72,16 @@ public class FormViewController: UIViewController {
         collectionView.contentInset = UIEdgeInsetsMake(0,0,0,0)
         collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(0,0,0,0)
         
-        
-        collectionView.register(UINib(nibName: FormTextFieldCell.reuseIdentifier(), bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormTextFieldCell.reuseIdentifier())
-        collectionView.register(UINib(nibName: FormButtonOptionsCell.reuseIdentifier(), bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormButtonOptionsCell.reuseIdentifier())
-        collectionView.register(UINib(nibName: FormCheckboxOptionsCell.reuseIdentifier(), bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormCheckboxOptionsCell.reuseIdentifier())
-        collectionView.register(UINib(nibName: FormDropdownCell.reuseIdentifier(), bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormDropdownCell.reuseIdentifier())
-        collectionView.register(UINib(nibName: FormSectionTitleCell.reuseIdentifier(), bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormSectionTitleCell.reuseIdentifier())
-        collectionView.register(UINib(nibName: FormTitleSubtitleCell.reuseIdentifier(), bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormTitleSubtitleCell.reuseIdentifier())
-        collectionView.register(UINib(nibName: FormLabelCell.reuseIdentifier(), bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormLabelCell.reuseIdentifier())
-        collectionView.register(UINib(nibName: FormButtonCell.reuseIdentifier(), bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormButtonCell.reuseIdentifier())
-        collectionView.register(UINib(nibName: FormPasswordCell.reuseIdentifier(), bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormPasswordCell.reuseIdentifier())
-        collectionView.register(UINib(nibName: FormSpacerCell.reuseIdentifier(), bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormSpacerCell.reuseIdentifier())
+        collectionView.register(UINib(nibName: FormTextFieldCell.nibName, bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormTextFieldCell.reuseIdentifier)
+        collectionView.register(UINib(nibName: FormButtonOptionsCell.nibName, bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormButtonOptionsCell.reuseIdentifier)
+        collectionView.register(UINib(nibName: FormCheckboxOptionsCell.nibName, bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormCheckboxOptionsCell.reuseIdentifier)
+        collectionView.register(UINib(nibName: FormDropdownCell.nibName, bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormDropdownCell.reuseIdentifier)
+        collectionView.register(UINib(nibName: FormSectionTitleCell.nibName, bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormSectionTitleCell.reuseIdentifier)
+        collectionView.register(UINib(nibName: FormTitleSubtitleCell.nibName, bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormTitleSubtitleCell.reuseIdentifier)
+        collectionView.register(UINib(nibName: FormLabelCell.nibName, bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormLabelCell.reuseIdentifier)
+        collectionView.register(UINib(nibName: FormButtonCell.nibName, bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormButtonCell.reuseIdentifier)
+        collectionView.register(UINib(nibName: FormPasswordCell.nibName, bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormPasswordCell.reuseIdentifier)
+        collectionView.register(UINib(nibName: FormSpacerCell.nibName, bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormSpacerCell.reuseIdentifier)
         
         if #available(iOS 11, *) {
             collectionView.contentInsetAdjustmentBehavior = .never
@@ -100,7 +99,7 @@ public class FormViewController: UIViewController {
                 for cell in cells {
                     if cell.type == .custom {
                         if let customCell = cell.customCell {
-                            self.collectionView.register(UINib(nibName: String(describing: customCell), bundle: Bundle.init(for: customCell)), forCellWithReuseIdentifier:String(describing: customCell))
+                            self.collectionView.register(UINib(nibName: customCell.nibName, bundle: Bundle.init(for: customCell)), forCellWithReuseIdentifier: customCell.reuseIdentifier)
                         }
                     }
                 }
@@ -162,89 +161,130 @@ public class FormViewController: UIViewController {
         
     }
     
-    public func getConfiguredCell(cellTemplate: FormViewController.Cell, collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+    public func getConfiguredCell(cellTemplate: FormViewController.Cell, collectionView: UICollectionView, indexPath: IndexPath, sizingOnly: Bool) -> UICollectionViewCell {
         switch cellTemplate.type {
         case .title:
-            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormSectionTitleCell.reuseIdentifier(), for: indexPath) as? FormSectionTitleCell {
-                if let data = cellTemplate.data as? FormSectionTitleCell.Data {
-                    cell.update(data)
-                }
-                return cell
+            var cell: FormSectionTitleCell?
+            if sizingOnly {
+                cell = FormSectionTitleCell.nib.instantiate(withOwner: self, options: nil).first as? FormSectionTitleCell
+            } else {
+                cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormSectionTitleCell.reuseIdentifier, for: indexPath) as? FormSectionTitleCell
             }
+            if let cell = cell, let data = cellTemplate.data as? FormSectionTitleCell.Data {
+                cell.update(data)
+            }
+            return cell ?? UICollectionViewCell()
         case .titleSubtitle:
-            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormTitleSubtitleCell.reuseIdentifier(), for: indexPath) as? FormTitleSubtitleCell {
-                if let data = cellTemplate.data as? FormTitleSubtitleCell.Data {
-                    cell.update(data)
-                }
-                return cell
+            var cell: FormTitleSubtitleCell?
+            if sizingOnly {
+                cell = FormTitleSubtitleCell.nib.instantiate(withOwner: self, options: nil).first as? FormTitleSubtitleCell
+            } else {
+                cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormTitleSubtitleCell.reuseIdentifier, for: indexPath) as? FormTitleSubtitleCell
             }
+            if let cell = cell, let data = cellTemplate.data as? FormTitleSubtitleCell.Data {
+                cell.update(data)
+            }
+            return cell ?? UICollectionViewCell()
         case .text:
-            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormTextFieldCell.reuseIdentifier(), for: indexPath as IndexPath) as? FormTextFieldCell {
-                cell.delegate = self
-                if let data = cellTemplate.data as? FormTextFieldCell.Data {
-                    cell.update(data)
-                }
-                return cell
+            var cell: FormTextFieldCell?
+            if sizingOnly {
+                cell = FormTextFieldCell.nib.instantiate(withOwner: self, options: nil).first as? FormTextFieldCell
+            } else {
+                cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormTextFieldCell.reuseIdentifier, for: indexPath) as? FormTextFieldCell
             }
+            if let cell = cell, let data = cellTemplate.data as? FormTextFieldCell.Data {
+                cell.update(data)
+            }
+            return cell ?? UICollectionViewCell()
         case .buttonOptions:
-            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormButtonOptionsCell.reuseIdentifier(), for: indexPath as IndexPath) as? FormButtonOptionsCell {
-                cell.delegate = self
-                if let data = cellTemplate.data as? FormButtonOptionsCell.Data {
-                    cell.update(data)
-                }
-                return cell
+            var cell: FormButtonOptionsCell?
+            if sizingOnly {
+                cell = FormButtonOptionsCell.nib.instantiate(withOwner: self, options: nil).first as? FormButtonOptionsCell
+            } else {
+                cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormButtonOptionsCell.reuseIdentifier, for: indexPath) as? FormButtonOptionsCell
             }
+            if let cell = cell, let data = cellTemplate.data as? FormButtonOptionsCell.Data {
+                cell.update(data)
+            }
+            return cell ?? UICollectionViewCell()
         case .dropdown:
-            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormDropdownCell.reuseIdentifier(), for: indexPath as IndexPath) as? FormDropdownCell {
-                cell.delegate = self
-                if let data = cellTemplate.data as? FormDropdownCell.Data {
-                    cell.update(data)
-                }
-                
-                return cell
+            var cell: FormDropdownCell?
+            if sizingOnly {
+                cell = FormDropdownCell.nib.instantiate(withOwner: self, options: nil).first as? FormDropdownCell
+            } else {
+                cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormDropdownCell.reuseIdentifier, for: indexPath) as? FormDropdownCell
             }
+            if let cell = cell, let data = cellTemplate.data as? FormDropdownCell.Data {
+                cell.update(data)
+            }
+            return cell ?? UICollectionViewCell()
         case .label:
-            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormLabelCell.reuseIdentifier(), for: indexPath) as? FormLabelCell {
-                if let data = cellTemplate.data as? FormLabelCell.Data {
-                    cell.update(data)
-                }
-                return cell
+            var cell: FormLabelCell?
+            if sizingOnly {
+                cell = FormLabelCell.nib.instantiate(withOwner: self, options: nil).first as? FormLabelCell
+            } else {
+                cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormLabelCell.reuseIdentifier, for: indexPath) as? FormLabelCell
             }
+            if let cell = cell, let data = cellTemplate.data as? FormLabelCell.Data {
+                cell.update(data)
+            }
+            return cell ?? UICollectionViewCell()
         case .button:
-            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormButtonCell.reuseIdentifier(), for: indexPath) as? FormButtonCell {
-                cell.delegate = self
-                if let data = cellTemplate.data as? FormButtonCell.Data {
-                    cell.update(data)
-                }
-                return cell
+            var cell: FormButtonCell?
+            if sizingOnly {
+                cell = FormButtonCell.nib.instantiate(withOwner: self, options: nil).first as? FormButtonCell
+            } else {
+                cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormButtonCell.reuseIdentifier, for: indexPath) as? FormButtonCell
             }
+            if let cell = cell, let data = cellTemplate.data as? FormButtonCell.Data {
+                cell.update(data)
+            }
+            return cell ?? UICollectionViewCell()
         case .checkboxOptions:
-            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormCheckboxOptionsCell.reuseIdentifier(), for: indexPath) as? FormCheckboxOptionsCell {
-                cell.delegate = self
-                if let data = cellTemplate.data as? FormCheckboxOptionsCell.Data {
-                    cell.update(data)
-                }
-                return cell
+            var cell: FormCheckboxOptionsCell?
+            if sizingOnly {
+                cell = FormCheckboxOptionsCell.nib.instantiate(withOwner: self, options: nil).first as? FormCheckboxOptionsCell
+            } else {
+                cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormCheckboxOptionsCell.reuseIdentifier, for: indexPath) as? FormCheckboxOptionsCell
             }
+            if let cell = cell, let data = cellTemplate.data as? FormCheckboxOptionsCell.Data {
+                cell.update(data)
+            }
+            return cell ?? UICollectionViewCell()
         case .password:
-            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormPasswordCell.reuseIdentifier(), for: indexPath) as? FormPasswordCell {
-                cell.delegate = self
-                if let data = cellTemplate.data as? FormPasswordCell.Data {
-                    cell.update(data)
-                }
-                return cell
+            var cell: FormPasswordCell?
+            if sizingOnly {
+                cell = FormPasswordCell.nib.instantiate(withOwner: self, options: nil).first as? FormPasswordCell
+            } else {
+                cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormPasswordCell.reuseIdentifier, for: indexPath) as? FormPasswordCell
             }
+            if let cell = cell, let data = cellTemplate.data as? FormPasswordCell.Data {
+                cell.update(data)
+            }
+            return cell ?? UICollectionViewCell()
         case .spacer:
-            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormSpacerCell.reuseIdentifier(), for: indexPath) as? FormSpacerCell {
-                if let data = cellTemplate.data as? FormSpacerCell.Data {
-                    cell.update(data)
-                }
-                return cell
+            var cell: FormSpacerCell?
+            if sizingOnly {
+                cell = FormSpacerCell.nib.instantiate(withOwner: self, options: nil).first as? FormSpacerCell
+            } else {
+                cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormSpacerCell.reuseIdentifier, for: indexPath) as? FormSpacerCell
             }
+            if let cell = cell, let data = cellTemplate.data as? FormSpacerCell.Data {
+                cell.update(data)
+            }
+            return cell ?? UICollectionViewCell()
         case .custom:
             if let customCell = cellTemplate.customCell {
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: customCell), for: indexPath)
-                return self.delegate?.formViewController(self, updateCustomCell: cell, forCellId: cellTemplate.id) ?? UICollectionViewCell()
+                var cell: UICollectionViewCell?
+                if sizingOnly, let customCell = cellTemplate.customCell {
+                    cell = customCell.nib.instantiate(withOwner: self, options: nil).first as? UICollectionViewCell
+                } else {
+                    cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: customCell), for: indexPath)
+                }
+                if let customCell = cell {
+                    cell = self.delegate?.formViewController(self, updateCustomCell: customCell, forCellId: cellTemplate.id) ?? UICollectionViewCell()
+                }
+                return cell ?? UICollectionViewCell()
             }
         }
         return UICollectionViewCell()
@@ -265,13 +305,13 @@ extension FormViewController: UICollectionViewDelegate, UICollectionViewDelegate
         let totalInteritemSpacing = (FormStyle.shared.interItemFieldSpacing)*CGFloat(rowItemCount-1)
         let availableWidth = collectionView.frame.size.width - margins - totalInteritemSpacing
         let width = cell.widthPercentage * availableWidth
-        
+        collectionView.cellForItem(at: indexPath)
         let size = calculateDynamicCellHeight(cellTemplate: cell, collectionView: collectionView, indexPath: indexPath)
         return CGSize(width: floor(width), height: size.height)
     }
 
     private func calculateDynamicCellHeight(cellTemplate: FormViewController.Cell, collectionView: UICollectionView, indexPath: IndexPath) -> CGSize {
-        let sizingCell = getConfiguredCell(cellTemplate: cellTemplate, collectionView: collectionView, indexPath: indexPath)
+        let sizingCell = getConfiguredCell(cellTemplate: cellTemplate, collectionView: collectionView, indexPath: indexPath, sizingOnly: true)
         sizingCell.setNeedsLayout()
         sizingCell.layoutIfNeeded()
         let size = sizingCell.contentView.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
@@ -336,7 +376,7 @@ extension FormViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         let cellTemplate = cells[indexPath.row]
-        let cell = getConfiguredCell(cellTemplate: cellTemplate, collectionView: collectionView, indexPath: indexPath)
+        let cell = getConfiguredCell(cellTemplate: cellTemplate, collectionView: collectionView, indexPath: indexPath, sizingOnly: false)
         cell.layoutIfNeeded()
         return cell
     }

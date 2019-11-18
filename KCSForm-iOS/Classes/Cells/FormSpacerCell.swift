@@ -7,7 +7,7 @@
 
 import UIKit
 
-public class FormSpacerCell: UICollectionViewCell, FormCell {
+public class FormSpacerCell: FormCell {
     
     public class Data: FormCellData {
         public var height: CGFloat = 1

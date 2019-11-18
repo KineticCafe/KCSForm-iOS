@@ -7,7 +7,7 @@
 //
 
 import UIKit
-public class FormLabelCell: UICollectionViewCell, FormCell {
+public class FormLabelCell: FormCell {
     
     public class Data: FormCellData {
         public var text: NSAttributedString

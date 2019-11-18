@@ -13,7 +13,7 @@ protocol FormButtonOptionsCellDelegate {
     func formButtonOptionsCell(_ cell: FormButtonOptionsCell, selectedOptionIndex: Int)
 }
 
-public class FormButtonOptionsCell: UICollectionViewCell, FormCell {
+public class FormButtonOptionsCell: FormCell {
     
     public class Data: FormCellData {
         public var title: String?

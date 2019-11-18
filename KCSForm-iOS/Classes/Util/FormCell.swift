@@ -7,13 +7,18 @@
 
 import UIKit
 
-protocol FormCell {
+open class FormCell: UICollectionViewCell {
     
-}
-
-extension FormCell {
+    public static var nibName: String {
+        return String(describing: self)
+    }
     
-    static func reuseIdentifier() -> String {
+    public static var nib: UINib {
+        let bundle = Bundle(for: self)
+        return UINib(nibName: nibName, bundle: bundle)
+    }
+    
+    public static var reuseIdentifier: String {
         return String(describing: self)
     }
     

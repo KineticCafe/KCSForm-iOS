@@ -18,7 +18,7 @@ protocol FormPasswordCellDelegate {
     
 }
 
-public class FormPasswordCell: UICollectionViewCell, FormCell {
+public class FormPasswordCell: FormCell {
     
     public class Data: FormCellData {
         public var title: String

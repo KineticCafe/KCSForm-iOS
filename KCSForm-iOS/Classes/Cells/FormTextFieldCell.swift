@@ -18,7 +18,7 @@ protocol FormTextFieldCellDelegate {
     
 }
 
-public class FormTextFieldCell: UICollectionViewCell, FormCell {
+public class FormTextFieldCell: FormCell {
     
     public class Data: FormCellData {
         public var title: String?

@@ -13,7 +13,7 @@ protocol FormDropdownCellDelegate {
     func formDropdownCell(_ cell: FormDropdownCell, selected index: Int)
 }
 
-public class FormDropdownCell: UICollectionViewCell, FormCell {
+public class FormDropdownCell: FormCell {
     
     public class Data: FormCellData {
         public var title: String?

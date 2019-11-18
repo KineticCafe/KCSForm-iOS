@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class FormSectionTitleCell: UICollectionViewCell, FormCell {
+public class FormSectionTitleCell: FormCell {
     
     public class Data: FormCellData {
         public var title: String
@@ -20,7 +20,7 @@ public class FormSectionTitleCell: UICollectionViewCell, FormCell {
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var topConstraint: NSLayoutConstraint!
     @IBOutlet var bottomConstraint: NSLayoutConstraint!
-
+    
     override public func awakeFromNib() {
         super.awakeFromNib()
 

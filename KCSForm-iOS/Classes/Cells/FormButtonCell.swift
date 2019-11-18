@@ -14,7 +14,7 @@ protocol FormButtonCellDelegate {
     
 }
 
-public class FormButtonCell: UICollectionViewCell, FormCell {
+public class FormButtonCell: FormCell {
     
     @IBOutlet var button: FormButton!
     

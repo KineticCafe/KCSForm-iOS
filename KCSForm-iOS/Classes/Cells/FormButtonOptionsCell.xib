@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,36 +17,37 @@
                 <rect key="frame" x="0.0" y="0.0" width="397" height="72"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n3s-L2-UoL">
-                        <rect key="frame" x="0.0" y="0.0" width="397" height="28"/>
-                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="DMQ-Ix-wWQ">
-                        <rect key="frame" x="0.0" y="28" width="397" height="44"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="44" id="egl-11-mtb"/>
-                        </constraints>
+                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="NY5-PD-T90">
+                        <rect key="frame" x="0.0" y="0.0" width="397" height="72"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n3s-L2-UoL">
+                                <rect key="frame" x="0.0" y="0.0" width="397" height="28"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="DMQ-Ix-wWQ">
+                                <rect key="frame" x="0.0" y="28" width="397" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="egl-11-mtb"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
                     </stackView>
                 </subviews>
             </view>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="DMQ-Ix-wWQ" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="8Et-lg-9dt"/>
-                <constraint firstAttribute="bottom" secondItem="DMQ-Ix-wWQ" secondAttribute="bottom" id="SRR-1I-VpZ"/>
-                <constraint firstItem="DMQ-Ix-wWQ" firstAttribute="top" secondItem="n3s-L2-UoL" secondAttribute="bottom" id="UCR-yJ-XYg"/>
-                <constraint firstItem="n3s-L2-UoL" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="ZO3-c7-qsu"/>
-                <constraint firstAttribute="trailing" secondItem="DMQ-Ix-wWQ" secondAttribute="trailing" id="kMN-Ol-ubQ"/>
-                <constraint firstAttribute="trailing" secondItem="n3s-L2-UoL" secondAttribute="trailing" id="wR6-7g-OwF"/>
-                <constraint firstItem="n3s-L2-UoL" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="xDI-1c-nS5"/>
+                <constraint firstItem="NY5-PD-T90" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="3xQ-ua-dOB"/>
+                <constraint firstAttribute="trailing" secondItem="NY5-PD-T90" secondAttribute="trailing" id="BWl-H2-Stf"/>
+                <constraint firstItem="NY5-PD-T90" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="NKR-aR-5s4"/>
+                <constraint firstAttribute="bottom" secondItem="NY5-PD-T90" secondAttribute="bottom" id="eTa-kC-aXj"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="397" height="72"/>
             <connections>
+                <outlet property="groupStackView" destination="NY5-PD-T90" id="vOd-C0-rmL"/>
                 <outlet property="stackView" destination="DMQ-Ix-wWQ" id="FFe-5Y-eQ4"/>
                 <outlet property="stackViewHeightConstraint" destination="egl-11-mtb" id="qRp-WD-6En"/>
-                <outlet property="titleBottomConstraint" destination="UCR-yJ-XYg" id="Bhi-3Y-KDY"/>
                 <outlet property="titleLabel" destination="n3s-L2-UoL" id="A1g-YL-cpt"/>
             </connections>
             <point key="canvasLocation" x="197.59999999999999" y="141.22938530734635"/>

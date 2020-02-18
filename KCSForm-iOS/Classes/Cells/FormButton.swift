@@ -34,7 +34,7 @@ class FormButton: UIButton {
         } else {
             self.setTitleColor(FormStyle.shared.buttonLabelColor, for: .normal)
             self.setTitleColor(.white, for: .highlighted)
-            self.backgroundColor = .white
+            self.backgroundColor = .clear
         }
     }
     

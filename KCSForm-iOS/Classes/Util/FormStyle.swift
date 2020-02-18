@@ -21,11 +21,12 @@ public class FormStyle: NSObject {
     public var fieldBorderColor = UIColor.black
     public var fieldErrorColor = UIColor.black
     public var fieldDisabledColor = UIColor.black
+    public var tagBorderColor = UIColor.black
     
     public var buttonLabelColor = UIColor.black
     public var buttonBorderColor = UIColor.black
     
-    public var dropdownBackgroundColor = UIColor.white
+    public var dropdownBackgroundColor = UIColor.clear
     public var dropdownTextColor = UIColor.black
     
     public var sectionTitleColor = UIColor.black
@@ -69,6 +70,9 @@ public class FormStyle: NSObject {
     public var dropdownFont: UIFont = {
         return .systemFont(ofSize: UIFont.systemFontSize)
     }()
+    public var tagFont: UIFont = {
+        return .systemFont(ofSize: UIFont.systemFontSize)
+    }()
     
     
     //Sizes, Margins
@@ -95,6 +99,14 @@ public class FormStyle: NSObject {
     public var dropdownVerticalMargins: CGFloat = 0
     public var dropdownHorizontalMargins: CGFloat = 0
     public var dropdownTextAlignment: NSTextAlignment = .natural
+    public var buttonOptionHeight: CGFloat = 44
+    public var buttonOptionHorizontalSpacing: CGFloat = 10
+    public var tagInterItemSpacing: CGFloat = 0
+    public var tagLineSpacing: CGFloat = 0
+    public var tagPadding: CGFloat = 0
+    public var tagCornerRadius: CGFloat = 0
+    public var tagBorderWidth: CGFloat = 1
+    public var tagHeight: CGFloat = 50
     
     public enum TextFieldStyle {
         case box
@@ -103,6 +115,8 @@ public class FormStyle: NSObject {
     }
     public var textFieldStyle: TextFieldStyle = .box
     public var bounce: Bool = false
+    public var passwordShowImage: UIImage? = nil
+    public var passwordHideImage: UIImage? = nil
     
     private override init() {
         

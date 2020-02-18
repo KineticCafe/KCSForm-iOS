@@ -110,14 +110,14 @@
 			children = (
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* GroovyViewController.swift */,
+				BBA000AE222B78BF00FBE3C1 /* DefaultViewController.swift */,
+				BBA000B0222B78CA00FBE3C1 /* BasicViewController.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
 				BB96B988222B72AD00B7F9F8 /* ExampleCustomCell.swift */,
 				BB96B989222B72AD00B7F9F8 /* ExampleCustomCell.xib */,
-				BBA000AE222B78BF00FBE3C1 /* DefaultViewController.swift */,
-				BBA000B0222B78CA00FBE3C1 /* BasicViewController.swift */,
 			);
 			name = "Example for KCSForm-iOS";
 			path = "KCSForm-iOS";

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,50 +17,50 @@
                 <rect key="frame" x="0.0" y="0.0" width="424" height="80"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pGm-Tm-r8H">
-                        <rect key="frame" x="0.0" y="0.0" width="424" height="19.5"/>
-                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="A4m-JF-83n">
-                        <rect key="frame" x="0.0" y="19.5" width="424" height="44"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="44" id="x1r-uh-8hP"/>
-                        </constraints>
-                        <nil key="textColor"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <textInputTraits key="textInputTraits" autocorrectionType="no"/>
-                    </textField>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="error" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hdu-Io-kSx">
-                        <rect key="frame" x="0.0" y="63.5" width="424" height="16.5"/>
+                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="3fC-Ps-Wkh">
+                        <rect key="frame" x="0.0" y="0.0" width="424" height="60.5"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pGm-Tm-r8H">
+                                <rect key="frame" x="0.0" y="0.0" width="424" height="16.5"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="A4m-JF-83n">
+                                <rect key="frame" x="0.0" y="16.5" width="424" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="x1r-uh-8hP"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
+                            </textField>
+                        </subviews>
+                    </stackView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="error" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hdu-Io-kSx">
+                        <rect key="frame" x="0.0" y="52" width="424" height="28"/>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
             </view>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="Hdu-Io-kSx" firstAttribute="top" secondItem="A4m-JF-83n" secondAttribute="bottom" id="1dv-oU-7tf"/>
-                <constraint firstItem="A4m-JF-83n" firstAttribute="top" secondItem="pGm-Tm-r8H" secondAttribute="bottom" id="6Bb-C6-ZLt"/>
                 <constraint firstAttribute="bottom" secondItem="Hdu-Io-kSx" secondAttribute="bottom" id="BfC-iL-CC7"/>
-                <constraint firstAttribute="trailing" secondItem="pGm-Tm-r8H" secondAttribute="trailing" id="DhS-4B-XEI"/>
+                <constraint firstItem="3fC-Ps-Wkh" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="FJI-zA-hgw"/>
                 <constraint firstAttribute="trailing" secondItem="Hdu-Io-kSx" secondAttribute="trailing" id="GzX-HI-gHh"/>
-                <constraint firstItem="pGm-Tm-r8H" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Kni-BI-dAL"/>
-                <constraint firstAttribute="trailing" secondItem="A4m-JF-83n" secondAttribute="trailing" id="NFH-pv-rHu"/>
-                <constraint firstItem="A4m-JF-83n" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Q3s-FD-Lvc"/>
                 <constraint firstItem="Hdu-Io-kSx" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="VyC-Ku-bfd"/>
-                <constraint firstItem="pGm-Tm-r8H" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="t7l-4P-Sji"/>
+                <constraint firstItem="Hdu-Io-kSx" firstAttribute="top" secondItem="3fC-Ps-Wkh" secondAttribute="bottom" constant="8" symbolic="YES" id="c9m-17-z5W"/>
+                <constraint firstAttribute="trailing" secondItem="3fC-Ps-Wkh" secondAttribute="trailing" id="cBQ-Fy-irb"/>
+                <constraint firstItem="3fC-Ps-Wkh" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="ouX-R4-W5e"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="424" height="94"/>
             <connections>
                 <outlet property="errorLabel" destination="Hdu-Io-kSx" id="MD1-Mz-Cw2"/>
-                <outlet property="errorTopMarginConstraint" destination="1dv-oU-7tf" id="gx7-Tz-UA2"/>
+                <outlet property="errorTopMarginConstraint" destination="c9m-17-z5W" id="Sqr-ms-Xjy"/>
+                <outlet property="stackView" destination="3fC-Ps-Wkh" id="WB6-g0-VwH"/>
                 <outlet property="textField" destination="A4m-JF-83n" id="Eev-Li-i8n"/>
                 <outlet property="textFieldHeightConstraint" destination="x1r-uh-8hP" id="aMd-so-yLz"/>
-                <outlet property="titleBottomConstraint" destination="6Bb-C6-ZLt" id="KnF-vv-Ov2"/>
                 <outlet property="titleLabel" destination="pGm-Tm-r8H" id="1Ta-vU-GYt"/>
             </connections>
             <point key="canvasLocation" x="211.19999999999999" y="72.863568215892059"/>

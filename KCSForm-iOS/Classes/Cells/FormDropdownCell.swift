@@ -33,10 +33,11 @@ public class FormDropdownCell: FormCell {
 
     //MARK: - IBOutlets
     @IBOutlet var titleLabel: UILabel!
-    @IBOutlet var titleBottomConstraint: NSLayoutConstraint!
+    @IBOutlet var stackView: UIStackView!
     @IBOutlet var entryLabel: UILabel!
     @IBOutlet var entryView: UIView!
     @IBOutlet var indicatorImageView: UIImageView!
+    @IBOutlet var textFieldHeightConstraint: NSLayoutConstraint!
     
     //MARK: - Properties
     var delegate: FormDropdownCellDelegate?
@@ -68,7 +69,8 @@ public class FormDropdownCell: FormCell {
         
         self.titleLabel.textColor = FormStyle.shared.fieldTitleColor
         self.titleLabel.font = FormStyle.shared.fieldTitleFont
-        self.titleBottomConstraint.constant = FormStyle.shared.fieldTitleBottomMargin
+        self.stackView.spacing = FormStyle.shared.fieldTitleBottomMargin
+        self.textFieldHeightConstraint.constant = FormTextFieldCell.textFieldHeight
         
         let bundle = Bundle(for: FormViewController.self)
         let bundleURL = bundle.resourceURL?.appendingPathComponent("Images.bundle")
@@ -78,7 +80,7 @@ public class FormDropdownCell: FormCell {
         self.indicatorImageView.tintColor = FormStyle.shared.fieldBorderColor
         
         entryView.layer.masksToBounds = true
-        entryView.backgroundColor = .white
+        entryView.backgroundColor = .clear
         entryLabel.textColor = FormStyle.shared.fieldPlaceholderColor
         entryLabel.font = FormStyle.shared.fieldPlaceholderFont
         entryLabel.tintColor = FormStyle.shared.fieldEntryColor
@@ -132,11 +134,8 @@ public class FormDropdownCell: FormCell {
     public func update(_ data: Data) {
         
         isEditable = data.isEditable
-        var title = data.title
-        if title == nil || title?.count == 0 {
-            title = " "
-        }
-        titleLabel.text = title
+        titleLabel.isHidden = (data.title == nil)
+        titleLabel.text = data.title
         if (data.selection == nil || data.selection?.count == 0) && isEditable {
             entryLabel.text = data.placeholder
             entryLabel.textColor = FormStyle.shared.fieldPlaceholderColor

@@ -15,15 +15,19 @@ protocol FormCheckboxOptionsCellDelegate {
 public class FormCheckboxOptionsCell: FormCell {
     
     public class Data: FormCellData {
+        public var title: String?
         public var options: [String]
         public var optionStates: [String: Bool]
         
-        public init(options: [String], optionStates: [String: Bool]) {
+        public init(title: String?, options: [String], optionStates: [String: Bool]) {
+            self.title = title
             self.options = options
             self.optionStates = optionStates
         }
     }
     
+    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var groupStackView: UIStackView!
     @IBOutlet var stackView: UIStackView!
     
     fileprivate var checkboxViews = [CheckboxView]()
@@ -34,19 +38,24 @@ public class FormCheckboxOptionsCell: FormCell {
     public override func awakeFromNib() {
         super.awakeFromNib()
         
+        self.titleLabel.textColor = FormStyle.shared.fieldTitleColor
+        self.titleLabel.font = FormStyle.shared.fieldTitleFont
         self.stackView.spacing = FormStyle.shared.checkboxItemSpacing
+        //Add 5 below to the default because something about the stackview makes it lose 5 pixels, trust me.
+        self.groupStackView.spacing = FormStyle.shared.fieldTitleBottomMargin+5
         
     }
     
     public func update(_ data: Data) {
      
+        self.titleLabel.isHidden = (data.title == nil)
+        self.titleLabel.text = data.title
         self.options = data.options
         clearStackView()
         for (index, option) in data.options.enumerated() {
             let checkboxView = createCheckboxView(index, title: option, selected: data.optionStates[option] ?? false)
             checkboxViews.append(checkboxView)
             stackView.addArrangedSubview(checkboxView)
-            //checkboxView.heightAnchor.constraint(equalToConstant: 65).isActive = true
         }
         
     }

@@ -22,6 +22,7 @@ class BasicViewController: UIViewController {
         case postalCode
         case gender
         case section2
+        case interests
         case contactOptions
         case password
         case optIn
@@ -87,6 +88,12 @@ class BasicViewController: UIViewController {
         FormStyle.shared.dropdownVerticalMargins = 0
         FormStyle.shared.dropdownHorizontalMargins = 15
         FormStyle.shared.dropdownTextAlignment = .natural
+        FormStyle.shared.tagInterItemSpacing = 10
+        FormStyle.shared.tagLineSpacing = 10
+        FormStyle.shared.tagPadding = 20
+        FormStyle.shared.tagCornerRadius = 10
+        FormStyle.shared.tagBorderWidth = 1
+        FormStyle.shared.tagHeight = 30
         
         FormStyle.shared.fieldTitleFont = UIFont.systemFont(ofSize: 14, weight: .medium)
         FormStyle.shared.sectionTitleFont = UIFont.systemFont(ofSize: 24, weight: .bold)
@@ -122,8 +129,10 @@ class BasicViewController: UIViewController {
                                              data: FormButtonOptionsCell.Data(title: "Gender", multiSelect: false, options: ["Male", "Female", "Other"])))
         cells.append(FormViewController.Cell(id: CellId.section2.rawValue, type: .title, widthPercentage: 1.0,
                                              data: FormSectionTitleCell.Data(title: "Section Two")))
+        cells.append(FormViewController.Cell(id: CellId.interests.rawValue, type: .tags, widthPercentage: 1.0,
+                                             data: FormTagsCell.Data(title: "Interests", multiSelect: true, dynamicSize: true, selectedOptionIndex: nil, options: ["Biking", "Skiing", "Running", "Origami", "Sitting", "Walking Aimlessly"])))
         cells.append(FormViewController.Cell(id: CellId.contactOptions.rawValue, type: .checkboxOptions, widthPercentage: 1.0,
-                                             data: FormCheckboxOptionsCell.Data(options: ["Phone", "Email", "Snail Mail", "Carrier Pidgeon"], optionStates: ["Phone": false, "Email": false])))
+                                             data: FormCheckboxOptionsCell.Data(title: "Contact Methods", options: ["Phone", "Email", "Snail Mail", "Carrier Pidgeon"], optionStates: ["Phone": false, "Email": false])))
         cells.append(FormViewController.Cell(id: CellId.password.rawValue, type: .password, widthPercentage: 1.0,
                                              data: FormPasswordCell.Data(title: "Password", password: "", placeholder: "********")))
         cells.append(FormViewController.Cell(id: CellId.optIn.rawValue, type: .custom, widthPercentage: 1.0, data: nil, customCell: ExampleCustomCell.self))

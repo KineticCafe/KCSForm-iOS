@@ -40,6 +40,7 @@ public class FormViewController: UIViewController {
         case dropdown
         case password
         case spacer
+        case tags
         case custom
     }
     
@@ -81,6 +82,7 @@ public class FormViewController: UIViewController {
         collectionView.register(UINib(nibName: FormLabelCell.nibName, bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormLabelCell.reuseIdentifier)
         collectionView.register(UINib(nibName: FormButtonCell.nibName, bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormButtonCell.reuseIdentifier)
         collectionView.register(UINib(nibName: FormPasswordCell.nibName, bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormPasswordCell.reuseIdentifier)
+        collectionView.register(UINib(nibName: FormTagsCell.nibName, bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormTagsCell.reuseIdentifier)
         collectionView.register(UINib(nibName: FormSpacerCell.nibName, bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormSpacerCell.reuseIdentifier)
         
         if #available(iOS 11, *) {
@@ -191,6 +193,7 @@ public class FormViewController: UIViewController {
                 cell = FormTextFieldCell.nib.instantiate(withOwner: self, options: nil).first as? FormTextFieldCell
             } else {
                 cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormTextFieldCell.reuseIdentifier, for: indexPath) as? FormTextFieldCell
+                cell?.delegate = self
             }
             if let cell = cell, let data = cellTemplate.data as? FormTextFieldCell.Data {
                 cell.update(data)
@@ -202,6 +205,7 @@ public class FormViewController: UIViewController {
                 cell = FormButtonOptionsCell.nib.instantiate(withOwner: self, options: nil).first as? FormButtonOptionsCell
             } else {
                 cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormButtonOptionsCell.reuseIdentifier, for: indexPath) as? FormButtonOptionsCell
+                cell?.delegate = self
             }
             if let cell = cell, let data = cellTemplate.data as? FormButtonOptionsCell.Data {
                 cell.update(data)
@@ -213,6 +217,7 @@ public class FormViewController: UIViewController {
                 cell = FormDropdownCell.nib.instantiate(withOwner: self, options: nil).first as? FormDropdownCell
             } else {
                 cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormDropdownCell.reuseIdentifier, for: indexPath) as? FormDropdownCell
+                cell?.delegate = self
             }
             if let cell = cell, let data = cellTemplate.data as? FormDropdownCell.Data {
                 cell.update(data)
@@ -235,6 +240,7 @@ public class FormViewController: UIViewController {
                 cell = FormButtonCell.nib.instantiate(withOwner: self, options: nil).first as? FormButtonCell
             } else {
                 cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormButtonCell.reuseIdentifier, for: indexPath) as? FormButtonCell
+                cell?.delegate = self
             }
             if let cell = cell, let data = cellTemplate.data as? FormButtonCell.Data {
                 cell.update(data)
@@ -246,6 +252,7 @@ public class FormViewController: UIViewController {
                 cell = FormCheckboxOptionsCell.nib.instantiate(withOwner: self, options: nil).first as? FormCheckboxOptionsCell
             } else {
                 cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormCheckboxOptionsCell.reuseIdentifier, for: indexPath) as? FormCheckboxOptionsCell
+                cell?.delegate = self
             }
             if let cell = cell, let data = cellTemplate.data as? FormCheckboxOptionsCell.Data {
                 cell.update(data)
@@ -257,6 +264,7 @@ public class FormViewController: UIViewController {
                 cell = FormPasswordCell.nib.instantiate(withOwner: self, options: nil).first as? FormPasswordCell
             } else {
                 cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormPasswordCell.reuseIdentifier, for: indexPath) as? FormPasswordCell
+                cell?.delegate = self
             }
             if let cell = cell, let data = cellTemplate.data as? FormPasswordCell.Data {
                 cell.update(data)
@@ -270,6 +278,18 @@ public class FormViewController: UIViewController {
                 cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormSpacerCell.reuseIdentifier, for: indexPath) as? FormSpacerCell
             }
             if let cell = cell, let data = cellTemplate.data as? FormSpacerCell.Data {
+                cell.update(data)
+            }
+            return cell ?? UICollectionViewCell()
+        case .tags:
+            var cell: FormTagsCell?
+            if sizingOnly {
+                cell = FormTagsCell.nib.instantiate(withOwner: self, options: nil).first as? FormTagsCell
+            } else {
+                cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormTagsCell.reuseIdentifier, for: indexPath) as? FormTagsCell
+                cell?.delegate = self
+            }
+            if let cell = cell, let data = cellTemplate.data as? FormTagsCell.Data {
                 cell.update(data)
             }
             return cell ?? UICollectionViewCell()
@@ -305,13 +325,13 @@ extension FormViewController: UICollectionViewDelegate, UICollectionViewDelegate
         let totalInteritemSpacing = (FormStyle.shared.interItemFieldSpacing)*CGFloat(rowItemCount-1)
         let availableWidth = collectionView.frame.size.width - margins - totalInteritemSpacing
         let width = cell.widthPercentage * availableWidth
-        collectionView.cellForItem(at: indexPath)
-        let size = calculateDynamicCellHeight(cellTemplate: cell, collectionView: collectionView, indexPath: indexPath)
+        let size = calculateDynamicCellHeight(cellTemplate: cell, width: width, collectionView: collectionView, indexPath: indexPath)
         return CGSize(width: floor(width), height: size.height)
     }
 
-    private func calculateDynamicCellHeight(cellTemplate: FormViewController.Cell, collectionView: UICollectionView, indexPath: IndexPath) -> CGSize {
+    private func calculateDynamicCellHeight(cellTemplate: FormViewController.Cell, width: CGFloat, collectionView: UICollectionView, indexPath: IndexPath) -> CGSize {
         let sizingCell = getConfiguredCell(cellTemplate: cellTemplate, collectionView: collectionView, indexPath: indexPath, sizingOnly: true)
+        sizingCell.frame = CGRect(x: 0, y: 0, width: width, height: 0)
         sizingCell.setNeedsLayout()
         sizingCell.layoutIfNeeded()
         let size = sizingCell.contentView.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
@@ -526,6 +546,22 @@ extension FormViewController: FormPasswordCellDelegate {
         }
         textField.resignFirstResponder()
         return false
+    }
+    
+}
+
+extension FormViewController: FormTagsCellDelegate {
+    
+    func formTagsCell(_ cell: FormTagsCell, selectedOptionIndex: Int) {
+        let indexPath = collectionView.indexPath(for: cell)
+        guard let row = indexPath?.row, let cells = cells else {
+            return
+        }
+        let masterCell = cells[row]
+        if let data = masterCell.data as? FormTagsCell.Data {
+            data.selectedOptions = cell.selectedOptions
+        }
+        delegate?.formViewController(self, selectedIndex: selectedOptionIndex, forCellId: masterCell.id)
     }
     
 }

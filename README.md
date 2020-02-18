@@ -133,6 +133,10 @@ func formViewController(_ controller: FormViewController, updatedText: String?, 
 
 ![alt text](https://github.com/KineticCafe/KCSForm-iOS/raw/master/Component-Images/button-options.png "Button Options")
 
+### Tags
+
+![alt text](https://github.com/KineticCafe/KCSForm-iOS/raw/master/Component-Images/tags.png "Tags")
+
 ### Checkbox Options
 
 ![alt text](https://github.com/KineticCafe/KCSForm-iOS/raw/master/Component-Images/checkbox-options.png "Checkbox Options")

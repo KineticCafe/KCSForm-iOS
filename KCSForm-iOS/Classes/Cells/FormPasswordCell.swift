@@ -33,25 +33,32 @@ public class FormPasswordCell: FormCell {
     }
     
     @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var textFieldHeightConstraint: NSLayoutConstraint!
     @IBOutlet var passwordTextField: UITextField!
     @IBOutlet var showHideImageView: UIImageView!
-    @IBOutlet var titleBottomConstraint: NSLayoutConstraint!
+    @IBOutlet var stackView: UIStackView!
     
     var delegate: FormPasswordCellDelegate?
     private var showPassword = false
     
     private lazy var showImage: UIImage? = {
+        if FormStyle.shared.passwordShowImage != nil {
+            return FormStyle.shared.passwordShowImage?.withRenderingMode(.alwaysOriginal)
+        }
         let bundle = Bundle(for: FormViewController.self)
         let bundleURL = bundle.resourceURL?.appendingPathComponent("Images.bundle")
         let resourceBundle = Bundle(url: bundleURL!)
-        return UIImage(named: "ic_show", in: resourceBundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+        return UIImage(named: "ic_show", in: resourceBundle, compatibleWith: nil)?.withRenderingMode(.alwaysOriginal)
     }()
     
     private lazy var hideImage: UIImage? = {
+        if FormStyle.shared.passwordHideImage != nil {
+            return FormStyle.shared.passwordHideImage?.withRenderingMode(.alwaysOriginal)
+        }
         let bundle = Bundle(for: FormViewController.self)
         let bundleURL = bundle.resourceURL?.appendingPathComponent("Images.bundle")
         let resourceBundle = Bundle(url: bundleURL!)
-        return UIImage(named: "ic_hide", in: resourceBundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+        return UIImage(named: "ic_hide", in: resourceBundle, compatibleWith: nil)?.withRenderingMode(.alwaysOriginal)
     }()
     
     private lazy var underlineLayer: CALayer = {
@@ -69,7 +76,7 @@ public class FormPasswordCell: FormCell {
         titleLabel.font = FormStyle.shared.fieldTitleFont
         passwordTextField.textColor = FormStyle.shared.fieldEntryColor
         passwordTextField.font = FormStyle.shared.fieldEntryFont
-        passwordTextField.backgroundColor = .white
+        passwordTextField.backgroundColor = .clear
         passwordTextField.addTarget(self, action: #selector(onTextChange), for: .editingChanged)
         passwordTextField.delegate = self
         passwordTextField.leftViewMode = .always
@@ -78,6 +85,7 @@ public class FormPasswordCell: FormCell {
         passwordTextField.rightView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
         showHideImageView.tintColor = FormStyle.shared.fieldBorderColor
         showHideImageView.image = hideImage
+        textFieldHeightConstraint.constant = FormTextFieldCell.textFieldHeight
         
         switch (FormStyle.shared.textFieldStyle) {
         case .box:
@@ -97,16 +105,13 @@ public class FormPasswordCell: FormCell {
             break
         }
         
-        titleBottomConstraint.constant = FormStyle.shared.fieldTitleBottomMargin
+        stackView.spacing = FormStyle.shared.fieldTitleBottomMargin
         
     }
     
     public func update(_ data: Data) {
-        var title = data.title
-        if title.count == 0 {
-            title = " "
-        }
-        self.titleLabel.text = title
+        titleLabel.isHidden = (data.title == nil)
+        self.titleLabel.text = data.title
         if let placeholder = data.placeholder {
             let attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedStringKey.foregroundColor : FormStyle.shared.fieldPlaceholderColor])
             self.passwordTextField.attributedPlaceholder = attributedPlaceholder

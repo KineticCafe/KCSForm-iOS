@@ -46,7 +46,7 @@ public class FormTextFieldCell: FormCell {
     
     //IBOutlets
     @IBOutlet private var titleLabel: UILabel!
-    @IBOutlet var titleBottomConstraint: NSLayoutConstraint!
+    @IBOutlet var stackView: UIStackView!
     @IBOutlet private var textField: UITextField!
     @IBOutlet private var textFieldHeightConstraint: NSLayoutConstraint!
     @IBOutlet private var errorLabel: UILabel!
@@ -86,11 +86,11 @@ public class FormTextFieldCell: FormCell {
         
         self.titleLabel.textColor = FormStyle.shared.fieldTitleColor
         self.titleLabel.font = FormStyle.shared.fieldTitleFont
-        self.titleBottomConstraint.constant = FormStyle.shared.fieldTitleBottomMargin
+        self.stackView.spacing = FormStyle.shared.fieldTitleBottomMargin
         
         textField.addTarget(self, action: #selector(onTextChange), for: .editingChanged)
         textField.delegate = self
-        textField.backgroundColor = .white
+        textField.backgroundColor = .clear
         textField.textColor = FormStyle.shared.fieldEntryColor
         textField.tintColor = FormStyle.shared.formTint
         textField.leftViewMode = .always
@@ -134,11 +134,8 @@ public class FormTextFieldCell: FormCell {
     /* Public update function */
     public func update(_ data: Data) {
         
-        var title = data.title
-        if title == nil || title?.count == 0 {
-            title = " "
-        }
-        titleLabel.text = title
+        titleLabel.isHidden = (data.title == nil)
+        titleLabel.text = data.title
         textField.text = data.text
         
         if data.isEditable, let placeholder = data.placeholder {

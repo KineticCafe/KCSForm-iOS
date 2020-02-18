@@ -21,7 +21,7 @@ public class FormButtonOptionsCell: FormCell {
         public var multiSelect: Bool
         public var options: [String]
         
-        public init(title: String? = nil, multiSelect: Bool, selectedOptionIndex: [Int]? = nil, options: [String]) {
+        public init(title: String?, multiSelect: Bool, selectedOptionIndex: [Int]? = nil, options: [String]) {
             self.title = title
             self.multiSelect = multiSelect
             self.selectedOptions = selectedOptionIndex
@@ -31,17 +31,11 @@ public class FormButtonOptionsCell: FormCell {
 
     //IBOutlets
     @IBOutlet var titleLabel: UILabel!
-    @IBOutlet var titleBottomConstraint: NSLayoutConstraint!
+    @IBOutlet var groupStackView: UIStackView!
     @IBOutlet var stackView: UIStackView!
     @IBOutlet var stackViewHeightConstraint: NSLayoutConstraint!
     
     //MARK: - Constants
-    
-    /* The space between option buttons */
-    public static var buttonHorizontalSpacing: CGFloat                     = 10
-    
-    /* The option button height */
-    public static var buttonHeightConstraint: CGFloat                      = 44
     
     
     //MARK: - Properties
@@ -56,19 +50,16 @@ public class FormButtonOptionsCell: FormCell {
         
         self.titleLabel.textColor = FormStyle.shared.fieldTitleColor
         self.titleLabel.font = FormStyle.shared.fieldTitleFont
-        self.titleBottomConstraint.constant = FormStyle.shared.fieldTitleBottomMargin
+        self.groupStackView.spacing = FormStyle.shared.fieldTitleBottomMargin
     }
     
     public func update(_ data: Data) {
         
-        stackViewHeightConstraint.constant = FormButtonOptionsCell.buttonHeightConstraint
-        stackView.spacing = FormButtonOptionsCell.buttonHorizontalSpacing
+        stackViewHeightConstraint.constant = FormStyle.shared.buttonOptionHeight
+        stackView.spacing = FormStyle.shared.buttonOptionHorizontalSpacing
         
-        var title = data.title
-        if title == nil || title?.count == 0 {
-            title = " "
-        }
-        titleLabel.text = title
+        titleLabel.isHidden = (data.title == nil)
+        titleLabel.text = data.title
         self.multiSelect = data.multiSelect
         
         updateOptions(data.options, selectedOptions: data.selectedOptions ?? [])
@@ -111,7 +102,7 @@ public class FormButtonOptionsCell: FormCell {
             button.backgroundColor = FormStyle.shared.fieldBorderColor
             button.setTitleColor(.white, for: .normal)
         } else {
-            button.backgroundColor = .white
+            button.backgroundColor = .clear
             button.setTitleColor(FormStyle.shared.buttonLabelColor, for: .normal)
         }
         

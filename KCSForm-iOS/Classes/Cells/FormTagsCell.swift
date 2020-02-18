@@ -62,11 +62,7 @@ public class FormTagsCell: FormCell {
         self.dynamicSize = data.dynamicSize
         self.options = data.options
         largestWidth = getWidthOfLargestOption(data.options)
-        if let selectedOptions = data.selectedOptions {
-            self.selectedOptions = selectedOptions
-        } else {
-            selectedOptions = []
-        }
+        self.selectedOptions = data.selectedOptions ?? []
         self.collectionView.reloadData()
         self.collectionView.layoutIfNeeded()
     }

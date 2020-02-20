@@ -41,6 +41,7 @@ public class FormViewController: UIViewController {
         case password
         case spacer
         case tags
+        case colorOptions
         case custom
     }
     
@@ -84,6 +85,7 @@ public class FormViewController: UIViewController {
         collectionView.register(UINib(nibName: FormPasswordCell.nibName, bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormPasswordCell.reuseIdentifier)
         collectionView.register(UINib(nibName: FormTagsCell.nibName, bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormTagsCell.reuseIdentifier)
         collectionView.register(UINib(nibName: FormSpacerCell.nibName, bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormSpacerCell.reuseIdentifier)
+        collectionView.register(UINib(nibName: FormColorOptionsCell.nibName, bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormColorOptionsCell.reuseIdentifier)
         
         if #available(iOS 11, *) {
             collectionView.contentInsetAdjustmentBehavior = .never
@@ -293,6 +295,18 @@ public class FormViewController: UIViewController {
                 cell.update(data)
             }
             return cell ?? UICollectionViewCell()
+        case .colorOptions:
+            var cell: FormColorOptionsCell?
+            if sizingOnly {
+                cell = FormColorOptionsCell.nib.instantiate(withOwner: self, options: nil).first as? FormColorOptionsCell
+            } else {
+                cell = collectionView.dequeueReusableCell(withReuseIdentifier: FormColorOptionsCell.reuseIdentifier, for: indexPath) as? FormColorOptionsCell
+                cell?.delegate = self
+            }
+            if let cell = cell, let data = cellTemplate.data as? FormColorOptionsCell.Data {
+                cell.update(data)
+            }
+            return cell ?? UICollectionViewCell()
         case .custom:
             if let customCell = cellTemplate.customCell {
                 var cell: UICollectionViewCell?
@@ -472,7 +486,11 @@ extension FormViewController: FormDropdownCellDelegate {
         }
         let masterCell = cells[row]
         if let data = masterCell.data as? FormDropdownCell.Data {
-            data.selection = cell.options?[index]
+            if let stringOptions = cell.stringOptions {
+                data.stringSelection = stringOptions[index]
+            } else if let colorOptions = cell.colorOptions {
+                data.colorSelection = colorOptions[index]
+            }
         }
         delegate?.formViewController(self, selectedIndex: index, forCellId: masterCell.id)
         
@@ -553,6 +571,22 @@ extension FormViewController: FormPasswordCellDelegate {
 extension FormViewController: FormTagsCellDelegate {
     
     func formTagsCell(_ cell: FormTagsCell, selectedOptionIndex: Int) {
+        let indexPath = collectionView.indexPath(for: cell)
+        guard let row = indexPath?.row, let cells = cells else {
+            return
+        }
+        let masterCell = cells[row]
+        if let data = masterCell.data as? FormTagsCell.Data {
+            data.selectedOptions = cell.selectedOptions
+        }
+        delegate?.formViewController(self, selectedIndex: selectedOptionIndex, forCellId: masterCell.id)
+    }
+    
+}
+
+extension FormViewController: FormColorOptionsCellDelegate {
+    
+    func formColorOptionsCell(_ cell: FormColorOptionsCell, selectedOptionIndex: Int) {
         let indexPath = collectionView.indexPath(for: cell)
         guard let row = indexPath?.row, let cells = cells else {
             return

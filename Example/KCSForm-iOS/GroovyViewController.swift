@@ -24,6 +24,7 @@ class GroovyViewController: UIViewController {
         case section2
         case interests
         case contactOptions
+        case color
         case password
         case optIn
         case someLabel
@@ -87,8 +88,6 @@ class GroovyViewController: UIViewController {
         FormStyle.shared.titleSubTitleBottomMargin = 10
         FormStyle.shared.titleSubTitleVerticalSpacing = 10
         FormStyle.shared.errorTopMargin = 5
-        FormStyle.shared.dropdownVerticalMargins = 0
-        FormStyle.shared.dropdownHorizontalMargins = 15
         FormStyle.shared.dropdownTextAlignment = .center
         
         FormStyle.shared.fieldTitleFont = UIFont.systemFont(ofSize: 14, weight: .medium)
@@ -131,6 +130,8 @@ class GroovyViewController: UIViewController {
                                              data: FormCheckboxOptionsCell.Data(title: "Contact Methods", options: ["Phone", "Email", "Snail Mail", "Carrier Pidgeon"], optionStates: ["Phone": false, "Email": false])))
         cells.append(FormViewController.Cell(id: CellId.password.rawValue, type: .password, widthPercentage: 1.0,
                                              data: FormPasswordCell.Data(title: "Password", password: "", placeholder: "********")))
+        cells.append(FormViewController.Cell(id: CellId.color.rawValue, type: .colorOptions, widthPercentage: 1.0,
+                                             data: FormColorOptionsCell.Data(title: "Color:", multiSelect: false, selectedOptionIndex: nil, options: [FormColor(.blue, "Blue"), FormColor(.black, "Black"), FormColor(.brown, "Brown"), FormColor(.cyan, "Cyan"), FormColor(.gray, "Gray"), FormColor(.green, "Green", available: false), FormColor(.magenta, "Magenta"), FormColor(.orange, "Orange"), FormColor(.purple, "Purple")])))
         cells.append(FormViewController.Cell(id: CellId.optIn.rawValue, type: .custom, widthPercentage: 1.0, data: nil, customCell: ExampleCustomCell.self))
         cells.append(FormViewController.Cell(id: CellId.someLabel.rawValue, type: .label, widthPercentage: 1.0,
                                              data: FormLabelCell.Data(text: NSAttributedString(string: "I am a label!"))))

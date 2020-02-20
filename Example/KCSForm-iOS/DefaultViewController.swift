@@ -24,6 +24,7 @@ class DefaultViewController: UIViewController {
         case section2
         case interests
         case contactOptions
+        case color
         case password
         case optIn
         case someLabel
@@ -45,8 +46,6 @@ class DefaultViewController: UIViewController {
             formController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor)
             ])
         
-        setFormStyle()
-        
         formController.cells = createTestCells()
         formController.reloadCollectionView()
         
@@ -55,50 +54,6 @@ class DefaultViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-    }
-    
-    private func setFormStyle() {
-        FormStyle.shared.fieldTitleColor = .black
-        FormStyle.shared.fieldEntryColor = .black
-        FormStyle.shared.fieldPlaceholderColor = .black
-        FormStyle.shared.fieldBorderColor = .black
-        FormStyle.shared.fieldErrorColor = .black
-        FormStyle.shared.fieldDisabledColor = .black
-        FormStyle.shared.buttonLabelColor = .black
-        FormStyle.shared.buttonBorderColor = .black
-        FormStyle.shared.sectionTitleColor = .black
-        FormStyle.shared.titleColor = .black
-        FormStyle.shared.subTitleColor = .black
-        FormStyle.shared.dropdownBackgroundColor = UIColor.white
-        FormStyle.shared.dropdownTextColor = UIColor.black
-        
-        FormStyle.shared.setFormMargins(leading: 0, trailing: 0, top: 0, bottom: 0)
-        FormStyle.shared.interItemFieldSpacing = 0
-        FormStyle.shared.lineSpacing = 1
-        FormStyle.shared.fieldTitleBottomMargin = 0
-        FormStyle.shared.sectionTitleTopMargin = 0
-        FormStyle.shared.sectionTitleBottomMargin = 0
-        FormStyle.shared.fieldCornerRadius = 0
-        FormStyle.shared.fieldBorderWidth = 1
-        FormStyle.shared.checkboxItemSpacing = 0
-        FormStyle.shared.titleSubTitleTopMargin = 0
-        FormStyle.shared.titleSubTitleBottomMargin = 0
-        FormStyle.shared.titleSubTitleVerticalSpacing = 0
-        FormStyle.shared.errorTopMargin = 0
-        FormStyle.shared.dropdownVerticalMargins = 0
-        FormStyle.shared.dropdownHorizontalMargins = 0
-        FormStyle.shared.dropdownTextAlignment = .natural
-        
-        FormStyle.shared.fieldTitleFont = .systemFont(ofSize: UIFont.systemFontSize)
-        FormStyle.shared.sectionTitleFont = .systemFont(ofSize: UIFont.systemFontSize)
-        FormStyle.shared.fieldButtonFont = .systemFont(ofSize: UIFont.systemFontSize)
-        FormStyle.shared.titleFont = .systemFont(ofSize: UIFont.systemFontSize)
-        FormStyle.shared.subTitleFont = .systemFont(ofSize: UIFont.systemFontSize)
-        FormStyle.shared.fieldErrorFont = .systemFont(ofSize: UIFont.systemFontSize)
-        FormStyle.shared.dropdownFont = .systemFont(ofSize: UIFont.systemFontSize)
-        
-        FormStyle.shared.textFieldStyle = .box
-        FormStyle.shared.bounce = false
     }
     
     private func createTestCells() -> [FormViewController.Cell] {
@@ -129,6 +84,8 @@ class DefaultViewController: UIViewController {
                                              data: FormCheckboxOptionsCell.Data(title: "Contact Methods", options: ["Phone", "Email", "Snail Mail", "Carrier Pidgeon"], optionStates: ["Phone": false, "Email": false])))
         cells.append(FormViewController.Cell(id: CellId.password.rawValue, type: .password, widthPercentage: 1.0,
                                              data: FormPasswordCell.Data(title: "Password", password: "", placeholder: "********")))
+        cells.append(FormViewController.Cell(id: CellId.color.rawValue, type: .colorOptions, widthPercentage: 1.0,
+                                             data: FormColorOptionsCell.Data(title: "Color:", multiSelect: false, selectedOptionIndex: nil, options: [FormColor(.blue, "Blue"), FormColor(.black, "Black"), FormColor(.brown, "Brown"), FormColor(.cyan, "Cyan"), FormColor(.gray, "Gray"), FormColor(.green, "Green", available: false), FormColor(.magenta, "Magenta"), FormColor(.orange, "Orange"), FormColor(.purple, "Purple")])))
         cells.append(FormViewController.Cell(id: CellId.optIn.rawValue, type: .custom, widthPercentage: 1.0, data: nil, customCell: ExampleCustomCell.self))
         cells.append(FormViewController.Cell(id: CellId.someLabel.rawValue, type: .label, widthPercentage: 1.0,
                                              data: FormLabelCell.Data(text: NSAttributedString(string: "I am a label!"))))

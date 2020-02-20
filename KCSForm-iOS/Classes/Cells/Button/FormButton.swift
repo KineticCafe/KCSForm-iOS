@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FormButton: UIButton {
+public class FormButton: UIButton {
     
     private var inverse = false
     

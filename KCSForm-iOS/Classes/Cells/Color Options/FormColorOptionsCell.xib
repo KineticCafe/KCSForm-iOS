@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment version="4352" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="FormColorOptionsCell" customModule="DropDown" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="351" height="144"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="351" height="144"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <stackView verifyAmbiguity="off" opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="HoY-8J-RQ0">
+                        <rect key="frame" x="0.0" y="0.0" width="351" height="144"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="nPt-AC-dfv">
+                                <rect key="frame" x="0.0" y="0.0" width="351" height="20.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="07B-vu-EKc">
+                                        <rect key="frame" x="0.0" y="0.0" width="38" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Color" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zhg-en-z9D">
+                                        <rect key="frame" x="45" y="0.0" width="306" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="kVR-kH-0zs" customClass="DynamicHeightCollectionView" customModule="KCSForm_iOS">
+                                <rect key="frame" x="0.0" y="20.5" width="351" height="123.5"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="R2x-mf-E8J">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <connections>
+                                    <outlet property="dataSource" destination="gTV-IL-0wX" id="qPB-x0-4Wv"/>
+                                    <outlet property="delegate" destination="gTV-IL-0wX" id="4vx-Z2-IJB"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
+                    </stackView>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="HoY-8J-RQ0" secondAttribute="trailing" id="DYD-f3-dAG"/>
+                <constraint firstItem="HoY-8J-RQ0" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Lnx-LF-hKm"/>
+                <constraint firstItem="HoY-8J-RQ0" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="SUO-74-9XA"/>
+                <constraint firstAttribute="bottom" secondItem="HoY-8J-RQ0" secondAttribute="bottom" id="ljE-Bg-nSx"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <size key="customSize" width="351" height="144"/>
+            <connections>
+                <outlet property="collectionView" destination="kVR-kH-0zs" id="Ec4-sM-LAa"/>
+                <outlet property="selectionLabel" destination="zhg-en-z9D" id="sKE-dM-KJq"/>
+                <outlet property="stackView" destination="HoY-8J-RQ0" id="qtv-CW-bR3"/>
+                <outlet property="titleLabel" destination="07B-vu-EKc" id="3Ae-Sv-m1K"/>
+                <outlet property="titlesStackView" destination="nPt-AC-dfv" id="wXG-oE-cFb"/>
+            </connections>
+            <point key="canvasLocation" x="348.55072463768118" y="184.82142857142856"/>
+        </collectionViewCell>
+    </objects>
+</document>

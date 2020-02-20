@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="ColorOptionCell" customModule="KCSForm_iOS" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aTO-dR-rsI">
+                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    </view>
+                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c4Y-n7-q9p">
+                        <rect key="frame" x="1" y="1" width="48" height="48"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstItem="c4Y-n7-q9p" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="1" id="5uM-jT-xtD"/>
+                <constraint firstAttribute="bottom" secondItem="aTO-dR-rsI" secondAttribute="bottom" id="HDC-FS-NZK"/>
+                <constraint firstItem="aTO-dR-rsI" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="KeU-vF-bTD"/>
+                <constraint firstItem="c4Y-n7-q9p" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="1" id="SpF-ez-j6S"/>
+                <constraint firstItem="aTO-dR-rsI" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="XeH-fU-77v"/>
+                <constraint firstAttribute="trailing" secondItem="aTO-dR-rsI" secondAttribute="trailing" id="emd-gq-3Bi"/>
+                <constraint firstAttribute="trailing" secondItem="c4Y-n7-q9p" secondAttribute="trailing" constant="1" id="fDq-eg-K2l"/>
+                <constraint firstAttribute="bottom" secondItem="c4Y-n7-q9p" secondAttribute="bottom" constant="1" id="qkh-n9-cWL"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <connections>
+                <outlet property="colorView" destination="aTO-dR-rsI" id="6sk-rh-6ui"/>
+                <outlet property="selectionMaskView" destination="c4Y-n7-q9p" id="DHa-Jd-QNK"/>
+            </connections>
+            <point key="canvasLocation" x="132" y="154"/>
+        </collectionViewCell>
+    </objects>
+</document>

@@ -10,10 +10,10 @@ import UIKit
 public class FormTitleSubtitleCell: FormCell {
     
     public class Data: FormCellData {
-        public var title: String
-        public var subTitle: String
+        public var title: String?
+        public var subTitle: String?
         
-        public init(title: String, subTitle: String) {
+        public init(title: String?, subTitle: String?) {
             self.title = title
             self.subTitle = subTitle
         }
@@ -21,9 +21,7 @@ public class FormTitleSubtitleCell: FormCell {
 
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var subTitleLabel: UILabel!
-    @IBOutlet var topMargin: NSLayoutConstraint!
-    @IBOutlet var bottomMargin: NSLayoutConstraint!
-    @IBOutlet var verticalMargin: NSLayoutConstraint!
+    @IBOutlet var stackView: UIStackView!
     
     override public func awakeFromNib() {
         super.awakeFromNib()
@@ -33,13 +31,13 @@ public class FormTitleSubtitleCell: FormCell {
         titleLabel.font = FormStyle.shared.titleFont
         subTitleLabel.font = FormStyle.shared.subTitleFont
         
-        topMargin.constant = FormStyle.shared.titleSubTitleTopMargin
-        bottomMargin.constant = FormStyle.shared.titleSubTitleBottomMargin
-        verticalMargin.constant = FormStyle.shared.titleSubTitleVerticalSpacing
+        stackView.spacing = FormStyle.shared.titleSubTitleVerticalSpacing
     }
     
     public func update(_ data: Data) {
+        self.titleLabel.isHidden = (data.title == nil)
         self.titleLabel.text = data.title
+        self.subTitleLabel.isHidden = (data.subTitle == nil)
         self.subTitleLabel.text = data.subTitle
     }
 

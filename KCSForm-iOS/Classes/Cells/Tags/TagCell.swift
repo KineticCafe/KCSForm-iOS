@@ -34,9 +34,11 @@ class TagCell: FormCell {
         if selected {
             self.contentView.backgroundColor = FormStyle.shared.fieldBorderColor
             self.label.textColor = .white
+            self.label.font = FormStyle.shared.tagSelectedFont
         } else {
             self.contentView.backgroundColor = .clear
             self.label.textColor = FormStyle.shared.buttonLabelColor
+            self.label.font = FormStyle.shared.tagFont
         }
     }
     

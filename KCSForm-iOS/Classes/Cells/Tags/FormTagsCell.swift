@@ -55,7 +55,6 @@ public class FormTagsCell: FormCell {
     }
     
     public func update(_ data: Data) {
-        
         self.titleLabel.isHidden = (data.title == nil)
         self.titleLabel.text = data.title
         self.multiSelect = data.multiSelect
@@ -146,6 +145,7 @@ extension FormTagsCell: UICollectionViewDelegate, UICollectionViewDelegateFlowLa
         } else {
             selectedOptions = [indexPath.row]
         }
+        self.delegate?.formTagsCell(self, selectedOptionIndex: indexPath.row)
         collectionView.reloadData()
     }
     

@@ -12,9 +12,7 @@ public class FormStyle: NSObject {
     public static let shared = FormStyle()
     
     
-    // -- FIELDS --
-    
-    //Colors
+    // MARK: - Colors
     public var fieldTitleColor = UIColor.black
     public var fieldEntryColor = UIColor.black
     public var fieldPlaceholderColor = UIColor.black
@@ -22,6 +20,7 @@ public class FormStyle: NSObject {
     public var fieldErrorColor = UIColor.black
     public var fieldDisabledColor = UIColor.black
     public var tagBorderColor = UIColor.black
+    public var selectedColorOptionLabelColor = UIColor.black
     
     public var buttonLabelColor = UIColor.black
     public var buttonBorderColor = UIColor.black
@@ -36,7 +35,7 @@ public class FormStyle: NSObject {
     public var formTint = UIColor.black
     
     
-    //Fonts
+    // MARK: - Fonts
     public var fieldTitleFont: UIFont = {
         return .systemFont(ofSize: UIFont.systemFontSize)
     }()
@@ -73,9 +72,15 @@ public class FormStyle: NSObject {
     public var tagFont: UIFont = {
         return .systemFont(ofSize: UIFont.systemFontSize)
     }()
+    public var tagSelectedFont: UIFont = {
+        return .systemFont(ofSize: UIFont.systemFontSize)
+    }()
+    public var selectedColorOptionFont: UIFont = {
+        return .systemFont(ofSize: UIFont.systemFontSize)
+    }()
     
     
-    //Sizes, Margins
+    // MARK: - Sizes, Margins
     public var leadingMargin: CGFloat = 0
     public var trailingMargin: CGFloat = 0
     public var topMargin: CGFloat = 0
@@ -96,8 +101,8 @@ public class FormStyle: NSObject {
     public var titleSubTitleBottomMargin: CGFloat = 0
     public var titleSubTitleVerticalSpacing: CGFloat = 0
     public var errorTopMargin: CGFloat = 0
-    public var dropdownVerticalMargins: CGFloat = 0
-    public var dropdownHorizontalMargins: CGFloat = 0
+    public var dropdownCellHeight: CGFloat = 44
+    public var dropdownHorizontalMargins: CGFloat = 15
     public var dropdownTextAlignment: NSTextAlignment = .natural
     public var buttonOptionHeight: CGFloat = 44
     public var buttonOptionHorizontalSpacing: CGFloat = 10
@@ -107,7 +112,11 @@ public class FormStyle: NSObject {
     public var tagCornerRadius: CGFloat = 0
     public var tagBorderWidth: CGFloat = 1
     public var tagHeight: CGFloat = 50
+    public var colorOptionSize: CGFloat = 30
+    public var colorOptionSpacing: CGFloat = 20
+    public var colorOptionCornerRadius: CGFloat = 0
     
+    // MARK: - Other
     public enum TextFieldStyle {
         case box
         case underline
@@ -117,6 +126,7 @@ public class FormStyle: NSObject {
     public var bounce: Bool = false
     public var passwordShowImage: UIImage? = nil
     public var passwordHideImage: UIImage? = nil
+    public var dropdownImage: UIImage? = nil
     
     private override init() {
         

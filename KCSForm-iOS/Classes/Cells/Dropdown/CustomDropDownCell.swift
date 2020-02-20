@@ -14,16 +14,23 @@ class CustomDropDownCell: DropDownCell {
     @IBOutlet var trailingConstraint: NSLayoutConstraint!
     @IBOutlet var colorView: UIView!
     @IBOutlet var stackView: UIStackView!
+    
+    public var style: FormStyle = FormStyle.shared {
+        didSet {
+            updateStyle()
+        }
+    }
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        self.optionLabel.textAlignment = FormStyle.shared.dropdownTextAlignment
-        self.contentView.backgroundColor = FormStyle.shared.dropdownBackgroundColor
-        
-        self.leadingConstraint.constant = FormStyle.shared.dropdownHorizontalMargins
-        self.trailingConstraint.constant = FormStyle.shared.dropdownHorizontalMargins
-        self.contentView.layoutIfNeeded()
+        updateStyle()
+    }
+    
+    private func updateStyle() {
+        self.optionLabel.textAlignment = self.style.dropdownTextAlignment
+        self.contentView.backgroundColor = self.style.dropdownBackgroundColor
+        self.leadingConstraint.constant = self.style.dropdownHorizontalMargins
+        self.trailingConstraint.constant = self.style.dropdownHorizontalMargins
     }
     
     public func setColor(_ formColor: FormColor) {

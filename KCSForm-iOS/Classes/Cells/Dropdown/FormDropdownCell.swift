@@ -66,9 +66,9 @@ public class FormDropdownCell: FormCell {
     
     private lazy var underlineLayer: CALayer = {
         let underline = CALayer()
-        underline.borderColor = FormStyle.shared.fieldBorderColor.cgColor
-        underline.frame = CGRect(x: 0, y: entryView.frame.size.height - FormStyle.shared.fieldBorderWidth, width: entryView.frame.size.width, height: entryView.frame.size.height)
-        underline.borderWidth = FormStyle.shared.fieldBorderWidth
+        underline.borderColor = self.style.fieldBorderColor.cgColor
+        underline.frame = CGRect(x: 0, y: entryView.frame.size.height - self.style.fieldBorderWidth, width: entryView.frame.size.width, height: entryView.frame.size.height)
+        underline.borderWidth = self.style.fieldBorderWidth
         return underline
     }()
     
@@ -81,39 +81,8 @@ public class FormDropdownCell: FormCell {
     
     private func setupUI() {
         
-        self.titleLabel.textColor = FormStyle.shared.fieldTitleColor
-        self.titleLabel.font = FormStyle.shared.fieldTitleFont
-        self.stackView.spacing = FormStyle.shared.fieldTitleBottomMargin
-        self.textFieldHeightConstraint.constant = FormTextFieldCell.textFieldHeight
-        self.entryViewLeadingConstraint.constant = FormStyle.shared.dropdownHorizontalMargins
-        self.entryViewTrailingConstraint.constant = FormStyle.shared.dropdownHorizontalMargins
-        
-        var dropdownImage: UIImage?
-        if FormStyle.shared.dropdownImage != nil {
-            dropdownImage = FormStyle.shared.dropdownImage
-        } else {
-            let bundle = Bundle(for: FormViewController.self)
-            let bundleURL = bundle.resourceURL?.appendingPathComponent("Images.bundle")
-            let resourceBundle = Bundle(url: bundleURL!)
-            dropdownImage = UIImage(named: "ic_dropdown", in: resourceBundle, compatibleWith: nil)
-        }
-        self.indicatorImageView.image = dropdownImage?.withRenderingMode(.alwaysOriginal)
-        self.indicatorImageView.tintColor = FormStyle.shared.fieldBorderColor
-        
-        entryView.layer.masksToBounds = true
-        entryView.backgroundColor = .clear
-        entryLabel.textColor = FormStyle.shared.fieldPlaceholderColor
-        entryLabel.font = FormStyle.shared.fieldPlaceholderFont
-        entryLabel.tintColor = FormStyle.shared.fieldEntryColor
-        entryColorView.layer.cornerRadius = FormStyle.shared.colorOptionCornerRadius
-        
-        updateStyle()
-        
         DropDown.startListeningToKeyboard()
         dropDown.anchorView = self.entryView
-        dropDown.textFont = FormStyle.shared.dropdownFont
-        dropDown.textColor = FormStyle.shared.dropdownTextColor
-        dropDown.selectedTextColor = FormStyle.shared.dropdownTextColor
         dropDown.cellNib = UINib(nibName: "CustomDropDownCell", bundle: Bundle(for: FormViewController.self))
         dropDown.customCellConfiguration = { (index: Index, item: String, cell: DropDownCell) -> Void in
             guard let cell = cell as? CustomDropDownCell else { return }
@@ -125,7 +94,7 @@ public class FormDropdownCell: FormCell {
         }
         self.dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
             self.entryLabel.text = item
-            self.entryLabel.textColor = FormStyle.shared.fieldEntryColor
+            self.entryLabel.textColor = self.style.fieldEntryColor
             if let colorOptions = self.colorOptions {
                 self.entryColorView.backgroundColor = colorOptions[index].color
                 self.entryColorView.isHidden = false
@@ -137,13 +106,42 @@ public class FormDropdownCell: FormCell {
         }
     }
     
-    private func updateStyle() {
+    internal override func updateStyle() {
+        var dropdownImage: UIImage?
+        if self.style.dropdownImage != nil {
+            dropdownImage = self.style.dropdownImage
+        } else {
+            let bundle = Bundle(for: FormViewController.self)
+            let bundleURL = bundle.resourceURL?.appendingPathComponent("Images.bundle")
+            let resourceBundle = Bundle(url: bundleURL!)
+            dropdownImage = UIImage(named: "ic_dropdown", in: resourceBundle, compatibleWith: nil)
+        }
+        self.indicatorImageView.image = dropdownImage?.withRenderingMode(.alwaysOriginal)
+        self.indicatorImageView.tintColor = self.style.fieldBorderColor
+        
+        self.dropDown.textFont = self.style.dropdownFont
+        self.dropDown.textColor = self.style.dropdownTextColor
+        self.dropDown.selectedTextColor = self.style.dropdownTextColor
+        
+        self.entryView.layer.masksToBounds = true
+        self.entryView.backgroundColor = .clear
+        self.entryLabel.textColor = self.style.fieldPlaceholderColor
+        self.entryLabel.font = self.style.fieldPlaceholderFont
+        self.entryLabel.tintColor = self.style.fieldEntryColor
+        self.entryColorView.layer.cornerRadius = self.style.colorOptionCornerRadius
+        self.titleLabel.textColor = self.style.fieldTitleColor
+        self.titleLabel.font = self.style.fieldTitleFont
+        self.stackView.spacing = self.style.fieldTitleBottomMargin
+        self.textFieldHeightConstraint.constant = FormTextFieldCell.textFieldHeight
+        self.entryViewLeadingConstraint.constant = self.style.dropdownHorizontalMargins
+        self.entryViewTrailingConstraint.constant = self.style.dropdownHorizontalMargins
+        
         if isEditable {
-            switch (FormStyle.shared.textFieldStyle) {
+            switch (self.style.textFieldStyle) {
             case .box:
-                entryView.layer.cornerRadius = FormStyle.shared.fieldCornerRadius
-                entryView.layer.borderWidth = FormStyle.shared.fieldBorderWidth
-                entryView.layer.borderColor = FormStyle.shared.fieldBorderColor.cgColor
+                entryView.layer.cornerRadius = self.style.fieldCornerRadius
+                entryView.layer.borderWidth = self.style.fieldBorderWidth
+                entryView.layer.borderColor = self.style.fieldBorderColor.cgColor
                 break
             case .underline:
                 entryView.layer.addSublayer(underlineLayer)
@@ -171,17 +169,17 @@ public class FormDropdownCell: FormCell {
         titleLabel.text = data.title
         if let selection = data.stringSelection {
             entryLabel.text = selection
-            entryLabel.textColor = FormStyle.shared.fieldEntryColor
+            entryLabel.textColor = self.style.fieldEntryColor
             entryColorView.isHidden = true
         } else if let selection = data.colorSelection {
             entryLabel.text = selection.name
-            entryLabel.textColor = FormStyle.shared.fieldEntryColor
+            entryLabel.textColor = self.style.fieldEntryColor
             entryColorView.backgroundColor = selection.color
             entryColorView.isHidden = false
         } else {
             if isEditable {
                 entryLabel.text = data.placeholder
-                entryLabel.textColor = FormStyle.shared.fieldPlaceholderColor
+                entryLabel.textColor = self.style.fieldPlaceholderColor
             } else {
                 entryLabel.text = ""
             }

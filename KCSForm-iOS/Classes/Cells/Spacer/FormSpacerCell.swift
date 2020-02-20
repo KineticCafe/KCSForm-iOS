@@ -28,5 +28,9 @@ public class FormSpacerCell: FormCell {
         heightConstraint = self.contentView.heightAnchor.constraint(equalToConstant: data.height)
         heightConstraint?.isActive = true
     }
+    
+    internal override func updateStyle() {
+        
+    }
 
 }

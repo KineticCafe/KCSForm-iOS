@@ -42,16 +42,18 @@ public class FormColorOptionsCell: FormCell {
     override public func awakeFromNib() {
         super.awakeFromNib()
         
-        self.titleLabel.textColor = FormStyle.shared.fieldTitleColor
-        self.titleLabel.font = FormStyle.shared.fieldTitleFont
-        self.selectionLabel.textColor = FormStyle.shared.selectedColorOptionLabelColor
-        self.selectionLabel.font = FormStyle.shared.selectedColorOptionFont
-        self.stackView.spacing = FormStyle.shared.fieldTitleBottomMargin
-        
         self.collectionView.register(UINib.init(nibName: ColorOptionCell.reuseIdentifier, bundle: Bundle.init(for: ColorOptionCell.self)), forCellWithReuseIdentifier: ColorOptionCell.reuseIdentifier)
         let layout = AlignCollectionViewFlowLayout()
         self.collectionView.collectionViewLayout = layout
         
+    }
+    
+    internal override func updateStyle() {
+        self.titleLabel.textColor = self.style.fieldTitleColor
+        self.titleLabel.font = self.style.fieldTitleFont
+        self.selectionLabel.textColor = self.style.selectedColorOptionLabelColor
+        self.selectionLabel.font = self.style.selectedColorOptionFont
+        self.stackView.spacing = self.style.fieldTitleBottomMargin
     }
     
     public func update(_ data: Data) {
@@ -89,6 +91,7 @@ extension FormColorOptionsCell: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         let option = options[indexPath.row]
+        cell.style = self.style
         cell.setColor(option.color ?? UIColor.black)
         cell.setSelected(selectedOptions.contains(indexPath.row))
         cell.setDisabled(!option.available)
@@ -99,15 +102,15 @@ extension FormColorOptionsCell: UICollectionViewDataSource {
 extension FormColorOptionsCell: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: FormStyle.shared.colorOptionSize, height: FormStyle.shared.colorOptionSize)
+        return CGSize(width: self.style.colorOptionSize, height: self.style.colorOptionSize)
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return FormStyle.shared.colorOptionSpacing
+        return self.style.colorOptionSpacing
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return FormStyle.shared.colorOptionSpacing
+        return self.style.colorOptionSpacing
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

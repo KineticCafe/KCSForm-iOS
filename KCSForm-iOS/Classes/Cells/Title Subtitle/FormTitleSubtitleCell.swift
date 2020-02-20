@@ -26,12 +26,14 @@ public class FormTitleSubtitleCell: FormCell {
     override public func awakeFromNib() {
         super.awakeFromNib()
         
-        titleLabel.textColor = FormStyle.shared.titleColor
-        subTitleLabel.textColor = FormStyle.shared.subTitleColor
-        titleLabel.font = FormStyle.shared.titleFont
-        subTitleLabel.font = FormStyle.shared.subTitleFont
-        
-        stackView.spacing = FormStyle.shared.titleSubTitleVerticalSpacing
+    }
+    
+    internal override func updateStyle() {
+        titleLabel.textColor = self.style.titleColor
+        subTitleLabel.textColor = self.style.subTitleColor
+        titleLabel.font = self.style.titleFont
+        subTitleLabel.font = self.style.subTitleFont
+        stackView.spacing = self.style.titleSubTitleVerticalSpacing
     }
     
     public func update(_ data: Data) {

@@ -59,47 +59,50 @@ class GroovyViewController: UIViewController {
     }
     
     private func setFormStyle() {
-        FormStyle.shared.fieldTitleColor = .cyan
-        FormStyle.shared.fieldEntryColor = .black
-        FormStyle.shared.fieldPlaceholderColor = .gray
-        FormStyle.shared.fieldBorderColor = .green
-        FormStyle.shared.fieldErrorColor = .purple
-        FormStyle.shared.fieldDisabledColor = .gray
-        FormStyle.shared.buttonLabelColor = .green
-        FormStyle.shared.buttonBorderColor = .green
-        FormStyle.shared.tagBorderColor = .green
-        FormStyle.shared.sectionTitleColor = .blue
-        FormStyle.shared.titleColor = .brown
-        FormStyle.shared.subTitleColor = .gray
-        FormStyle.shared.dropdownBackgroundColor = UIColor.red
-        FormStyle.shared.dropdownTextColor = UIColor.white
+        let style = FormStyle()
+        style.fieldTitleColor = .cyan
+        style.fieldEntryColor = .black
+        style.fieldPlaceholderColor = .gray
+        style.fieldBorderColor = .green
+        style.fieldErrorColor = .purple
+        style.fieldDisabledColor = .gray
+        style.buttonLabelColor = .green
+        style.buttonBorderColor = .green
+        style.tagBorderColor = .green
+        style.sectionTitleColor = .blue
+        style.titleColor = .brown
+        style.subTitleColor = .gray
+        style.dropdownBackgroundColor = UIColor.red
+        style.dropdownTextColor = UIColor.white
         
-        FormStyle.shared.setFormMargins(leading: 20, trailing: 20, top: 20, bottom: 20)
-        FormStyle.shared.interItemFieldSpacing = 20
-        FormStyle.shared.lineSpacing = 20
-        FormStyle.shared.fieldTitleBottomMargin = 10
-        FormStyle.shared.sectionTitleTopMargin = 20
-        FormStyle.shared.sectionTitleBottomMargin = 0
-        FormStyle.shared.fieldCornerRadius = 5
-        FormStyle.shared.fieldBorderWidth = 5
-        FormStyle.shared.tagBorderWidth = 5
-        FormStyle.shared.checkboxItemSpacing = 8
-        FormStyle.shared.titleSubTitleTopMargin = 20
-        FormStyle.shared.titleSubTitleBottomMargin = 10
-        FormStyle.shared.titleSubTitleVerticalSpacing = 10
-        FormStyle.shared.errorTopMargin = 5
-        FormStyle.shared.dropdownTextAlignment = .center
+        style.setFormMargins(leading: 20, trailing: 20, top: 20, bottom: 20)
+        style.interItemFieldSpacing = 20
+        style.lineSpacing = 20
+        style.fieldTitleBottomMargin = 10
+        style.sectionTitleTopMargin = 20
+        style.sectionTitleBottomMargin = 0
+        style.fieldCornerRadius = 5
+        style.fieldBorderWidth = 5
+        style.tagBorderWidth = 5
+        style.checkboxItemSpacing = 8
+        style.titleSubTitleTopMargin = 20
+        style.titleSubTitleBottomMargin = 10
+        style.titleSubTitleVerticalSpacing = 10
+        style.errorTopMargin = 5
+        style.dropdownTextAlignment = .center
         
-        FormStyle.shared.fieldTitleFont = UIFont.systemFont(ofSize: 14, weight: .medium)
-        FormStyle.shared.sectionTitleFont = UIFont.systemFont(ofSize: 24, weight: .bold)
-        FormStyle.shared.fieldButtonFont = UIFont.systemFont(ofSize: 18, weight: .bold)
-        FormStyle.shared.titleFont = UIFont.systemFont(ofSize: 18, weight: .medium)
-        FormStyle.shared.subTitleFont = UIFont.systemFont(ofSize: 14, weight: .regular)
-        FormStyle.shared.fieldErrorFont = UIFont.systemFont(ofSize: 14, weight: .regular)
-        FormStyle.shared.dropdownFont = .boldSystemFont(ofSize: UIFont.systemFontSize)
+        style.fieldTitleFont = UIFont.systemFont(ofSize: 14, weight: .medium)
+        style.sectionTitleFont = UIFont.systemFont(ofSize: 24, weight: .bold)
+        style.fieldButtonFont = UIFont.systemFont(ofSize: 18, weight: .bold)
+        style.titleFont = UIFont.systemFont(ofSize: 18, weight: .medium)
+        style.subTitleFont = UIFont.systemFont(ofSize: 14, weight: .regular)
+        style.fieldErrorFont = UIFont.systemFont(ofSize: 14, weight: .regular)
+        style.dropdownFont = .boldSystemFont(ofSize: UIFont.systemFontSize)
         
-        FormStyle.shared.textFieldStyle = .underline
-        FormStyle.shared.bounce = true
+        style.textFieldStyle = .underline
+        style.bounce = true
+        
+        formController.setStyle(style)
     }
     
     private func createTestCells() -> [FormViewController.Cell] {

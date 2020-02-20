@@ -25,8 +25,10 @@ public class FormLabelCell: FormCell {
     override public func awakeFromNib() {
         super.awakeFromNib()
         
-        text.textColor = FormStyle.shared.fieldTitleColor
-        
+    }
+    
+    internal override func updateStyle() {
+        text.textColor = self.style.fieldTitleColor
     }
     
     public func update(_ data: Data) {

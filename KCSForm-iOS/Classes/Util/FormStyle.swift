@@ -7,9 +7,13 @@
 
 import UIKit
 
-public class FormStyle: NSObject {
+public class FormStyle {
     
-    public static let shared = FormStyle()
+    internal static let shared = FormStyle()
+    
+    public init() {
+        
+    }
     
     
     // MARK: - Colors
@@ -106,9 +110,9 @@ public class FormStyle: NSObject {
     public var dropdownTextAlignment: NSTextAlignment = .natural
     public var buttonOptionHeight: CGFloat = 44
     public var buttonOptionHorizontalSpacing: CGFloat = 10
-    public var tagInterItemSpacing: CGFloat = 0
-    public var tagLineSpacing: CGFloat = 0
-    public var tagPadding: CGFloat = 0
+    public var tagInterItemSpacing: CGFloat = 10
+    public var tagLineSpacing: CGFloat = 10
+    public var tagPadding: CGFloat = 5
     public var tagCornerRadius: CGFloat = 0
     public var tagBorderWidth: CGFloat = 1
     public var tagHeight: CGFloat = 50
@@ -127,9 +131,5 @@ public class FormStyle: NSObject {
     public var passwordShowImage: UIImage? = nil
     public var passwordHideImage: UIImage? = nil
     public var dropdownImage: UIImage? = nil
-    
-    private override init() {
-        
-    }
 
 }

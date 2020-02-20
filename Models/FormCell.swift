@@ -9,6 +9,16 @@ import UIKit
 
 open class FormCell: UICollectionViewCell {
     
+    public var style: FormStyle = FormStyle.shared {
+        didSet {
+            updateStyle()
+        }
+    }
+    
+    internal func updateStyle() {
+        preconditionFailure("This method must be overriden")
+    }
+    
     public static var nibName: String {
         return String(describing: self)
     }

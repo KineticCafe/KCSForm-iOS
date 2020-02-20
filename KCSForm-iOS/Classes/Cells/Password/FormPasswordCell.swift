@@ -42,8 +42,8 @@ public class FormPasswordCell: FormCell {
     private var showPassword = false
     
     private lazy var showImage: UIImage? = {
-        if FormStyle.shared.passwordShowImage != nil {
-            return FormStyle.shared.passwordShowImage?.withRenderingMode(.alwaysOriginal)
+        if self.style.passwordShowImage != nil {
+            return self.style.passwordShowImage?.withRenderingMode(.alwaysOriginal)
         }
         let bundle = Bundle(for: FormViewController.self)
         let bundleURL = bundle.resourceURL?.appendingPathComponent("Images.bundle")
@@ -52,8 +52,8 @@ public class FormPasswordCell: FormCell {
     }()
     
     private lazy var hideImage: UIImage? = {
-        if FormStyle.shared.passwordHideImage != nil {
-            return FormStyle.shared.passwordHideImage?.withRenderingMode(.alwaysOriginal)
+        if self.style.passwordHideImage != nil {
+            return self.style.passwordHideImage?.withRenderingMode(.alwaysOriginal)
         }
         let bundle = Bundle(for: FormViewController.self)
         let bundleURL = bundle.resourceURL?.appendingPathComponent("Images.bundle")
@@ -63,19 +63,15 @@ public class FormPasswordCell: FormCell {
     
     private lazy var underlineLayer: CALayer = {
         let underline = CALayer()
-        underline.borderColor = FormStyle.shared.fieldBorderColor.cgColor
-        underline.frame = CGRect(x: 0, y: passwordTextField.frame.size.height - FormStyle.shared.fieldBorderWidth, width: passwordTextField.frame.size.width, height: passwordTextField.frame.size.height)
-        underline.borderWidth = FormStyle.shared.fieldBorderWidth
+        underline.borderColor = self.style.fieldBorderColor.cgColor
+        underline.frame = CGRect(x: 0, y: passwordTextField.frame.size.height - self.style.fieldBorderWidth, width: passwordTextField.frame.size.width, height: passwordTextField.frame.size.height)
+        underline.borderWidth = self.style.fieldBorderWidth
         return underline
     }()
 
     override public func awakeFromNib() {
         super.awakeFromNib()
         
-        titleLabel.textColor = FormStyle.shared.fieldTitleColor
-        titleLabel.font = FormStyle.shared.fieldTitleFont
-        passwordTextField.textColor = FormStyle.shared.fieldEntryColor
-        passwordTextField.font = FormStyle.shared.fieldEntryFont
         passwordTextField.backgroundColor = .clear
         passwordTextField.addTarget(self, action: #selector(onTextChange), for: .editingChanged)
         passwordTextField.delegate = self
@@ -83,15 +79,23 @@ public class FormPasswordCell: FormCell {
         passwordTextField.rightViewMode = .always
         passwordTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
         passwordTextField.rightView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
-        showHideImageView.tintColor = FormStyle.shared.fieldBorderColor
+        
+    }
+    
+    internal override func updateStyle() {
+        titleLabel.textColor = self.style.fieldTitleColor
+        titleLabel.font = self.style.fieldTitleFont
+        passwordTextField.textColor = self.style.fieldEntryColor
+        passwordTextField.font = self.style.fieldEntryFont
+        showHideImageView.tintColor = self.style.fieldBorderColor
         showHideImageView.image = hideImage
         textFieldHeightConstraint.constant = FormTextFieldCell.textFieldHeight
         
-        switch (FormStyle.shared.textFieldStyle) {
+        switch (self.style.textFieldStyle) {
         case .box:
-            passwordTextField.layer.cornerRadius = FormStyle.shared.fieldCornerRadius
-            passwordTextField.layer.borderWidth = FormStyle.shared.fieldBorderWidth
-            passwordTextField.layer.borderColor = FormStyle.shared.fieldBorderColor.cgColor
+            passwordTextField.layer.cornerRadius = self.style.fieldCornerRadius
+            passwordTextField.layer.borderWidth = self.style.fieldBorderWidth
+            passwordTextField.layer.borderColor = self.style.fieldBorderColor.cgColor
             break
         case .underline:
             passwordTextField.layer.addSublayer(underlineLayer)
@@ -105,15 +109,14 @@ public class FormPasswordCell: FormCell {
             break
         }
         
-        stackView.spacing = FormStyle.shared.fieldTitleBottomMargin
-        
+        stackView.spacing = self.style.fieldTitleBottomMargin
     }
     
     public func update(_ data: Data) {
         titleLabel.isHidden = (data.title == nil)
         self.titleLabel.text = data.title
         if let placeholder = data.placeholder {
-            let attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedStringKey.foregroundColor : FormStyle.shared.fieldPlaceholderColor])
+            let attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedStringKey.foregroundColor : self.style.fieldPlaceholderColor])
             self.passwordTextField.attributedPlaceholder = attributedPlaceholder
         }
         self.passwordTextField.text = data.password

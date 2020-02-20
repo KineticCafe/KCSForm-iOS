@@ -38,12 +38,14 @@ public class FormCheckboxOptionsCell: FormCell {
     public override func awakeFromNib() {
         super.awakeFromNib()
         
-        self.titleLabel.textColor = FormStyle.shared.fieldTitleColor
-        self.titleLabel.font = FormStyle.shared.fieldTitleFont
-        self.stackView.spacing = FormStyle.shared.checkboxItemSpacing
+    }
+    
+    internal override func updateStyle() {
+        self.titleLabel.textColor = self.style.fieldTitleColor
+        self.titleLabel.font = self.style.fieldTitleFont
+        self.stackView.spacing = self.style.checkboxItemSpacing
         //Add 5 below to the default because something about the stackview makes it lose 5 pixels, trust me.
-        self.groupStackView.spacing = FormStyle.shared.fieldTitleBottomMargin+5
-        
+        self.groupStackView.spacing = self.style.fieldTitleBottomMargin+5
     }
     
     public func update(_ data: Data) {
@@ -63,9 +65,10 @@ public class FormCheckboxOptionsCell: FormCell {
     private func createCheckboxView(_ index: Int, title: String, selected: Bool) -> CheckboxView {
         
         let view = CheckboxView(frame: CGRect(x: 0, y: 0, width: stackView.frame.size.width, height: 35))
+        view.style = self.style
         view.delegate = self
         view.titleLabel.text = title
-        view.titleLabel.font = FormStyle.shared.checkboxFont
+        view.titleLabel.font = self.style.checkboxFont
         view.setChecked(selected)
         view.tag = index
         

@@ -44,14 +44,16 @@ public class FormTagsCell: FormCell {
     override public func awakeFromNib() {
         super.awakeFromNib()
         
-        self.titleLabel.textColor = FormStyle.shared.fieldTitleColor
-        self.titleLabel.font = FormStyle.shared.fieldTitleFont
-        self.stackView.spacing = FormStyle.shared.fieldTitleBottomMargin
-        
         self.collectionView.register(UINib.init(nibName: TagCell.reuseIdentifier, bundle: Bundle.init(for: TagCell.self)), forCellWithReuseIdentifier: TagCell.reuseIdentifier)
         let layout = AlignCollectionViewFlowLayout()
         layout.estimatedItemSize = CGSize(width: 1, height: 1)
         self.collectionView.collectionViewLayout = layout
+    }
+    
+    internal override func updateStyle() {
+        self.titleLabel.textColor = self.style.fieldTitleColor
+        self.titleLabel.font = self.style.fieldTitleFont
+        self.stackView.spacing = self.style.fieldTitleBottomMargin
     }
     
     public func update(_ data: Data) {
@@ -69,7 +71,7 @@ public class FormTagsCell: FormCell {
     private func getWidthOfLargestOption(_ options: [String]) -> CGFloat {
         var largestWidth = CGFloat(0)
         for option in options {
-            let width = option.size(withAttributes: [.font: FormStyle.shared.tagFont]).width
+            let width = option.size(withAttributes: [.font: self.style.tagFont]).width
             if width > largestWidth {
                 largestWidth = width
             }
@@ -80,9 +82,9 @@ public class FormTagsCell: FormCell {
     private func getCellWidth(forOption option: String) -> CGFloat {
         var width = self.largestWidth
         if self.dynamicSize {
-            width = option.size(withAttributes: [.font: FormStyle.shared.tagFont]).width
+            width = option.size(withAttributes: [.font: self.style.tagFont]).width
         }
-        return (width + 5 + FormStyle.shared.tagPadding)
+        return (width + 5 + self.style.tagPadding)
     }
 
 }
@@ -104,6 +106,7 @@ extension FormTagsCell: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         let option = options[indexPath.row]
+        cell.style = self.style
         cell.setLabel(option)
         cell.setSelected(selectedOptions.contains(indexPath.row))
         cell.setCellWidth(getCellWidth(forOption: option))
@@ -118,15 +121,15 @@ extension FormTagsCell: UICollectionViewDelegate, UICollectionViewDelegateFlowLa
             return CGSize(width: 0, height: 0)
         }
         let option = options[indexPath.row]
-        return CGSize(width: getCellWidth(forOption: option), height: FormStyle.shared.tagHeight)
+        return CGSize(width: getCellWidth(forOption: option), height: self.style.tagHeight)
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return FormStyle.shared.tagInterItemSpacing
+        return self.style.tagInterItemSpacing
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return FormStyle.shared.tagLineSpacing
+        return self.style.tagLineSpacing
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

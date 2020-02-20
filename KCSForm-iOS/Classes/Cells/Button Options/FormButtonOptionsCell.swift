@@ -48,15 +48,18 @@ public class FormButtonOptionsCell: FormCell {
     public override func awakeFromNib() {
         super.awakeFromNib()
         
-        self.titleLabel.textColor = FormStyle.shared.fieldTitleColor
-        self.titleLabel.font = FormStyle.shared.fieldTitleFont
-        self.groupStackView.spacing = FormStyle.shared.fieldTitleBottomMargin
+    }
+    
+    internal override func updateStyle() {
+        self.titleLabel.textColor = self.style.fieldTitleColor
+        self.titleLabel.font = self.style.fieldTitleFont
+        self.groupStackView.spacing = self.style.fieldTitleBottomMargin
     }
     
     public func update(_ data: Data) {
         
-        stackViewHeightConstraint.constant = FormStyle.shared.buttonOptionHeight
-        stackView.spacing = FormStyle.shared.buttonOptionHorizontalSpacing
+        stackViewHeightConstraint.constant = self.style.buttonOptionHeight
+        stackView.spacing = self.style.buttonOptionHorizontalSpacing
         
         titleLabel.isHidden = (data.title == nil)
         titleLabel.text = data.title
@@ -90,20 +93,20 @@ public class FormButtonOptionsCell: FormCell {
         if let options = options {
             button.setTitle(options[index], for: .normal)
         }
-        button.titleLabel?.font = FormStyle.shared.fieldEntryFont
+        button.titleLabel?.font = self.style.fieldEntryFont
         button.tag = index
         button.addTarget(self, action: #selector(buttonPressed(_:)), for: .touchUpInside)
         button.clipsToBounds = true
-        button.titleLabel?.font = FormStyle.shared.buttonLabelFont
-        button.layer.cornerRadius = FormStyle.shared.fieldCornerRadius
-        button.layer.borderWidth = FormStyle.shared.fieldBorderWidth
-        button.layer.borderColor = FormStyle.shared.fieldBorderColor.cgColor
+        button.titleLabel?.font = self.style.buttonLabelFont
+        button.layer.cornerRadius = self.style.fieldCornerRadius
+        button.layer.borderWidth = self.style.fieldBorderWidth
+        button.layer.borderColor = self.style.fieldBorderColor.cgColor
         if selected {
-            button.backgroundColor = FormStyle.shared.fieldBorderColor
+            button.backgroundColor = self.style.fieldBorderColor
             button.setTitleColor(.white, for: .normal)
         } else {
             button.backgroundColor = .clear
-            button.setTitleColor(FormStyle.shared.buttonLabelColor, for: .normal)
+            button.setTitleColor(self.style.buttonLabelColor, for: .normal)
         }
         
         return button

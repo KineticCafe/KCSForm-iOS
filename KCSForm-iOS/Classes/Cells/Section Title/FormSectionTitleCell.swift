@@ -24,11 +24,14 @@ public class FormSectionTitleCell: FormCell {
     override public func awakeFromNib() {
         super.awakeFromNib()
 
-        self.titleLabel.textColor = FormStyle.shared.sectionTitleColor
-        self.titleLabel.font = FormStyle.shared.sectionTitleFont
+    }
+    
+    internal override func updateStyle() {
+        self.titleLabel.textColor = self.style.sectionTitleColor
+        self.titleLabel.font = self.style.sectionTitleFont
         
-        self.topConstraint.constant = FormStyle.shared.sectionTitleTopMargin
-        self.bottomConstraint.constant = FormStyle.shared.sectionTitleBottomMargin
+        self.topConstraint.constant = self.style.sectionTitleTopMargin
+        self.bottomConstraint.constant = self.style.sectionTitleBottomMargin
     }
 
     public func update(_ data: Data) {

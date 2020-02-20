@@ -15,9 +15,9 @@ class ColorOptionCell: FormCell {
     private lazy var disabledLayer: CAShapeLayer = {
         let path = UIBezierPath()
         path.move(to: CGPoint(x: 0, y: 0))
-        path.addLine(to: CGPoint(x: FormStyle.shared.colorOptionSize, y: FormStyle.shared.colorOptionSize))
-        path.move(to: CGPoint(x: FormStyle.shared.colorOptionSize, y: 0))
-        path.addLine(to: CGPoint(x: 0, y: FormStyle.shared.colorOptionSize))
+        path.addLine(to: CGPoint(x: self.style.colorOptionSize, y: self.style.colorOptionSize))
+        path.move(to: CGPoint(x: self.style.colorOptionSize, y: 0))
+        path.addLine(to: CGPoint(x: 0, y: self.style.colorOptionSize))
         
         let layer = CAShapeLayer()
         layer.path = path.cgPath
@@ -29,12 +29,15 @@ class ColorOptionCell: FormCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.colorView.layer.cornerRadius = FormStyle.shared.colorOptionCornerRadius
         self.colorView.layer.borderColor = UIColor.black.cgColor
-        self.selectionMaskView.layer.cornerRadius = FormStyle.shared.colorOptionCornerRadius
         self.selectionMaskView.isHidden = true
         self.selectionMaskView.layer.borderColor = UIColor.white.cgColor
         self.selectionMaskView.layer.borderWidth = 3
+    }
+    
+    internal override func updateStyle() {
+        self.colorView.layer.cornerRadius = self.style.colorOptionCornerRadius
+        self.selectionMaskView.layer.cornerRadius = self.style.colorOptionCornerRadius
     }
     
     public func setColor(_ color: UIColor) {

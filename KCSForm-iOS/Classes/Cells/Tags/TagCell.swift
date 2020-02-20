@@ -14,8 +14,7 @@ class TagCell: FormCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.label.font = FormStyle.shared.tagFont
-        updateStyle()
+        self.label.font = self.style.tagFont
         setSelected(false)
         self.contentView.translatesAutoresizingMaskIntoConstraints = false
         self.widthConstraint = self.contentView.widthAnchor.constraint(equalToConstant: 0)
@@ -32,20 +31,20 @@ class TagCell: FormCell {
     
     public func setSelected(_ selected: Bool) {
         if selected {
-            self.contentView.backgroundColor = FormStyle.shared.fieldBorderColor
+            self.contentView.backgroundColor = self.style.fieldBorderColor
             self.label.textColor = .white
-            self.label.font = FormStyle.shared.tagSelectedFont
+            self.label.font = self.style.tagSelectedFont
         } else {
             self.contentView.backgroundColor = .clear
-            self.label.textColor = FormStyle.shared.buttonLabelColor
-            self.label.font = FormStyle.shared.tagFont
+            self.label.textColor = self.style.buttonLabelColor
+            self.label.font = self.style.tagFont
         }
     }
     
-    private func updateStyle() {
-        self.contentView.layer.cornerRadius = FormStyle.shared.tagCornerRadius
-        self.contentView.layer.borderWidth = FormStyle.shared.tagBorderWidth
-        self.contentView.layer.borderColor = FormStyle.shared.tagBorderColor.cgColor
+    internal override func updateStyle() {
+        self.contentView.layer.cornerRadius = self.style.tagCornerRadius
+        self.contentView.layer.borderWidth = self.style.tagBorderWidth
+        self.contentView.layer.borderColor = self.style.tagBorderColor.cgColor
     }
 
 }

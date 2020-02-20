@@ -20,6 +20,11 @@ class CheckboxView: UIView {
     @IBOutlet var checkmarkBgView: UIView!
     
     private var checked: Bool = true
+    public var style: FormStyle = FormStyle.shared {
+        didSet {
+            updateStyle()
+        }
+    }
     public var delegate: CheckboxViewDelegate?
 
     override init(frame: CGRect) {
@@ -39,19 +44,20 @@ class CheckboxView: UIView {
         contentView.frame = self.bounds
         contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         
-        checkmarkBgView.layer.borderWidth = FormStyle.shared.fieldBorderWidth
-        checkmarkBgView.layer.cornerRadius = FormStyle.shared.fieldCornerRadius
-        checkmarkBgView.layer.borderColor = FormStyle.shared.fieldBorderColor.cgColor
-        
-        self.titleLabel.font = FormStyle.shared.fieldEntryFont
-        
         let bundle = Bundle(for: FormViewController.self)
         let bundleURL = bundle.resourceURL?.appendingPathComponent("Images.bundle")
         let resourceBundle = Bundle(url: bundleURL!)
         self.checkmarkImage.image = UIImage(named: "ic_checkbox", in: resourceBundle, compatibleWith: nil)
         
+        updateStyle()
+    }
+    
+    private func updateStyle() {
+        checkmarkBgView.layer.borderWidth = self.style.fieldBorderWidth
+        checkmarkBgView.layer.cornerRadius = self.style.fieldCornerRadius
+        checkmarkBgView.layer.borderColor = self.style.fieldBorderColor.cgColor
+        self.titleLabel.font = self.style.fieldEntryFont
         updateCheckedState()
-        
     }
     
     public func setChecked(_ checked: Bool) {
@@ -65,7 +71,7 @@ class CheckboxView: UIView {
         
         checkmarkImage.isHidden = !checked
         if checked {
-            checkmarkBgView.backgroundColor = FormStyle.shared.fieldBorderColor
+            checkmarkBgView.backgroundColor = self.style.fieldBorderColor
         } else {
             checkmarkBgView.backgroundColor = .white
         }

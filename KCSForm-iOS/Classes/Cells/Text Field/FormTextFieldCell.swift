@@ -60,9 +60,9 @@ public class FormTextFieldCell: FormCell {
     
     private lazy var underlineLayer: CALayer = {
         let underline = CALayer()
-        underline.borderColor = FormStyle.shared.fieldBorderColor.cgColor
-        underline.frame = CGRect(x: 0, y: textField.frame.size.height - FormStyle.shared.fieldBorderWidth, width: textField.frame.size.width, height: textField.frame.size.height)
-        underline.borderWidth = FormStyle.shared.fieldBorderWidth
+        underline.borderColor = self.style.fieldBorderColor.cgColor
+        underline.frame = CGRect(x: 0, y: textField.frame.size.height - self.style.fieldBorderWidth, width: textField.frame.size.width, height: textField.frame.size.height)
+        underline.borderWidth = self.style.fieldBorderWidth
         return underline
     }()
     
@@ -71,10 +71,6 @@ public class FormTextFieldCell: FormCell {
     
     /** Optional formatting pattern to be used for the cell. */
     fileprivate var formattingPattern: String?
-    
-    public static func getErrorHeight() -> CGFloat {
-        return 31
-    }
 
     override public func awakeFromNib() {
         super.awakeFromNib()
@@ -83,28 +79,32 @@ public class FormTextFieldCell: FormCell {
     }
     
     private func setupUI() {
+        self.textField.addTarget(self, action: #selector(onTextChange), for: .editingChanged)
+        self.textField.delegate = self
+        self.textField.backgroundColor = .clear
+        self.textField.leftViewMode = .always
+        self.textField.rightViewMode = .always
+        self.textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: FormTextFieldCell.textFieldInternalHorizontalInsets, height: 0))
+        self.textField.rightView = UIView(frame: CGRect(x: 0, y: 0, width: FormTextFieldCell.textFieldInternalHorizontalInsets, height: 0))
+        self.textFieldHeightConstraint.constant = FormTextFieldCell.textFieldHeight
+    }
+    
+    internal override func updateStyle() {
+        self.titleLabel.textColor = self.style.fieldTitleColor
+        self.titleLabel.font = self.style.fieldTitleFont
+        self.stackView.spacing = self.style.fieldTitleBottomMargin
+        self.errorLabel.textColor = self.style.fieldErrorColor
+        self.errorLabel.font = self.style.fieldErrorFont
+        self.errorTopMarginConstraint.constant = self.style.errorTopMargin
+        self.textField.font = self.style.fieldEntryFont
+        self.textField.textColor = self.style.fieldEntryColor
+        self.textField.tintColor = self.style.formTint
         
-        self.titleLabel.textColor = FormStyle.shared.fieldTitleColor
-        self.titleLabel.font = FormStyle.shared.fieldTitleFont
-        self.stackView.spacing = FormStyle.shared.fieldTitleBottomMargin
-        
-        textField.addTarget(self, action: #selector(onTextChange), for: .editingChanged)
-        textField.delegate = self
-        textField.backgroundColor = .clear
-        textField.textColor = FormStyle.shared.fieldEntryColor
-        textField.tintColor = FormStyle.shared.formTint
-        textField.leftViewMode = .always
-        textField.rightViewMode = .always
-        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: FormTextFieldCell.textFieldInternalHorizontalInsets, height: 0))
-        textField.rightView = UIView(frame: CGRect(x: 0, y: 0, width: FormTextFieldCell.textFieldInternalHorizontalInsets, height: 0))
-        textField.font = FormStyle.shared.fieldEntryFont
-        textFieldHeightConstraint.constant = FormTextFieldCell.textFieldHeight
-        
-        switch (FormStyle.shared.textFieldStyle) {
+        switch (self.style.textFieldStyle) {
         case .box:
-            textField.layer.cornerRadius = FormStyle.shared.fieldCornerRadius
-            textField.layer.borderWidth = FormStyle.shared.fieldBorderWidth
-            textField.layer.borderColor = FormStyle.shared.fieldBorderColor.cgColor
+            textField.layer.cornerRadius = self.style.fieldCornerRadius
+            textField.layer.borderWidth = self.style.fieldBorderWidth
+            textField.layer.borderColor = self.style.fieldBorderColor.cgColor
             break
         case .underline:
             textField.layer.addSublayer(underlineLayer)
@@ -117,10 +117,6 @@ public class FormTextFieldCell: FormCell {
             textField.layer.borderColor = UIColor.clear.cgColor
             break
         }
-        
-        errorLabel.textColor = FormStyle.shared.fieldErrorColor
-        errorLabel.font = FormStyle.shared.fieldErrorFont
-        errorTopMarginConstraint.constant = FormStyle.shared.errorTopMargin
     }
     
     @objc fileprivate func onTextChange() {
@@ -139,7 +135,7 @@ public class FormTextFieldCell: FormCell {
         textField.text = data.text
         
         if data.isEditable, let placeholder = data.placeholder {
-            let attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedStringKey.foregroundColor : FormStyle.shared.fieldPlaceholderColor])
+            let attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedStringKey.foregroundColor : self.style.fieldPlaceholderColor])
             textField.attributedPlaceholder = attributedPlaceholder
         } else {
             textField.placeholder = ""
@@ -151,7 +147,7 @@ public class FormTextFieldCell: FormCell {
         self.formattingPattern = data.formattingPattern
         
         textField.isUserInteractionEnabled = data.isEditable
-        textField.layer.borderColor =  data.isEditable ? ((data.errorText != nil) ? FormStyle.shared.fieldErrorColor.cgColor :  FormStyle.shared.fieldBorderColor.cgColor ):  UIColor.white.cgColor
+        textField.layer.borderColor =  data.isEditable ? ((data.errorText != nil) ? self.style.fieldErrorColor.cgColor :  self.style.fieldBorderColor.cgColor ):  UIColor.white.cgColor
         textField.leftViewMode = data.isEditable ? .always : .never
         
         errorLabel.text = data.errorText

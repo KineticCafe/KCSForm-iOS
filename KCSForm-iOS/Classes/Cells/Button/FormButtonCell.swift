@@ -32,6 +32,10 @@ public class FormButtonCell: FormCell {
         
     }
     
+    internal override func updateStyle() {
+        self.button.style = self.style
+    }
+    
     public func update(_ data: Data) {
         button.setTitle(data.title, for: .normal)
     }

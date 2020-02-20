@@ -23,7 +23,7 @@ class CustomDropDownCell: DropDownCell {
         
         self.leadingConstraint.constant = FormStyle.shared.dropdownHorizontalMargins
         self.trailingConstraint.constant = FormStyle.shared.dropdownHorizontalMargins
-        
+        self.contentView.layoutIfNeeded()
     }
     
     public func setColor(_ formColor: FormColor) {

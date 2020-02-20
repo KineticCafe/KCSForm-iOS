@@ -49,6 +49,8 @@ public class FormDropdownCell: FormCell {
     @IBOutlet var entryView: UIView!
     @IBOutlet var indicatorImageView: UIImageView!
     @IBOutlet var textFieldHeightConstraint: NSLayoutConstraint!
+    @IBOutlet var entryViewLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet var entryViewTrailingConstraint: NSLayoutConstraint!
     
     //MARK: - Properties
     var delegate: FormDropdownCellDelegate?
@@ -83,6 +85,8 @@ public class FormDropdownCell: FormCell {
         self.titleLabel.font = FormStyle.shared.fieldTitleFont
         self.stackView.spacing = FormStyle.shared.fieldTitleBottomMargin
         self.textFieldHeightConstraint.constant = FormTextFieldCell.textFieldHeight
+        self.entryViewLeadingConstraint.constant = FormStyle.shared.dropdownHorizontalMargins
+        self.entryViewTrailingConstraint.constant = FormStyle.shared.dropdownHorizontalMargins
         
         var dropdownImage: UIImage?
         if FormStyle.shared.dropdownImage != nil {

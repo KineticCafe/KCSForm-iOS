@@ -102,7 +102,7 @@ public class FormStyle: NSObject {
     public var titleSubTitleVerticalSpacing: CGFloat = 0
     public var errorTopMargin: CGFloat = 0
     public var dropdownCellHeight: CGFloat = 44
-    public var dropdownHorizontalMargins: CGFloat = 15
+    public var dropdownHorizontalMargins: CGFloat = 10
     public var dropdownTextAlignment: NSTextAlignment = .natural
     public var buttonOptionHeight: CGFloat = 44
     public var buttonOptionHorizontalSpacing: CGFloat = 10

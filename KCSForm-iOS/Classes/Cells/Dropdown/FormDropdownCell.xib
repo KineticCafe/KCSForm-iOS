@@ -92,6 +92,8 @@
                 <outlet property="entryColorView" destination="ccg-i9-4ZK" id="JlN-u3-nWy"/>
                 <outlet property="entryLabel" destination="HEd-DV-HxC" id="6vg-0s-wBT"/>
                 <outlet property="entryView" destination="tS5-R7-lRv" id="5ah-DS-J31"/>
+                <outlet property="entryViewLeadingConstraint" destination="MB3-AQ-HQJ" id="TiN-zd-Nfq"/>
+                <outlet property="entryViewTrailingConstraint" destination="59m-SN-f6Z" id="3wn-xn-XzB"/>
                 <outlet property="indicatorImageView" destination="dRx-J9-S22" id="dTt-0T-kWf"/>
                 <outlet property="stackView" destination="xAz-zJ-5xg" id="vJw-wX-wXh"/>
                 <outlet property="textFieldHeightConstraint" destination="MwG-EK-UzP" id="tq4-Nc-rFw"/>

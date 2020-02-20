@@ -7,12 +7,12 @@
 
 import UIKit
 
-public class FormColor {
+public class FormColor: NSObject {
     public var color: UIColor?
     public var name: String?
     public var available = true
     
-    public init() {}
+    public override init() {}
     public init(_ color: UIColor?, _ name: String?, available: Bool = true) {
         self.color = color
         self.name = name

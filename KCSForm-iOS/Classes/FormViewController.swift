@@ -504,11 +504,7 @@ extension FormViewController: FormDropdownCellDelegate {
         }
         let masterCell = cells[row]
         if let data = masterCell.data as? FormDropdownCell.Data {
-            if let stringOptions = cell.stringOptions {
-                data.stringSelection = stringOptions[index]
-            } else if let colorOptions = cell.colorOptions {
-                data.colorSelection = colorOptions[index]
-            }
+            data.selection = index
         }
         delegate?.formViewController(self, selectedIndex: index, forCellId: masterCell.id)
         

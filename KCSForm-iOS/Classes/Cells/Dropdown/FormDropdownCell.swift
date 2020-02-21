@@ -17,26 +17,26 @@ public class FormDropdownCell: FormCell {
     
     public class Data: FormCellData {
         public var title: String?
-        public var stringSelection: String?
-        public var colorSelection: FormColor?
+        public var selection: Int?
         public var placeholder: String?
         public var isEditable: Bool
         public var stringOptions: [String]?
         public var colorOptions: [FormColor]?
         
-        public init(title: String? = nil, selection: String? = nil, placeholder: String? = nil, isEditable: Bool, options: [String]) {
+        private init(title: String? = nil, selection: Int? = nil, placeholder: String? = nil, isEditable: Bool) {
             self.title = title
-            self.stringSelection = selection
+            self.selection = selection
             self.placeholder = placeholder
             self.isEditable = isEditable
+        }
+        
+        public convenience init(title: String? = nil, selection: Int? = nil, placeholder: String? = nil, isEditable: Bool, options: [String]) {
+            self.init(title: title, selection: selection, placeholder: placeholder, isEditable: isEditable)
             self.stringOptions = options
         }
         
-        public init(title: String? = nil, selection: FormColor? = nil, placeholder: String? = nil, isEditable: Bool, options: [FormColor]) {
-            self.title = title
-            self.colorSelection = selection
-            self.placeholder = placeholder
-            self.isEditable = isEditable
+        public convenience init(title: String? = nil, selection: Int? = nil, placeholder: String? = nil, isEditable: Bool, options: [FormColor]) {
+            self.init(title: title, selection: selection, placeholder: placeholder, isEditable: isEditable)
             self.colorOptions = options
         }
     }
@@ -56,6 +56,7 @@ public class FormDropdownCell: FormCell {
     var delegate: FormDropdownCellDelegate?
     public var stringOptions: [String]?
     public var colorOptions: [FormColor]?
+    public var selection: Int?
     fileprivate let dropDown = DropDown()
     fileprivate var isEditable = true
     
@@ -125,7 +126,9 @@ public class FormDropdownCell: FormCell {
         
         self.entryView.layer.masksToBounds = true
         self.entryView.backgroundColor = .clear
-        self.entryLabel.textColor = self.style.fieldPlaceholderColor
+        if self.selection == nil {
+            self.entryLabel.textColor = self.style.fieldPlaceholderColor
+        }
         self.entryLabel.font = self.style.fieldPlaceholderFont
         self.entryLabel.tintColor = self.style.fieldEntryColor
         self.entryColorView.layer.cornerRadius = self.style.colorOptionCornerRadius
@@ -167,15 +170,19 @@ public class FormDropdownCell: FormCell {
         isEditable = data.isEditable
         titleLabel.isHidden = (data.title == nil)
         titleLabel.text = data.title
-        if let selection = data.stringSelection {
-            entryLabel.text = selection
+        stringOptions = data.stringOptions
+        colorOptions = data.colorOptions
+        if let selection = data.selection {
+            self.selection = selection
+            if let colorOptions = self.colorOptions {
+                entryColorView.isHidden = false
+                entryColorView.backgroundColor = colorOptions[selection].color
+                entryLabel.text = colorOptions[selection].name
+            } else if let stringOptions = self.stringOptions {
+                entryColorView.isHidden = true
+                entryLabel.text = stringOptions[selection]
+            }
             entryLabel.textColor = self.style.fieldEntryColor
-            entryColorView.isHidden = true
-        } else if let selection = data.colorSelection {
-            entryLabel.text = selection.name
-            entryLabel.textColor = self.style.fieldEntryColor
-            entryColorView.backgroundColor = selection.color
-            entryColorView.isHidden = false
         } else {
             if isEditable {
                 entryLabel.text = data.placeholder
@@ -185,8 +192,6 @@ public class FormDropdownCell: FormCell {
             }
             entryColorView.isHidden = true
         }
-        stringOptions = data.stringOptions
-        colorOptions = data.colorOptions
         self.dropDown.dataSource = stringOptions ??
             colorOptions?.map({ (formColor) -> String in (formColor.name ?? "")}) ?? []
         

@@ -70,8 +70,8 @@ public class FormViewController: UIViewController {
         collectionView.allowsMultipleSelection = false
         collectionView.alwaysBounceVertical = false
         collectionView.bounces = FormStyle.shared.bounce
-        collectionView.contentInset = UIEdgeInsetsMake(0,0,0,0)
-        collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(0,0,0,0)
+        collectionView.contentInset = UIEdgeInsets.init(top: 0,left: 0,bottom: 0,right: 0)
+        collectionView.scrollIndicatorInsets = UIEdgeInsets.init(top: 0,left: 0,bottom: 0,right: 0)
         
         collectionView.register(UINib(nibName: FormTextFieldCell.nibName, bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormTextFieldCell.reuseIdentifier)
         collectionView.register(UINib(nibName: FormButtonOptionsCell.nibName, bundle: Bundle.init(for: FormViewController.self)), forCellWithReuseIdentifier: FormButtonOptionsCell.reuseIdentifier)
@@ -334,7 +334,7 @@ extension FormViewController: UICollectionViewDelegate, UICollectionViewDelegate
         sizingCell.frame = CGRect(x: 0, y: 0, width: width, height: 0)
         sizingCell.setNeedsLayout()
         sizingCell.layoutIfNeeded()
-        let size = sizingCell.contentView.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
+        let size = sizingCell.contentView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
         return size
     }
     

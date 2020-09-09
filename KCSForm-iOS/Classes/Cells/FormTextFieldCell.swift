@@ -139,7 +139,7 @@ public class FormTextFieldCell: FormCell {
         textField.text = data.text
         
         if data.isEditable, let placeholder = data.placeholder {
-            let attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedStringKey.foregroundColor : FormStyle.shared.fieldPlaceholderColor])
+            let attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedString.Key.foregroundColor : FormStyle.shared.fieldPlaceholderColor])
             textField.attributedPlaceholder = attributedPlaceholder
         } else {
             textField.placeholder = ""

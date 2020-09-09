@@ -17,7 +17,7 @@ class DynamicHeightCollectionView: UICollectionView {
 
     override var intrinsicContentSize: CGSize {
         layoutIfNeeded()
-        return CGSize(width: UIViewNoIntrinsicMetric, height: contentSize.height)
+        return CGSize(width: UIView.noIntrinsicMetric, height: contentSize.height)
     }
 
 }

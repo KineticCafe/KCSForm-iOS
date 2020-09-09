@@ -110,10 +110,9 @@ public class FormPasswordCell: FormCell {
     }
     
     public func update(_ data: Data) {
-        titleLabel.isHidden = (data.title == nil)
         self.titleLabel.text = data.title
         if let placeholder = data.placeholder {
-            let attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedStringKey.foregroundColor : FormStyle.shared.fieldPlaceholderColor])
+            let attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedString.Key.foregroundColor : FormStyle.shared.fieldPlaceholderColor])
             self.passwordTextField.attributedPlaceholder = attributedPlaceholder
         }
         self.passwordTextField.text = data.password

@@ -34,7 +34,7 @@ class AlignCollectionViewFlowLayout: UICollectionViewFlowLayout {
         for attributes in attributesCopy {
             var found = false
             for info in rowInfos {
-                if (fabs(info.centerY - attributes.center.y) < 1) {
+              if (abs(info.centerY - attributes.center.y) < 1) {
                     found = true
                     if (info.top > attributes.frame.origin.y) {
                         info.centerY = attributes.center.y
@@ -53,7 +53,7 @@ class AlignCollectionViewFlowLayout: UICollectionViewFlowLayout {
     
         for attributes in attributesCopy {
             for info in rowInfos {
-                if (fabs(info.centerY - attributes.center.y) < 1) {
+              if (abs(info.centerY - attributes.center.y) < 1) {
                     var r = attributes.frame
                     r.origin.y = info.top
                     attributes.frame = r

@@ -13,6 +13,7 @@ class BasicViewController: UIViewController {
 
     enum CellId: Int {
         case section1
+        case colors
         case firstName
         case lastName
         case loremIpsum
@@ -24,6 +25,8 @@ class BasicViewController: UIViewController {
         case section2
         case interests
         case contactOptions
+        case favoriteColor
+        case eyeColor
         case password
         case optIn
         case someLabel
@@ -58,53 +61,56 @@ class BasicViewController: UIViewController {
     }
     
     private func setFormStyle() {
-        FormStyle.shared.fieldTitleColor = .black
-        FormStyle.shared.fieldEntryColor = .black
-        FormStyle.shared.fieldPlaceholderColor = .gray
-        FormStyle.shared.fieldBorderColor = .black
-        FormStyle.shared.fieldErrorColor = .red
-        FormStyle.shared.fieldDisabledColor = .gray
-        FormStyle.shared.buttonLabelColor = .black
-        FormStyle.shared.buttonBorderColor = .black
-        FormStyle.shared.sectionTitleColor = .black
-        FormStyle.shared.titleColor = .black
-        FormStyle.shared.subTitleColor = .gray
-        FormStyle.shared.dropdownBackgroundColor = UIColor.white
-        FormStyle.shared.dropdownTextColor = UIColor.black
+        let style = FormStyle()
+        style.fieldTitleColor = .black
+        style.fieldEntryColor = .black
+        style.fieldPlaceholderColor = .gray
+        style.fieldBorderColor = .black
+        style.fieldErrorColor = .red
+        style.fieldDisabledColor = .gray
+        style.buttonLabelColor = .black
+        style.buttonBorderColor = .black
+        style.sectionTitleColor = .black
+        style.titleColor = .black
+        style.subTitleColor = .gray
+        style.dropdownBackgroundColor = UIColor.white
+        style.dropdownTextColor = UIColor.black
         
-        FormStyle.shared.setFormMargins(leading: 20, trailing: 20, top: 20, bottom: 20)
-        FormStyle.shared.interItemFieldSpacing = 20
-        FormStyle.shared.lineSpacing = 20
-        FormStyle.shared.fieldTitleBottomMargin = 10
-        FormStyle.shared.sectionTitleTopMargin = 20
-        FormStyle.shared.sectionTitleBottomMargin = 0
-        FormStyle.shared.fieldCornerRadius = 2
-        FormStyle.shared.fieldBorderWidth = 1
-        FormStyle.shared.checkboxItemSpacing = 8
-        FormStyle.shared.titleSubTitleTopMargin = 20
-        FormStyle.shared.titleSubTitleBottomMargin = 10
-        FormStyle.shared.titleSubTitleVerticalSpacing = 10
-        FormStyle.shared.errorTopMargin = 5
-        FormStyle.shared.dropdownVerticalMargins = 0
-        FormStyle.shared.dropdownHorizontalMargins = 15
-        FormStyle.shared.dropdownTextAlignment = .natural
-        FormStyle.shared.tagInterItemSpacing = 10
-        FormStyle.shared.tagLineSpacing = 10
-        FormStyle.shared.tagPadding = 20
-        FormStyle.shared.tagCornerRadius = 10
-        FormStyle.shared.tagBorderWidth = 1
-        FormStyle.shared.tagHeight = 30
+        style.setFormMargins(leading: 20, trailing: 20, top: 20, bottom: 20)
+        style.interItemFieldSpacing = 20
+        style.lineSpacing = 20
+        style.fieldTitleBottomMargin = 10
+        style.sectionTitleTopMargin = 20
+        style.sectionTitleBottomMargin = 0
+        style.fieldCornerRadius = 2
+        style.fieldBorderWidth = 1
+        style.checkboxItemSpacing = 8
+        style.titleSubTitleTopMargin = 20
+        style.titleSubTitleBottomMargin = 10
+        style.titleSubTitleVerticalSpacing = 10
+        style.errorTopMargin = 5
+        style.dropdownTextAlignment = .natural
+        style.tagInterItemSpacing = 10
+        style.tagLineSpacing = 10
+        style.tagPadding = 20
+        style.tagCornerRadius = 10
+        style.tagBorderWidth = 1
+        style.tagHeight = 30
+        style.colorOptionCornerRadius = 2
         
-        FormStyle.shared.fieldTitleFont = UIFont.systemFont(ofSize: 14, weight: .medium)
-        FormStyle.shared.sectionTitleFont = UIFont.systemFont(ofSize: 24, weight: .bold)
-        FormStyle.shared.fieldButtonFont = UIFont.systemFont(ofSize: 18, weight: .bold)
-        FormStyle.shared.titleFont = UIFont.systemFont(ofSize: 18, weight: .medium)
-        FormStyle.shared.subTitleFont = UIFont.systemFont(ofSize: 14, weight: .regular)
-        FormStyle.shared.fieldErrorFont = UIFont.systemFont(ofSize: 14, weight: .regular)
-        FormStyle.shared.dropdownFont = .systemFont(ofSize: UIFont.systemFontSize)
+        style.fieldTitleFont = UIFont.systemFont(ofSize: 14, weight: .medium)
+        style.sectionTitleFont = UIFont.systemFont(ofSize: 24, weight: .bold)
+        style.fieldButtonFont = UIFont.systemFont(ofSize: 18, weight: .bold)
+        style.titleFont = UIFont.systemFont(ofSize: 18, weight: .medium)
+        style.subTitleFont = UIFont.systemFont(ofSize: 14, weight: .regular)
+        style.fieldErrorFont = UIFont.systemFont(ofSize: 14, weight: .regular)
+        style.dropdownFont = .systemFont(ofSize: UIFont.systemFontSize)
+        style.tagSelectedFont = UIFont.systemFont(ofSize: UIFont.systemFontSize, weight: .bold)
         
-        FormStyle.shared.textFieldStyle = .box
-        FormStyle.shared.bounce = false
+        style.textFieldStyle = .box
+        style.bounce = false
+        
+        formController.setStyle(style)
     }
     
     private func createTestCells() -> [FormViewController.Cell] {
@@ -122,7 +128,7 @@ class BasicViewController: UIViewController {
         cells.append(FormViewController.Cell(id: CellId.phone.rawValue, type: .text, widthPercentage: 1.0,
                                              data: FormTextFieldCell.Data(title: "Phone", text: "", placeholder: "(416) 123-1234", keyboardType: .phonePad, returnKeyType: .next, formattingPattern: "(***) ***-****", capitalizationType: .none, isEditable: true, errorText: nil)))
         cells.append(FormViewController.Cell(id: CellId.country.rawValue, type: .dropdown, widthPercentage: 1.0,
-                                             data: FormDropdownCell.Data(title: "Country", selection: "", placeholder: "Select a country", isEditable: true, options: ["Canada", "USA", "Mexico", "Westeros"])))
+                                             data: FormDropdownCell.Data(title: "Country", selection: nil, placeholder: "Select a country", isEditable: true, options: ["Canada", "USA", "Mexico", "Westeros"])))
         cells.append(FormViewController.Cell(id: CellId.postalCode.rawValue, type: .text, widthPercentage: 0.5,
                                              data: FormTextFieldCell.Data(title: "Postal Code", text: "", placeholder: "A1A 1A1", keyboardType: .default, returnKeyType: .next, formattingPattern:"*** ***", capitalizationType: .allCharacters, isEditable: true, errorText: nil)))
         cells.append(FormViewController.Cell(id: CellId.gender.rawValue, type: .buttonOptions, widthPercentage: 1.0,
@@ -135,6 +141,10 @@ class BasicViewController: UIViewController {
                                              data: FormCheckboxOptionsCell.Data(title: "Contact Methods", options: ["Phone", "Email", "Snail Mail", "Carrier Pidgeon"], optionStates: ["Phone": false, "Email": false])))
         cells.append(FormViewController.Cell(id: CellId.password.rawValue, type: .password, widthPercentage: 1.0,
                                              data: FormPasswordCell.Data(title: "Password", password: "", placeholder: "********")))
+        cells.append(FormViewController.Cell(id: CellId.favoriteColor.rawValue, type: .colorOptions, widthPercentage: 1.0,
+                                             data: FormColorOptionsCell.Data(title: "Favorite Color:", multiSelect: false, selectedOptionIndex: nil, options: [FormColor(.blue, "Blue"), FormColor(.black, "Black"), FormColor(.brown, "Brown"), FormColor(.cyan, "Cyan"), FormColor(.gray, "Gray"), FormColor(.green, "Green", available: false), FormColor(.magenta, "Magenta"), FormColor(.orange, "Orange"), FormColor(.purple, "Purple")])))
+        cells.append(FormViewController.Cell(id: CellId.eyeColor.rawValue, type: .dropdown, widthPercentage: 1.0,
+                                             data: FormDropdownCell.Data(title: "Eye Color:", selection: nil, placeholder: "Select a color", isEditable: true, options: [FormColor(.blue, "Blue"), FormColor(.black, "Black"), FormColor(.brown, "Brown"), FormColor(.cyan, "Cyan"), FormColor(.gray, "Gray"), FormColor(.green, "Green", available: false), FormColor(.magenta, "Magenta"), FormColor(.orange, "Orange"), FormColor(.purple, "Purple")])))
         cells.append(FormViewController.Cell(id: CellId.optIn.rawValue, type: .custom, widthPercentage: 1.0, data: nil, customCell: ExampleCustomCell.self))
         cells.append(FormViewController.Cell(id: CellId.someLabel.rawValue, type: .label, widthPercentage: 1.0,
                                              data: FormLabelCell.Data(text: NSAttributedString(string: "I am a label!"))))
@@ -182,6 +192,15 @@ extension BasicViewController: FormViewControllerDelegate {
             print(selectedIndex)
             break
         case CellId.gender.rawValue:
+            print(selectedIndex)
+            break
+        case CellId.favoriteColor.rawValue:
+            print(selectedIndex)
+            break
+        case CellId.eyeColor.rawValue:
+            print(selectedIndex)
+            break
+        case CellId.interests.rawValue:
             print(selectedIndex)
             break
         default:

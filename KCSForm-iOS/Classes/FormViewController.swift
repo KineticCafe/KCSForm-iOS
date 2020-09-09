@@ -365,7 +365,7 @@ extension FormViewController: UICollectionViewDelegate, UICollectionViewDelegate
         let sizingCell = getConfiguredCell(cellTemplate: cellTemplate, collectionView: collectionView, indexPath: indexPath, sizingOnly: true)
         sizingCell.frame = CGRect(x: 0, y: 0, width: width, height: 0)
         sizingCell.setNeedsLayout()
-        sizingCell.layoutIfNeeded()
+        view.layoutIfNeeded()
         let size = sizingCell.contentView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
         return size
     }
